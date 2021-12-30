@@ -24,8 +24,7 @@ const articleSchema = new Schema({
     },
     content: [{
         type: Schema.Types.ObjectId,
-        ref: 'section',
-        default: {}
+        ref: 'section'
     }],
     created: {
         type: Date,
@@ -40,7 +39,7 @@ export interface IArticle extends Document{
     subheader?: string;
     tags?: [string];
     mainPoints?: [string];
-    content?: [ISection];
+    content: [ISection] | [];
     created: Date;
 }
 
