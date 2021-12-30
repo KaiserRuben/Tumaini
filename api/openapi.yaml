@@ -1,0 +1,27 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: Tumaini API
+  description: API for the Tumaini Website
+
+servers:
+  - url: http://localhost:3000/
+    description: Development server
+  - url: https://api.kultnow.com/
+    description: Production server
+
+# Basic authentication
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+security:
+  - BasicAuth: [ ]
+paths:
+  /:
+    get:
+      description: Path to validate the API is working
+      responses:
+        '200':
+          description: API is working

@@ -6,6 +6,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Home',
     component: () => import('../views/Landing.vue')
   }
+  // datenschutz
 ]
 
 const router = createRouter({

@@ -32,7 +32,7 @@
     <div class="section">
       <div class="welcomeSection">
         <div>
-          <p class="light" style="margin-bottom: 0">
+          <p class="light" style="margin-bottom: 0; text-align: center">
             Herzlich Willkommen
           </p>
           <h1>
