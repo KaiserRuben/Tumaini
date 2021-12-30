@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <router-link to="/">Impressum</router-link>
+    <div>
+      <router-link to="/impressum_datenschutz/impressum">Impressum</router-link>
+      &
+      <router-link to="/impressum_datenschutz/datenschutz">Datenschutz</router-link>
+    </div>
   </div>
 </template>
 <style lang="sass" scoped>
@@ -11,9 +15,12 @@
   display: flex
   flex-direction: row
   justify-content: space-around
-  a
+
+  div
     padding: 10px
     margin: 0
-    color: #0C0D08
-    text-decoration: none
+
+    a
+      color: #0C0D08
+
 </style>

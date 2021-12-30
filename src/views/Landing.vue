@@ -148,12 +148,6 @@ export default defineComponent({
 .light
   font-weight: 300
 
-@keyframes appear
-  from
-    opacity: 0
-  to
-    opacity: 1
-
 /* Image Layout for Landing */
 .imgContainer
   display: grid

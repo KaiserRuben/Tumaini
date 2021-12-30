@@ -1,13 +1,14 @@
 <template>
   <div>
     <router-view/>
-    <Footer />
+    <Footer/>
   </div>
 </template>
 
 <script>
 import Footer from "@/components/Footer";
 import {defineComponent} from "vue";
+
 export default defineComponent({
   components: {Footer}
 })
@@ -36,6 +37,13 @@ p
   margin: 10px auto
   text-align: justify
 
+
+a
+  text-decoration: none
+
+a:hover
+  text-decoration: underline
+
 button
   border-radius: 0
   border: 0
@@ -46,4 +54,10 @@ button:hover
 
   opacity: .7
   cursor: pointer
+
+@keyframes appear
+  from
+    opacity: 0
+  to
+    opacity: 1
 </style>
