@@ -1,4 +1,4 @@
-import { Document, model, Schema } from "mongoose"
+import {Document, model, Schema} from "mongoose"
 import {ISection} from "./section";
 
 const articleSchema = new Schema({
@@ -32,14 +32,14 @@ const articleSchema = new Schema({
     }
 })
 
-export interface IArticle extends Document{
+export interface IArticle extends Document {
     published: boolean;
     image?: string;
     title: string;
     subheader?: string;
-    tags?: [string];
-    mainPoints?: [string];
-    content: [ISection] | [];
+    tags?: string[];
+    mainPoints?: string[];
+    content: ISection[] | [];
     created: Date;
 }
 

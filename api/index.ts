@@ -4,12 +4,15 @@ import cors from 'cors'
 import compression from 'compression'
 import helmet from "helmet";
 import basicAuth from "express-basic-auth";
+import fileUpload from 'express-fileupload'
 
 import textRouter from './routes/text'
+import userRouter from './routes/user'
+import articleRouter from "./routes/articles"
+import fileRouter from "./routes/files"
+import donorRouter from "./routes/donor"
 
-import {
-    connectDataBase
-} from './utils/db'
+import {connectDataBase} from './utils/db'
 
 const app = express()
 
@@ -18,29 +21,38 @@ app.use(cors());
 app.use(compression()); //Compress all routes
 app.use(helmet()); //Protects against known vulnerabilities
 app.use(express.json());
-
+app.use(express.urlencoded({extended: false, limit: '1024mb', parameterLimit: 1000000}));
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: 'tmp/'
+}));
 // Basic Auth
 let pw = process.env.API_PW
-if(!pw){
-    pw=''
+let pwAdmin = process.env.API_PW_ADMIN
+if (!pw || !pwAdmin) {
     console.error('Auth PW not found!')
     process.exit(-1)
 }
 app.use(basicAuth({
-    users: { 'main': pw }
+    users: {
+        'main': pw,
+        'adminWebsite': pwAdmin,
+    }
 }))
 
 
 app.get('/', (req, res) => {
     if (process.env.MODE === 'PROD') {
         res.status(200).send('The Tumaini API is up and running in production mode!');
-        return
     }
 
     res.status(200).send('The Tumaini API is up and running in <b>development</b> mode!');
 });
-
+app.use('/users', userRouter);
 app.use('/text', textRouter);
+app.use('/content', articleRouter);
+app.use('/files', fileRouter);
+app.use('/donor', donorRouter);
 
 start()
     .then((port) => {
@@ -55,10 +67,10 @@ async function start(): Promise<number> {
     const dbSuccess = await connectDataBase(process.env.DB_URL)
     if (dbSuccess) {
         const port = Number(process.env.PORT);
-        if (port){
+        if (port) {
             app.listen(port)
             return port
-        }else {
+        } else {
             throw new Error("No port defined.")
         }
     } else {

@@ -1,7 +1,7 @@
 import {Request, Response, Router} from 'express';
+import Text from '../models/text'
 
 const textRouter = Router()
-const Text = require('../models/text')
 
 // Getting functions
 textRouter.get('/', async (req: Request, res: Response) => {

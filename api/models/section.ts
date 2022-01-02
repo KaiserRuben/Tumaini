@@ -34,5 +34,5 @@ export interface ISection extends Document{
 
 
 // Default export
-export default model<ISection>('Article', sectionSchema);
+export default model<ISection>('Section', sectionSchema);
 
