@@ -4,7 +4,7 @@
       :server-address="sever_address"
       website-name="tumaini.be"
       info-text=""
-      default-from="contact@tumaini"/>
+      default-from="contact@tumaini.be"/>
 </template>
 <script lang="ts">
 import Mailer from '@/components/Mailer'
@@ -35,5 +35,5 @@ export default Vue.extend({
   components: {
     Mailer
   }
-}
+})
 </script>

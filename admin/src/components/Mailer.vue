@@ -6,13 +6,13 @@
       </md-card-header>
 
       <md-card-content>
-        <md-switch v-model="sendToAll"> This is an E-Mail to all {{ users.length }} users of {{ websiteName }}.
+        <md-switch v-model="sendToAll"> This is an E-Mail to all {{ emails.length }} donors.
         </md-switch>
 
-        <md-field v-if="!sendToAll && (users.map(e => e.email).includes(toMail) || toMail === '')">
+        <md-field v-if="!sendToAll && (emails.includes(toMail) || toMail === '')">
           <label for="email">Select an E-Mail-Address for the receiver.</label>
           <md-select v-model="toMail" name="toMail" id="email" md-dense>
-            <md-option v-for="(u,key) in users" :value="u.email" v-bind:key="key">{{ u.name ? u.name : u.email }}
+            <md-option v-for="(u,key) in emails" :value="u.email" v-bind:key="key">{{ u.email }}
             </md-option>
             <md-option :value="null">Other E-Mail</md-option>
           </md-select>
@@ -168,7 +168,7 @@ export default Vue.extend({
   mounted() {
     this.fromMail = this.defaultFrom
   }
-};
+});
 </script>
 <style scoped>
 h3 {

@@ -14,7 +14,7 @@ export function getVersion(): string {
 }
 
 function getParsedVersion(): number {
-    console.log(parseInt(version.split(".").join("")))
+    // console.log(parseInt(version.split(".").join("")))
     return parseInt(version.split(".").join(""))
 }
 
