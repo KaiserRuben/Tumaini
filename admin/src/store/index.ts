@@ -50,7 +50,7 @@ export default new Vuex.Store({
                         } else {
                             localStorage.removeItem('password');
                         }
-                        router.push({name: 'Dashboad'});
+                        router.push('/dashboard');
                     } else {
                         if (response.data.hasError) commit('loginStop', response.data.data);
                         else commit('loginStop', "You dont have admin privileges. Please request them at 'whyAmINotAdmin@kaiser.fyi'");
