@@ -88,7 +88,7 @@
           sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
           takimata sanctus est Lorem ipsum dolor sit amet.
         </p>
-        <button style="float: right;">Weiterlesen</button>
+        <button style="float: right;" @click="$router.push('/bericht')">Weiterlesen</button>
       </div>
     </div>
 

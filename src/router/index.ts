@@ -11,8 +11,17 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Impressum und Datenschutz',
     component: () => import('../views/Datenschutz_Impressum.vue')
   },
+  {
+    path: '/bericht',
+    name: 'Bericht',
+    component: () => import('../views/Bericht.vue')
+  },
+  {
+    path: '/berichte',
+    name: 'Berichte',
+    component: () => import('../views/Berichte.vue')
+  },
 
-  // datenschutz
 ]
 
 const router = createRouter({

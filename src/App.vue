@@ -10,7 +10,7 @@ import Footer from "@/components/Footer";
 import {defineComponent} from "vue";
 
 export default defineComponent({
-  components: {Footer}
+  components: {Footer},
 })
 </script>
 <style lang="sass">
@@ -20,6 +20,7 @@ body
   background: #0C0D08
   color: #EDF0F3
   font-family: Montserrat, sans-serif
+  overflow-x: hidden
 
 h1
   font-family: Montserrat, sans-serif
@@ -40,6 +41,7 @@ p
 
 a
   text-decoration: none
+  color: #EDF0F3
 
 a:hover
   text-decoration: underline
