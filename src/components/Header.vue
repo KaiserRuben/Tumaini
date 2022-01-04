@@ -1,14 +1,40 @@
 <template>
   <div class="navHeader">
-    <router-link to="/"><h1>Home</h1></router-link>
+    <router-link to="/"><h1>{{ text[0] }}</h1></router-link>
     <div class="navRight">
-      <router-link to="/archiv/berichte" v-if="!$route.fullPath.toLowerCase().includes('berichte')"><p>Alle Berichte</p>
+      <router-link to="/archiv/berichte" v-if="!$route.fullPath.toLowerCase().includes('berichte')"><p>{{ text[1] }}</p>
       </router-link>
-      <router-link to="/archiv/projekte" v-if="!$route.fullPath.toLowerCase().includes('projekte')"><p>Alle Projekte</p>
+      <router-link to="/archiv/projekte" v-if="!$route.fullPath.toLowerCase().includes('projekte')"><p>{{ text[2] }}</p>
       </router-link>
     </div>
   </div>
 </template>
+<script lang="ts">
+import {defineComponent, inject} from "vue";
+import {TextLoader} from "@/utils/textLoader";
+
+export default defineComponent({
+  name: "Header",
+  data() {
+    return {
+      textObject: inject('textObject') as TextLoader,
+      text: [] as string[]
+    }
+  },
+  methods: {
+    textLoader(id: string) {
+      return this.textObject.getContent(id)
+    }
+  },
+  async mounted() {
+    this.text = [
+      await this.textLoader('61d4a9196eaf27340d6b5310'),
+      await this.textLoader('61d4a9196eaf27340d6b5311'),
+      await this.textLoader('61d4a9196eaf27340d6b5312'),
+    ]
+  }
+})
+</script>
 <style lang="sass" scoped>
 .navHeader
   background-color: #FFF

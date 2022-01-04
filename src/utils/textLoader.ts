@@ -1,7 +1,7 @@
 import {axiosGet} from "../../admin/src/utils/axiosWrapper";
 import {IText} from "../../api/models/text";
 
-class TextLoader {
+export class TextLoader {
     language: 'EN' | 'DE' | 'NL'
     text: Promise<IText[] | undefined>
 
@@ -27,17 +27,19 @@ class TextLoader {
             });
     }
 
-    async getContent(id: number) {
+    async getContent(id: string): Promise<any> {
         const text = await this.text
         if (!text)
             return ''
 
-        let myText = text.find(e => e._id === id)
+        const myText = text.find(e => e._id === id)
         if (myText) {
             if (myText[this.language])
                 return myText[this.language]
             if (myText["EN"])
                 return myText["EN"]
+            if (myText["DE"])
+                return myText["DE"]
         }
 
         return `Loading...`
