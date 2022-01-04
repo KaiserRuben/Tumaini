@@ -2,7 +2,11 @@ import {Document, model, Schema} from "mongoose"
 import {IProject} from "./project";
 // Schema
 const DonorSchema = new Schema({
-    name: {
+    firstName: {
+        required: true,
+        type: String
+    },
+    lastName: {
         required: true,
         type: String
     },
@@ -24,7 +28,8 @@ const DonorSchema = new Schema({
 })
 
 export interface IDonor extends Document {
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     status: "CREATED" | "PENDING DONATION" | "PENDING CONFIRMATION" | "DONE";
     project: IProject | undefined;

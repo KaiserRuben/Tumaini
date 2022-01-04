@@ -9,8 +9,8 @@ const replyTo = process.env.MAIL_REPLYTO
 
 
 const transporter = nodemailer.createTransport({
-    host: "smtp.strato.de",
-    port: 465,
+    host: "in-v3.mailjet.com",
+    port: 587,
     secure: true, // true for 465, false for other ports
     auth: {
         user: account.user, // generated ethereal user
