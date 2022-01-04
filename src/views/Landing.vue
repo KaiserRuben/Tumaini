@@ -177,7 +177,7 @@ export default defineComponent({
 
       .imgGrid1_1_2
         background: url("../assets/landing/annie-spratt-cVEOh_JJmEE-unsplash.webp") no-repeat center
-        background-size: auto 120%
+        background-size: auto 130%
 
     .imgGrid1_2
       background: url("../assets/landing/ben-hummitzsch-pYTgvmpuQWs-unsplash.webp") no-repeat center
