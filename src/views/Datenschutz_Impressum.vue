@@ -376,6 +376,8 @@ export default defineComponent({
 
 h1
   font-size: 3em
+  @media only screen and (max-width: 640px)
+    font-size: 2em
 
 h2
   font-size: 2em

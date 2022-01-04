@@ -36,6 +36,9 @@ export default defineComponent({
   flex-direction: column
   justify-content: flex-start
   align-items: center
+  @media only screen and (max-width: 640px)
+    padding-bottom: 20px
+
 
 .contentContainer
   max-width: 1140px
@@ -58,6 +61,9 @@ export default defineComponent({
       transition: 1s
       max-width: 40%
       margin: 20px
+      @media only screen and (max-width: 640px)
+
+        max-width: 90%
 
       h2
         font-size: 2em

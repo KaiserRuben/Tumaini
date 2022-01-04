@@ -2,17 +2,17 @@
   <div class="container">
     <div class="firstRow">
       <h1>
-        0{{nr}}
+        0{{ nr }}
       </h1>
       <h2>
-        {{header}}
+        {{ header }}
       </h2>
       <button @click="$router.push(clickURL)">
         mehr erfahren
       </button>
     </div>
     <p>
-      {{text}}
+      {{ text }}
     </p>
   </div>
 </template>
@@ -51,23 +51,42 @@ export default defineComponent({
   align-items: center
   width: 800px
   color: #EDF0F3
+
   .firstRow
     width: 100%
     display: grid
     grid-template-columns: auto 65% 25%
     align-items: center
+
     h1
       margin: 0
       color: #363636
       font-size: 2.5em
+
     h2
       font-size: 3em
       margin: 0
+
     button
       background-color: #5F9AAE
       color: #F5FFFF
+
   p
     width: 90%
     align-self: flex-end
     margin: 10px 0
+
+
+@media only screen and (max-width: 800px)
+  .container
+    width: 90vw
+
+    .firstRow
+      h1
+        font-size: 1em
+
+      h2
+        font-size: 2em
+  button
+    padding: 5px 10px
 </style>
