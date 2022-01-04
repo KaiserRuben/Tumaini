@@ -31,7 +31,7 @@
     <!-- Section 2 (Welcome & Cards) -->
     <div class="section">
       <div class="welcomeSection">
-        <div>
+        <div class="welcomeText">
           <p class="light" style="margin-bottom: 0; text-align: center">
             Herzlich Willkommen
           </p>
@@ -95,19 +95,19 @@
     <!-- Section 4 (Donations) -->
     <div class="section donationSection">
       <donation-card
-          click-u-r-l="/"
+          click-u-r-l="/spenden/1"
           :nr="1"
           header="Support: 5550 €"
           text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
       />
       <donation-card
-          click-u-r-l="/"
+          click-u-r-l="/spenden/2"
           :nr="2"
           header="Forestering: 50€ / Monat"
           text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
       />
       <donation-card
-          click-u-r-l="/"
+          click-u-r-l="/spenden/3"
           :nr="3"
           header="Sponsorship: 200€ / Monat"
           text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
@@ -152,18 +152,28 @@ export default defineComponent({
 .imgContainer
   display: grid
   grid-template-columns: 50vw 50vw
+  @media only screen and (max-width: 640px)
+    grid-template-rows: 50vh 50vh
+    grid-template-columns: 100vw
 
   .imgGrid1
     display: grid
     grid-template-rows: 50vh 50vh
+    @media only screen and (max-width: 640px)
+      order: 2
 
     .imgGrid1_1
       display: grid
       grid-template-columns: 33% 67%
+      @media only screen and (max-width: 640px)
+        grid-template-rows: 33% 67%
+        grid-template-columns: 100%
 
       .imgGrid1_1_1
         background: url("../assets/landing/annie-spratt-0cgpyigyIkM-unsplash.webp") no-repeat center
         background-size: auto 120%
+        @media only screen and (max-width: 640px)
+          background-size: 110% auto
 
       .imgGrid1_1_2
         background: url("../assets/landing/annie-spratt-cVEOh_JJmEE-unsplash.webp") no-repeat center
@@ -172,6 +182,8 @@ export default defineComponent({
     .imgGrid1_2
       background: url("../assets/landing/ben-hummitzsch-pYTgvmpuQWs-unsplash.webp") no-repeat center
       background-size: auto 120%
+      @media only screen and (max-width: 640px)
+        visibility: hidden
 
   .imgGrid2
     background: url("../assets/landing/carolinie-cavalli-yFaK9jgQeb4-unsplash.webp") no-repeat center
@@ -182,6 +194,8 @@ export default defineComponent({
     align-items: flex-end
     justify-content: center
     padding-right: 10vw
+    @media only screen and (max-width: 640px)
+      order: 1
 
     h2
       font-size: 7em
@@ -199,6 +213,8 @@ export default defineComponent({
 
   min-height: 100vh
   height: 100%
+  @media only screen and (max-width: 640px)
+    padding: 2em 0
 
 .cardContainer
   display: flex
@@ -221,6 +237,8 @@ export default defineComponent({
 
   .textContainer
     width: 1140px
+    @media only screen and (max-width: 1140px)
+      width: 90vw
 
     h2
       margin: 0
@@ -235,5 +253,7 @@ export default defineComponent({
   flex-wrap: nowrap
   align-items: center
   justify-content: space-around
+  @media only screen and (max-width: 640px)
+    padding: 2em 0
 
 </style>
