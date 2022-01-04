@@ -27,7 +27,7 @@ export class TextLoader {
             });
     }
 
-    async getContent(id: string): Promise<any> {
+    async getContent(id: string): Promise<string> {
         const text = await this.text
         if (!text)
             return ''
@@ -35,7 +35,7 @@ export class TextLoader {
         const myText = text.find(e => e._id === id)
         if (myText) {
             if (myText[this.language])
-                return myText[this.language]
+                return <string>myText[this.language]
             if (myText["EN"])
                 return myText["EN"]
             if (myText["DE"])
