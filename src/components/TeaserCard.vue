@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" @click="$router.push(click)">
     <div class="cardImg" id="cardImg" :style="backgroundImg()"></div>
     <div class="content">
       <h2>
@@ -32,7 +32,11 @@ export default defineComponent({
     inProgress: {
       type: Boolean,
       default: true
-    }
+    },
+    click: {
+      type: String,
+      default: '/project'
+    },
   },
   methods: {
     backgroundImg() {
