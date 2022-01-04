@@ -10,27 +10,20 @@
   </div>
 </template>
 <script lang="ts">
-import {defineComponent, inject} from "vue";
-import {TextLoader} from "@/utils/textLoader";
+import {defineComponent} from "vue";
 
 export default defineComponent({
   name: "Header",
   data() {
     return {
-      textObject: inject('textObject') as TextLoader,
       text: [] as string[]
-    }
-  },
-  methods: {
-    textLoader(id: string) {
-      return this.textObject.getContent(id)
     }
   },
   async mounted() {
     this.text = [
-      await this.textLoader('61d4a9196eaf27340d6b5310'),
-      await this.textLoader('61d4a9196eaf27340d6b5311'),
-      await this.textLoader('61d4a9196eaf27340d6b5312'),
+      await this.textObject.getContent('61d4a9196eaf27340d6b5310'),
+      await this.textObject.getContent('61d4a9196eaf27340d6b5311'),
+      await this.textObject.getContent('61d4a9196eaf27340d6b5312'),
     ]
   }
 })
