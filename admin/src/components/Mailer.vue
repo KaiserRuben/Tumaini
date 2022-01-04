@@ -66,7 +66,6 @@ interface Mail {
   message: string;
 }
 
-
 export default Vue.extend({
   name: 'E-Mail',
   props: {
