@@ -53,9 +53,51 @@ button
   transition: opacity 1s
 
 button:hover
-
   opacity: .7
   cursor: pointer
+
+input
+  border: 0
+  font-size: 1em
+  padding: 5px 10px
+  background: #0C0D08
+  color: #EDF0F3
+  transition: .2s
+
+input:focus
+  outline: 2px solid #FFA400
+  border-radius: 1px
+
+.whiteSection
+  background-color: #FFF
+  color: #0C0D08
+  height: max-content
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  padding: 40px 0
+
+  .textContainer
+    width: 1140px
+    @media only screen and (max-width: 1140px)
+      width: 90vw
+
+    h2
+      margin: 0
+
+    button
+      background-color: #151919
+      color: #EDF0F3
+
+.cardContainer
+  display: flex
+  flex-wrap: wrap
+  flex-direction: row
+  justify-content: center
+
+  .cardContainerItem
+    margin: 10px
 
 @keyframes appear
   from

@@ -60,7 +60,7 @@
     </div>
 
     <!-- Section 3 (About) -->
-    <div class="aboutSection">
+    <div class="whiteSection">
       <div class="textContainer">
         <h2>
           Die Tumaini Stiftung
@@ -181,7 +181,7 @@ export default defineComponent({
 
     .imgGrid1_2
       background: url("../assets/landing/ben-hummitzsch-pYTgvmpuQWs-unsplash.webp") no-repeat center
-      background-size: auto 120%
+      background-size: auto 150%
       @media only screen and (max-width: 640px)
         visibility: hidden
 
@@ -216,36 +216,6 @@ export default defineComponent({
   @media only screen and (max-width: 640px)
     padding: 2em 0
 
-.cardContainer
-  display: flex
-  flex-wrap: wrap
-  flex-direction: row
-  justify-content: center
-
-  .cardContainerItem
-    margin: 10px
-
-.aboutSection
-  background-color: #FFF
-  color: #0C0D08
-  height: max-content
-  display: flex
-  flex-direction: column
-  justify-content: center
-  align-items: center
-  padding: 40px 0
-
-  .textContainer
-    width: 1140px
-    @media only screen and (max-width: 1140px)
-      width: 90vw
-
-    h2
-      margin: 0
-
-    button
-      background-color: #151919
-      color: #EDF0F3
 
 .donationSection
   display: flex

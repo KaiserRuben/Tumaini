@@ -1,7 +1,28 @@
 <template>
   <Header/>
   <div class="container">
-    <div class="contentContainer">
+    <div class="contentContainer" v-if="page.toLowerCase() === 'projekte'">
+      <h1>Projekte Archiv</h1>
+      <div class="berichtContainer">
+        <TeaserCard
+            class="bericht"/>
+        <TeaserCard
+            class="bericht"/>
+        <TeaserCard
+            class="bericht"/>
+        <TeaserCard
+            class="bericht"/>
+        <TeaserCard
+            class="bericht"/>
+        <TeaserCard
+            class="bericht"/>
+        <TeaserCard
+            class="bericht"/>
+        <TeaserCard
+            class="bericht"/>
+      </div>
+    </div>
+    <div class="contentContainer" v-else>
       <h1>Berichte Archiv</h1>
       <div class="berichtContainer">
         <div class="bericht" v-for="i in [1,2,3,4,5]" v-bind:key="i" @click="$router.push('/bericht')">
@@ -21,10 +42,23 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import Header from "@/components/Header.vue";
+import TeaserCard from "@/components/TeaserCard.vue";
 
 export default defineComponent({
   name: "Berichte Archiv",
-  components: {Header}
+  components: {Header, TeaserCard},
+  data() {
+    return {
+      page: this.$router.currentRoute.value.params.page
+    }
+  },
+  watch: {
+    $route(to, from) { // react to route changes...
+      if (to !== from) {
+        location.reload();
+      }
+    }
+  }
 })
 </script>
 <style lang="sass" scoped>

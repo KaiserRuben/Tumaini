@@ -25,8 +25,8 @@ const sectionSchema = new Schema({
 
 export interface ISection extends Document{
     image?: string;
-    imageDescription: string;
-    title: string;
+    imageDescription?: string;
+    title?: string;
     text: string;
     nr: number;
     created: Date;

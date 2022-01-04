@@ -17,16 +17,26 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/Bericht.vue')
   },
   {
-    path: '/berichte',
-    name: 'Berichte',
-    component: () => import('../views/Berichte.vue')
+    path: '/archiv/:page',
+    name: 'Archiv',
+    component: () => import('../views/Archiv.vue')
+  },
+  {
+    path: '/spenden/:option',
+    name: 'Spenden',
+    component: () => import('../views/Spenden.vue')
   },
 
 ]
 
+
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
+  scrollBehavior() {
+    return {left: 0, top: 0}
+  }
+
 })
 
 export default router
