@@ -3,7 +3,7 @@
     <Header/>
     <div class="container">
       <div class="contentContainer">
-        <h2>Unsere Projekte</h2>
+        <h2>{{ text[0] }}</h2>
 
         <div class="cardContainer">
           <TeaserCard
@@ -19,41 +19,12 @@
     <div class="whiteSection">
       <div class="textContainer">
         <h2>
-          Unser Partner
+          {{ text[1] }}
         </h2>
         <div class="partnerTextAndImg">
           <img src="../assets/temp_partner.jpg" alt="Unser Partner"/>
           <p>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-            dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-            clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
-            consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-            sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
-            sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing
-            elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-            vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-            Lorem ipsum dolor sit amet.
-
-            Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
-            feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
-            delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing
-            elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-
-            Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea
-            commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat,
-            vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit
-            praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
-
-            Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer
-            possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-            tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci
-            tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-
-            Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
-            feugiat nulla facilisis.
-
-            At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
-            est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+            {{ text[2] }}
           </p>
         </div>
       </div>
@@ -61,17 +32,17 @@
 
     <div class="container">
       <div class="contentContainer">
-        <h2 v-if="option === 2">Forestering: 50€ / Monat</h2>
-        <h2 v-else-if="option === 3">Sponsorship: 200€ / Monat</h2>
-        <h2 v-else>Support: 5550 €</h2>
+        <h2 v-if="option === 2">{{ text[9] }}</h2>
+        <h2 v-else-if="option === 3">{{ text[10] }}</h2>
+        <h2 v-else>{{ text[8] }}</h2>
         <p>
-          Nach Abschicken untenstehendes Formulars erhalten Sie eine E-Mail mit allen weiteren Informationen.
+          {{ text[3] }}
         </p>
         <form class="spendenForm" @submit.prevent="">
-          <input placeholder="Vorname" type="text"/><input placeholder="Nachname" type="text"/>
-          <input placeholder="E-Mail" type="email"/>
+          <input :placeholder="text[5]" type="text"/><input :placeholder="text[6]" type="text"/>
+          <input :placeholder="text[7]" type="email"/>
           <div class="break"></div>
-          <button type="submit">Bestätigen</button>
+          <button type="submit">{{ text[4] }}</button>
         </form>
       </div>
     </div>
@@ -89,28 +60,29 @@ export default defineComponent({
   data() {
     return {
       option: parseInt(typeof this.$router.currentRoute.value.params.option === "string" ? this.$router.currentRoute.value.params.option : "1"),
-      sampleData: {
-        published: true,
-        image: "https://media.idownloadblog.com/wp-content/uploads/2021/09/Apple-September-Event-California-Streaming-BasicAppleGuy-iDownloadBlog-6K-No-Logo.png",
-        title: 'Beispiel Projekt',
-        subheader: 'Fürs Testen',
-        tags: [],
-        mainPoints: [],
-        content: [{
-          title: 'test',
-          text: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
-          nr: 1,
-          created: new Date()
-        }],
-        created: new Date()
-      }
+      text: [] as string[]
     }
   },
-  mounted() {
+  async mounted() {
+
+    this.text = [
+      await this.textObject.getContent('61d56377cc3bfb06f031f986'),
+      await this.textObject.getContent('61d56377cc3bfb06f031f987'),
+      await this.textObject.getContent('61d56377cc3bfb06f031f988'),
+      await this.textObject.getContent('61d56377cc3bfb06f031f989'),
+      await this.textObject.getContent('61d56377cc3bfb06f031f98a'),
+      await this.textObject.getContent('61d56466cc3bfb06f031f98e'),
+      await this.textObject.getContent('61d56466cc3bfb06f031f98f'),
+      await this.textObject.getContent('61d56466cc3bfb06f031f990'),
+
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f977'),
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f979'),
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f97b'),
+    ]
+
     if (isNaN(this.option))
       this.option = 1
-  },
-  watch: {}
+  }
 })
 </script>
 <style lang="sass" scoped>

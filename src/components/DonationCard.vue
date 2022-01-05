@@ -8,7 +8,7 @@
         {{ header }}
       </h2>
       <button @click="$router.push(clickURL)">
-        mehr erfahren
+        {{ textLoaded[0] }}
       </button>
     </div>
     <p>
@@ -40,6 +40,16 @@ export default defineComponent({
       default: '/'
     }
   },
+  data() {
+    return {
+      textLoaded: [] as string[]
+    }
+  },
+  async mounted() {
+    this.textLoaded = [
+      await this.textObject.getContent('61d5620fcc3bfb06f031f982')
+    ]
+  }
 
 });
 </script>
