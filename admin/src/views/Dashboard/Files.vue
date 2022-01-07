@@ -69,18 +69,18 @@ export default Vue.extend({
   },
   methods: {
     loadData: function () {
-      const me = this
+      this.files = []
       axiosGet('/files')
-          .then(function (response) {
-            response.data.forEach(function (elem: string) {
-              me.files.push({
+          .then((response) => {
+            response.data.forEach((elem: string) => {
+              this.files.push({
                 name: elem,
-                link: me.isImage(elem.split('.').pop()) ? (MEDIA_LOCATION + elem) : ((FILES_LOCATION + elem)),
+                link: this.isImage(elem.split('.').pop()) ? (MEDIA_LOCATION + elem) : ((FILES_LOCATION + elem)),
                 type: elem.split('.').pop()
               })
             })
           })
-          .catch(function (error) {
+          .catch((error) => {
             alert("An Error occurred, please contact your web admin. \n" + error);
           });
     },
