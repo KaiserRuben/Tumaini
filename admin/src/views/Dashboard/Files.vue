@@ -84,21 +84,21 @@ export default Vue.extend({
             alert("An Error occurred, please contact your web admin. \n" + error);
           });
     },
-    testFileEnding: function (file: string | undefined, allowedFormats: string[]) {
-      return <boolean>(file && allowedFormats.includes(file));
-    }, isImage: function (file?: string): boolean {
+    testFileEnding: function (allowedFormats: string[], file?: string) {
+      return Boolean((file && allowedFormats.includes(file)))
+    },
+    isImage: function (file?: string): boolean {
       let allowedFormats = ["jpg", "JPG", "png", "PNG", "jpeg", "JPEG", "webp"]
-      return this.testFileEnding(file, allowedFormats);
+      return this.testFileEnding(allowedFormats, file);
     },
     isAudio: function (file?: string): boolean {
       let allowedFormats = ["mp3", "MP3", "ogg", "OGG"]
-      return this.testFileEnding(file, allowedFormats);
+      return this.testFileEnding(allowedFormats, file);
     },
     onSelect: function (item: Record<string, string>) {
-      const me = this
-      this.copyToClipboard(item.link).then(function () {
-        me.showSnackbar = true;
-      }, function (e) {
+      this.copyToClipboard(item.link).then(() => {
+        this.showSnackbar = true;
+      }, (e) => {
         console.warn('Can not copy\n' + e)
       })
     },
