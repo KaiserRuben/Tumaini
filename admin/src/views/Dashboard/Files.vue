@@ -87,7 +87,7 @@ export default Vue.extend({
     testFileEnding: function (file: string | undefined, allowedFormats: string[]) {
       return <boolean>(file && allowedFormats.includes(file));
     }, isImage: function (file?: string): boolean {
-      let allowedFormats = ["jpg", "JPG", "png", "PNG", "jpeg", "JPEG"]
+      let allowedFormats = ["jpg", "JPG", "png", "PNG", "jpeg", "JPEG", "webp"]
       return this.testFileEnding(file, allowedFormats);
     },
     isAudio: function (file?: string): boolean {
