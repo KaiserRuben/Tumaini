@@ -6,6 +6,10 @@ const articleSchema = new Schema({
         type: Boolean,
         default: false
     },
+    material: {
+        type: String,
+        default: 'REPORT'
+    },
     image: {
         type: String
     },
@@ -34,6 +38,7 @@ const articleSchema = new Schema({
 
 export interface IArticle extends Document {
     published: boolean;
+    material: "REPORT" | "PROJECT"
     image?: string;
     title: string;
     subheader?: string;

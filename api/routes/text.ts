@@ -25,7 +25,7 @@ textRouter.get('/id/:id', async (req: Request, res: Response) => {
 
 textRouter.get('/view/:view', async (req: Request, res: Response) => {
     try {
-        const cacheText = await Text.find({view: req.params.view}).sort('created')
+        const cacheText = await Text.find({page: req.params.view}).sort('created')
         res.status(200).json(cacheText)
     } catch
         (err) {

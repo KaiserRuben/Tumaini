@@ -21,7 +21,7 @@ const routes: Array<RouteConfig> = [
         component: () => import('../views/Dashboard/Translate.vue'),
       },
       {
-        path: 'cms/content',
+        path: 'cms/content/:page',
         name: 'Content',
         meta: {
           levelRequired: 1
@@ -35,6 +35,14 @@ const routes: Array<RouteConfig> = [
           levelRequired: 10
         },
         component: () => import('../views/Dashboard/Mail.vue'),
+      },
+      {
+        path: 'files',
+        name: 'Files',
+        meta: {
+          levelRequired: 10
+        },
+        component: () => import('../views/Dashboard/Files.vue'),
       },
       {
         path: '*',

@@ -29,10 +29,14 @@
           </md-list-item>
 
           <md-list-item class="mouse-style">
-            <md-icon>article</md-icon>
-            <span class="md-list-item-text " @click="$router.push({name:'Content'})">Content</span>
+            <md-icon>summarize</md-icon>
+            <span class="md-list-item-text " @click="$router.push('/dashboard/cms/content/report')">Report</span>
           </md-list-item>
 
+          <md-list-item class="mouse-style">
+            <md-icon>view_headline</md-icon>
+            <span class="md-list-item-text " @click="$router.push('/dashboard/cms/content/project')">Project</span>
+          </md-list-item>
 
           <md-list-item class="mouse-style">
             <md-icon>mail</md-icon>

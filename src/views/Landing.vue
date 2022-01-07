@@ -19,10 +19,10 @@
       </div>
       <div class="imgGrid2">
         <h2>
-          Vor Ort
+          {{ text[0] }}
         </h2>
         <h2>
-          Helfen
+          {{ text[1] }}
         </h2>
 
       </div>
@@ -33,28 +33,28 @@
       <div class="welcomeSection">
         <div class="welcomeText">
           <p class="light" style="margin-bottom: 0; text-align: center">
-            Herzlich Willkommen
+            {{ text[2] }}
           </p>
           <h1>
-            TUMAINI
+            {{ text[3] }}
           </h1>
         </div>
         <div class="cardContainer">
           <Card
               class="cardContainerItem"
               :img="photo1"
-              header="Wer?"
-              text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."/>
+              :header="text[4]"
+              :text="text[5]"/>
           <Card
               class="cardContainerItem"
-              :img="photo2"
-              header="Was?"
-              text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."/>
+              :img="photo1"
+              :header="text[6]"
+              :text="text[7]"/>
           <Card
               class="cardContainerItem"
-              :img="photo3"
-              header="Wo?"
-              text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."/>
+              :img="photo1"
+              :header="text[8]"
+              :text="text[9]"/>
         </div>
       </div>
     </div>
@@ -63,18 +63,10 @@
     <div class="whiteSection">
       <div class="textContainer">
         <h2>
-          Die Tumaini Stiftung
+          {{ text[10] }}
         </h2>
         <p>
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-          dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-          clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
-          consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-          sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-          takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-          diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-          accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
-          dolor sit amet.
+          {{ text[11] }}
         </p>
       </div>
       <div class="textContainer" style="padding-top: 20px;">
@@ -88,7 +80,9 @@
           sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
           takimata sanctus est Lorem ipsum dolor sit amet.
         </p>
-        <button style="float: right;" @click="$router.push('/bericht')">Weiterlesen</button>
+        <button style="float: right;" @click="$router.push('/bericht')">
+          {{ text[12] }}
+        </button>
       </div>
     </div>
 
@@ -97,20 +91,20 @@
       <donation-card
           click-u-r-l="/spenden/1"
           :nr="1"
-          header="Support: 5550 €"
-          text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+          :header="text[13]"
+          :text="text[14]"
       />
       <donation-card
-          click-u-r-l="/spenden/2"
-          :nr="2"
-          header="Forestering: 50€ / Monat"
-          text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+          click-u-r-l="/spenden/1"
+          :nr="1"
+          :header="text[15]"
+          :text="text[16]"
       />
       <donation-card
-          click-u-r-l="/spenden/3"
-          :nr="3"
-          header="Sponsorship: 200€ / Monat"
-          text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+          click-u-r-l="/spenden/1"
+          :nr="1"
+          :header="text[17]"
+          :text="text[18]"
       />
     </div>
   </div>
@@ -135,8 +129,33 @@ export default defineComponent({
     return {
       photo1: p1,
       photo2: p2,
-      photo3: p3
+      photo3: p3,
+
+      text: [] as string[]
     }
+  },
+  async mounted() {
+    this.text = [
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f96a'),
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f96b'),
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f96c'),
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f96d'),
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f96e'),
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f96f'),
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f970'),
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f971'),
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f972'),
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f973'),
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f974'),
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f975'),
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f976'),
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f977'),
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f978'),
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f979'),
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f97a'),
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f97b'),
+      await this.textObject.getContent('61d55fa9cc3bfb06f031f97c'),
+    ]
   }
 });
 </script>

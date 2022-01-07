@@ -2,7 +2,7 @@
   <Header/>
   <div class="container">
     <div class="contentContainer" v-if="page.toLowerCase() === 'projekte'">
-      <h1>Projekte Archiv</h1>
+      <h1>{{ text[0] }}</h1>
       <div class="berichtContainer">
         <TeaserCard
             class="bericht"/>
@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="contentContainer" v-else>
-      <h1>Berichte Archiv</h1>
+      <h1>{{ text[1] }}</h1>
       <div class="berichtContainer">
         <div class="bericht" v-for="i in [1,2,3,4,5]" v-bind:key="i" @click="$router.push('/bericht')">
           <h2>Bericht {{ i }}</h2>
@@ -49,7 +49,8 @@ export default defineComponent({
   components: {Header, TeaserCard},
   data() {
     return {
-      page: this.$router.currentRoute.value.params.page
+      page: this.$router.currentRoute.value.params.page,
+      text: [] as string[]
     }
   },
   watch: {
@@ -58,6 +59,12 @@ export default defineComponent({
         location.reload();
       }
     }
+  },
+  async mounted() {
+    this.text = [
+      await this.textObject.getContent('61d56537cc3bfb06f031f996'),
+      await this.textObject.getContent('61d56537cc3bfb06f031f997')
+    ]
   }
 })
 </script>

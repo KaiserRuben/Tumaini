@@ -15,7 +15,7 @@
             addArticle = true;
           "
         >
-          add Content
+          add {{ currentMaterial.toLowerCase() }}
         </md-button>
         <md-button
             class="md-raised"
@@ -277,7 +277,7 @@ export default Vue.extend({
 
       addArticle: false,
       articles: undefined as undefined | IArticle[],
-      newArticle: undefined as undefined | IArticle,
+      newArticle: {} as Record<string, unknown> | IArticle,
       tags: [] as Array<string>,
 
       selectedArticle: "",
@@ -293,6 +293,8 @@ export default Vue.extend({
       value: [],
       options: [],
       newTag: null,
+
+      currentMaterial: this.$route.params.page.toUpperCase() as "PROJECT" | "REPORT"
     };
   },
   methods: {
@@ -335,7 +337,7 @@ export default Vue.extend({
     },
     loadArticles: async function () {
       return (
-          await axiosGet("/content/article")
+          await axiosGet("/content/article/material/" + this.currentMaterial)
       ).data;
     },
     loadFiles: async function () {
@@ -407,8 +409,8 @@ export default Vue.extend({
       this.addArticleError = "";
       this.status = "saving...";
 
-      if (this.newArticle) {// if (this.newArticle.tags)
-        //   this.newArticle.tags = this.newArticle.tags.split(", ");
+      if (this.newArticle) {
+        this.newArticle.material = this.currentMaterial
         if (this.newArticle.mainPoints) {
           this.newArticle.mainPoints = String(this.newArticle.mainPoints).split("\n");
         }
@@ -505,6 +507,13 @@ export default Vue.extend({
   beforeMount: function () {
     this.load();
   },
+  watch: {
+    $route(to, from) { // react to route changes...
+      if (to !== from) {
+        location.reload();
+      }
+    }
+  }
 });
 </script>
 <style lang="scss">

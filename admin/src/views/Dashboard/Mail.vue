@@ -1,5 +1,5 @@
 <template>
-  <mailer
+  <Mailer
       :emails="emailList"
       :server-address="sever_address"
       website-name="tumaini.be"
@@ -7,7 +7,7 @@
       default-from="contact@tumaini.be"/>
 </template>
 <script lang="ts">
-import Mailer from '@/components/Mailer'
+import Mailer from "@/components/Mailer.vue";
 import Vue from 'vue';
 import {axiosGet} from "@/utils/axiosWrapper";
 

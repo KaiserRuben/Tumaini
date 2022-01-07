@@ -13,6 +13,14 @@ articleRouter.get('/article', (req, res) => {
         .then((a) => res.status(200).json(a))
         .catch(err => res.status(500).json({hasError: true, error: err}))
 })
+articleRouter.get('/article/material/:material', (req, res) => {
+    if (["REPORT", "PROJECT"].includes(req.params.material))
+        Article.find({material: <"REPORT" | "PROJECT">req.params.material}).populate('content')
+            .then((a) => res.status(200).json(a))
+            .catch(err => res.status(500).json({hasError: true, error: err}))
+    else
+        res.status(404).json({hasError: true, error: "Wrong Material"})
+})
 // Get all published content
 articleRouter.get('/article/published', (req, res) => {
     Article.find({published: true}).populate('content')
