@@ -16,7 +16,7 @@
     <div class="content">
       <div class="meta">
         <div class="mainPoints" v-if="article.mainPoints && article.mainPoints.length">
-          Main Points:
+          {{ text[0] }}:
           <ul>
             <li v-for="point in article.mainPoints" v-bind:key="point">
               {{ point }}
@@ -24,7 +24,7 @@
           </ul>
         </div>
         <div class="date" v-if="article.created">
-          Published: {{ new Date(article.created).toLocaleDateString() }}
+          {{ text[1] }}: {{ new Date(article.created).toLocaleDateString() }}
         </div>
         <div class="share">
           <button
@@ -34,9 +34,9 @@
               showSnackbar();
             "
           >
-            Copy Link
+            {{ text[2] }}
           </button>
-          <div id="snackbar">Copied Link!</div>
+          <div id="snackbar">{{ text[3] }}</div>
         </div>
         <!-- WIP - Maybe future Feature! -->
         <!--<h4 style="text-align: center">Comments</h4>
@@ -88,6 +88,8 @@ export default defineComponent({
     return {
       article: {},
       articleLink: window.location.href,
+
+      text: [] as string[]
     }
   },
   methods: {
@@ -142,7 +144,12 @@ export default defineComponent({
     this.article = (
         await axios.get('https://api.mindsupport.eu/selfSupport/article/id/6184fcddc4769fff6c4a4fe6')
     ).data
-    console.log(this.article)
+    this.text = [
+      await this.textObject.getContent('61d56628cc3bfb06f031f99a'),
+      await this.textObject.getContent('61d56628cc3bfb06f031f99b'),
+      await this.textObject.getContent('61d56628cc3bfb06f031f99c'),
+      await this.textObject.getContent('61d56628cc3bfb06f031f99d'),
+    ]
   }
 })
 </script>
@@ -345,10 +352,9 @@ button
 
   .infoContainer
     width: 95%
-    margin: 0 2.5%
     border-top: 1px dashed black
     padding-top: 10px
-    margin-top: 20px
+    margin: 20px 2.5% 0
 
 
   .header

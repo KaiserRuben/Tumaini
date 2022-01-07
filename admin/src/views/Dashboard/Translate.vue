@@ -2,7 +2,7 @@
   <div class="home">
     <md-progress-bar v-if="query" md-mode="query"></md-progress-bar>
     <span class="warnings" v-if="!Object.values(show).reduce((x, y) => x && y)">Warning: Not all columns are selected. Change this in settings.<br/></span>
-    <span class="warnings" v-if="onlyShowEmpty">Warning: Filter set, will be lost when data is updated.<br/></span>
+    <span class="warnings" v-if="onlyShowEmpty !== 'none'">Warning: Filter set, will be lost when data is updated.<br/></span>
     <span class="warnings" v-if="page">Warning: Only showing Objects belonging to {{ page }}.<br/></span>
     <md-tabs md-alignment="fixed">
 
@@ -33,7 +33,6 @@
           </md-table-toolbar>
 
           <md-table-row>
-            <md-table-head md-numeric v-if="show.textID">Text ID</md-table-head>
             <md-table-head v-if="show.page">Page</md-table-head>
             <md-table-head v-if="show.description">Description</md-table-head>
             <md-table-head v-if="show.EN">English</md-table-head>
@@ -41,12 +40,9 @@
             <md-table-head v-if="show.DE">German</md-table-head>
           </md-table-row>
 
-          <md-table-row v-for="item in filterArrayForPage" v-bind:key="item._id">
-            <md-table-cell v-if="show._id">
-              {{ item._id }}
-            </md-table-cell>
+          <md-table-row v-for="item in filterArrayForPage()" v-bind:key="item._id">
             <md-table-cell v-if="show.page">
-              {{ item.view }}
+              {{ item.page }}
             </md-table-cell>
             <md-table-cell v-if="show.description">
               <!--              <md-field md-inline>-->
@@ -84,10 +80,9 @@
             </md-card-header>
 
             <md-card-content>
-              <md-switch v-model="show.textID" class="md-primary">ID</md-switch>
               <md-switch v-model="show.page" class="md-primary">Page</md-switch>
               <md-switch v-model="show.description" class="md-primary">Description</md-switch>
-              <md-switch v-model="show.EN" class="md-primary">English</md-switch>
+              <md-switch v-model="show.EN">English</md-switch>
               <md-switch v-model="show.DE">German</md-switch>
               <md-switch v-model="show.NL">Dutch</md-switch>
             </md-card-content>
@@ -104,7 +99,8 @@
             <md-card-content>
               Language:
               <md-field>
-                <md-select v-model="onlyShowEmpty" name="onlyShowEmpty" id="onlyShowEmpty" @md-selected="filterData">
+                <md-select v-model="onlyShowEmpty" name="onlyShowEmpty" id="onlyShowEmpty"
+                           @md-selected="filterData(myData)">
                   <md-option value="none">None</md-option>
                   <md-option value="DE">German</md-option>
                   <md-option value="EN">English</md-option>
@@ -124,7 +120,7 @@
             <md-card-content>
               Page:
               <md-field>
-                <md-select v-model="page" name="view" id="view" @md-selected="filterData">
+                <md-select v-model="page" name="view" id="view" @md-selected="filterData(myData)">
                   <md-option value="">None</md-option>
                   <md-option v-for="view in viewOptions" :value="view" v-bind:key="view">{{ view }}</md-option>
                 </md-select>
@@ -183,7 +179,6 @@ export default Vue.extend({
       filteredData: undefined as undefined | IText[],
       myData: undefined as undefined | IText[],
       show: {
-        textID: false,
         page: true,
         description: true,
         EN: true,
@@ -208,14 +203,17 @@ export default Vue.extend({
     },
     filterData: function (data: IText[]) {
       this.filteredData = data
+      console.log(data)
       this.filteredData = this.filteredData.filter((d) => {
         if (this.onlyShowEmpty !== 'none')
           return !d[this.onlyShowEmpty]
         else
           return d
       })
+      console.log(this.filteredData)
       if (this.page)
         this.filteredData = this.filteredData.filter((d) => d.page == this.page)
+      console.log(this.filteredData)
     },
     change: async function (id: string, language: "EN" | "DE" | "NL", content: string) {
       this.uploading = true
