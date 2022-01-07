@@ -44,9 +44,8 @@ app.use(basicAuth({
 app.get('/', (req, res) => {
     if (process.env.MODE === 'PROD') {
         res.status(200).send('The Tumaini API is up and running in production mode!');
-    }
-
-    res.status(200).send('The Tumaini API is up and running in <b>development</b> mode!');
+    } else
+        res.status(200).send('The Tumaini API is up and running in <b>development</b> mode!');
 });
 app.use('/users', userRouter);
 app.use('/text', textRouter);
