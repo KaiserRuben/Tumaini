@@ -77,9 +77,9 @@
 
 <script lang="ts">
 import {defineComponent} from "vue"
-import axios from "axios"
 import Header from "@/components/Header.vue"
 import Markdown from 'vue3-markdown-it';
+import {axiosGet} from "../../admin/src/utils/axiosWrapper";
 
 export default defineComponent({
   name: "Bericht",
@@ -89,7 +89,9 @@ export default defineComponent({
       article: {},
       articleLink: window.location.href,
 
-      text: [] as string[]
+      text: [] as string[],
+
+      id: this.$route.params.id
     }
   },
   methods: {
@@ -142,7 +144,7 @@ export default defineComponent({
     //     )
     // ).data
     this.article = (
-        await axios.get('https://api.mindsupport.eu/selfSupport/article/id/6184fcddc4769fff6c4a4fe6')
+        await axiosGet('/content/article/id/' + this.id)
     ).data
     this.text = [
       await this.textObject.getContent('61d56628cc3bfb06f031f99a'),
@@ -202,6 +204,7 @@ button
   .subheader
     font-size: 3em
     line-height: 1.5em
+    text-align: center
 
 .content
   width: 100%
