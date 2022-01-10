@@ -5,29 +5,28 @@
       <h2>
         {{ header }}
       </h2>
-      <p>
-        {{ text }}
-      </p>
+      <Markdown :source='text.split(" ").slice(0, 50).join(" ") + "..."' :breaks="true" :html="true"/>
     </div>
   </div>
 </template>
 <script lang="ts">
 import {defineComponent} from "vue";
+import Markdown from 'vue3-markdown-it';
 
 export default defineComponent({
   name: 'Card',
   props: {
     img: {
       type: String,
-      default: 'https://media.kaiser.fyi/mindsupport/840/Mindfulness.png'
+      default: 'https://files.tumaini.be/default_project_picture.webp'
     },
     header: {
       type: String,
-      default: 'Header'
+      default: ''
     },
     text: {
       type: String,
-      default: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua... '
+      default: ''
     },
     inProgress: {
       type: Boolean,
@@ -38,6 +37,7 @@ export default defineComponent({
       default: '/project'
     },
   },
+  components: {Markdown},
   methods: {
     backgroundImg() {
       return {
@@ -52,7 +52,7 @@ export default defineComponent({
 <style lang="sass" scoped>
 .card
   min-width: 200px
-  max-width: 20vw
+  max-width: 25vw
   width: max-content
   @media only screen and (max-width: 640px)
     max-width: 80vw
