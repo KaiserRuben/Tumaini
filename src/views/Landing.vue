@@ -133,7 +133,7 @@ export default defineComponent({
     }
   },
   async mounted() {
-    this.report = (await axiosGet('/content/article/material/REPORT')).data.sort((a: IArticle, b: IArticle) => b.created.getDate() - a.created.getDate())[0]
+    this.report = (await axiosGet('/content/article/material/REPORT/published')).data.sort((a: IArticle, b: IArticle) => b.created.getDate() - a.created.getDate())[0]
 
     this.text = [
       await this.textObject.getContent('61d55fa9cc3bfb06f031f96a'),
