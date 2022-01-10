@@ -2,18 +2,22 @@ import {axiosGet} from "../../admin/src/utils/axiosWrapper";
 import {IText} from "../../api/models/text";
 
 export class TextLoader {
-    language: 'EN' | 'DE' | 'NL'
+    public language: 'EN' | 'DE' | 'NL'
     text: Promise<IText[] | undefined>
 
     constructor() {
         const allowed = ['EN', 'DE', 'NL']
-        const userLanguage = <'EN' | 'DE' | 'NL'>navigator.language.slice(0, 2).toUpperCase()
+        const localLanguage = localStorage.getItem('language')
+        const userLanguage = localLanguage ?
+            <'EN' | 'DE' | 'NL'>localLanguage :
+            <'EN' | 'DE' | 'NL'>navigator.language.slice(0, 2).toUpperCase()
         if (allowed.includes(userLanguage))
             this.language = userLanguage
         else
             this.language = 'EN'
 
         this.text = this.loadText();
+        document.body.lang = this.language
     }
 
     private loadText(): Promise<IText[] | undefined> {
@@ -43,6 +47,16 @@ export class TextLoader {
         }
 
         return `Loading...`
+    }
+
+    public reloadText() {
+        this.text = this.loadText();
+    }
+
+    public setLanguage(language: 'EN' | 'DE' | 'NL') {
+        this.language = language
+        localStorage.setItem('language', language)
+        this.reloadText()
     }
 }
 
