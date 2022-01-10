@@ -12,7 +12,7 @@
         <md-field v-if="!sendToAll && (emails.includes(toMail) || toMail === '')">
           <label for="email">Select an E-Mail-Address for the receiver.</label>
           <md-select v-model="toMail" name="toMail" id="email" md-dense>
-            <md-option v-for="(u,key) in emails" :value="u.email" v-bind:key="key">{{ u.email }}
+            <md-option v-for="(u,key) in emails" :value="u" v-bind:key="key">{{ u }}
             </md-option>
             <md-option :value="null">Other E-Mail</md-option>
           </md-select>
@@ -116,10 +116,10 @@ export default Vue.extend({
         alert(this.fromMail + 'is not an E-Mail.')
         return
       }
-      if (!validEmail(this.toMail)) {
-        console.warn(this.toMail + 'is not an E-Mail.')
-      }
       if (!this.sendToAll) {
+        if (!validEmail(this.toMail)) {
+          console.warn(this.toMail + 'is not an E-Mail.')
+        }
         this.progressMax = 2
         this.progress = 0
         this.mailArray.push({
@@ -143,7 +143,7 @@ export default Vue.extend({
         })
       }
       this.mailArray.forEach((m, index) => {
-        axiosPost(this.serverAddress, {mail: m})
+        axiosPost(this.serverAddress, m)
             .then(() => {
               this.progress += 1
 

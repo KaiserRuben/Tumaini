@@ -41,9 +41,10 @@
         <p>
           {{ text[3] }}
         </p>
-        <form class="spendenForm" @submit.prevent="">
-          <input :placeholder="text[5]" type="text"/><input :placeholder="text[6]" type="text"/>
-          <input :placeholder="text[7]" type="email"/>
+        <form class="spendenForm" @submit.prevent="pushDonor()">
+          <input :placeholder="text[5]" type="text" v-model="donor.firstName"/>
+          <input :placeholder="text[6]" type="text" v-model="donor.lastName"/>
+          <input :placeholder="text[7]" type="email" v-model="donor.email"/>
           <div class="break"></div>
           <button type="submit">{{ text[4] }}</button>
         </form>
@@ -56,8 +57,9 @@
 import {defineComponent} from "vue";
 import Header from "@/components/Header.vue";
 import TeaserCard from "@/components/TeaserCard.vue";
-import {axiosGet} from "../../admin/src/utils/axiosWrapper";
+import {axiosGet, axiosPost} from "../../admin/src/utils/axiosWrapper";
 import {IArticle} from "../../api/models/article";
+import {IDonor} from "../../api/models/donor";
 
 export default defineComponent({
   name: "Spenden Details",
@@ -66,7 +68,28 @@ export default defineComponent({
     return {
       option: parseInt(typeof this.$router.currentRoute.value.params.option === "string" ? this.$router.currentRoute.value.params.option : "1"),
       text: [] as string[],
-      projects: [] as IArticle[]
+      projects: [] as IArticle[],
+
+      donor: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        status: "CREATED",
+        option: parseInt(typeof this.$router.currentRoute.value.params.option === "string" ? this.$router.currentRoute.value.params.option : "1")
+      } as IDonor
+    }
+  },
+  methods: {
+    async pushDonor() {
+      try {
+        await axiosPost('/donor/', this.donor)
+        this.donor.firstName = ''
+        this.donor.lastName = ''
+        this.donor.email = ''
+        alert(this.text[11])
+      } catch (err) {
+        console.error(err)
+      }
     }
   },
   async mounted() {
@@ -85,6 +108,8 @@ export default defineComponent({
       await this.textObject.getContent('61d55fa9cc3bfb06f031f977'),
       await this.textObject.getContent('61d55fa9cc3bfb06f031f979'),
       await this.textObject.getContent('61d55fa9cc3bfb06f031f97b'),
+
+      await this.textObject.getContent('61dc75ef52bc3e00c19de452'),
     ]
 
     if (isNaN(this.option))

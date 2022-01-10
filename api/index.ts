@@ -11,6 +11,7 @@ import userRouter from './routes/user'
 import articleRouter from "./routes/articles"
 import fileRouter from "./routes/files"
 import donorRouter from "./routes/donor"
+import mailRouter from "./routes/mail"
 
 import {connectDataBase} from './utils/db'
 
@@ -52,6 +53,7 @@ app.use('/text', textRouter);
 app.use('/content', articleRouter);
 app.use('/files', fileRouter);
 app.use('/donor', donorRouter);
+app.use('/mail', mailRouter);
 
 start()
     .then((port) => {

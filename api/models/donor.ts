@@ -24,6 +24,10 @@ const DonorSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Article',
         default: undefined
+    },
+    option: {
+        type: Number,
+        default: 1
     }
 })
 
@@ -32,7 +36,8 @@ export interface IDonor extends Document {
     lastName: string;
     email: string;
     status: "CREATED" | "PENDING DONATION" | "PENDING CONFIRMATION" | "DONE";
-    project: IArticle | undefined;
+    project?: IArticle;
+    option: number;
 }
 
 
