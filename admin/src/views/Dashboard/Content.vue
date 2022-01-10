@@ -68,7 +68,9 @@
     <!-- Add Article -->
     <transition name="fade">
       <div class="editSection" v-if="addArticle">
-        <h2 class="md-title">Add Report</h2>
+        <h2 class="md-title">Add {{
+            currentMaterial.charAt(0).toUpperCase() + currentMaterial.toLowerCase().slice(1)
+          }}</h2>
         <md-autocomplete v-model="newArticle.image" :md-options="files">
           <label>Image</label>
         </md-autocomplete>
@@ -176,7 +178,9 @@
     <!-- Edit Article -->
     <transition name="fade">
       <div class="editSection" v-if="activeArticle && !activeSection">
-        <h2 class="md-title">Edit Article</h2>
+        <h2 class="md-title">Edit {{
+            currentMaterial.charAt(0).toUpperCase() + currentMaterial.toLowerCase().slice(1)
+          }}</h2>
 
         <md-autocomplete
             v-model="activeArticle.image"
@@ -432,7 +436,7 @@ export default Vue.extend({
     publishArticle: function () {
       this.status = "publishing...";
       if (this.activeArticle) {
-        axiosPatch("/content/content/publish", {
+        axiosPatch("/content/publish", {
           published: this.activeArticle.published,
           id: this.selectedArticle,
         })

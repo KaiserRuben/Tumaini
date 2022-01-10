@@ -45,6 +45,14 @@ const routes: Array<RouteConfig> = [
         component: () => import('../views/Dashboard/Files.vue'),
       },
       {
+        path: 'donors',
+        name: 'Donors',
+        meta: {
+          levelRequired: 10
+        },
+        component: () => import('../views/Dashboard/Donors.vue'),
+      },
+      {
         path: '*',
         meta: {
           levelRequired: 0
