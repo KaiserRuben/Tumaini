@@ -46,6 +46,13 @@ a
 a:hover
   text-decoration: underline
 
+select
+  border-radius: 0
+  border: 0
+  padding: 2px 5px
+  color: #151919
+  background-color: #FFF
+
 button
   border-radius: 0
   border: 0
