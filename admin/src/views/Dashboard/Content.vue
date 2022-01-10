@@ -323,7 +323,7 @@ export default Vue.extend({
           })
           .catch((e) => {
             console.warn(e);
-            this.status = "error: loading articles";
+            this.status = `error: loading ${this.currentMaterial.toLowerCase()}...`;
           });
       // Loading Files
       this.loadFiles()
@@ -366,7 +366,7 @@ export default Vue.extend({
     }, resetSection: function () {
       this.activeSection = undefined;
       this.selectedSection = "";
-      this.status = "loading articles...";
+      this.status = `loading ${this.currentMaterial.toLowerCase()}...`;
       this.loadArticles()
           .then((a) => {
             this.articles = a.map((a: IArticle) => {
@@ -378,7 +378,7 @@ export default Vue.extend({
           })
           .catch((e) => {
             console.warn(e);
-            this.status = "error: loading articles";
+            this.status = `error: loading ${this.currentMaterial.toLowerCase()}`;
           });
     },
     deleteSection: function () {
@@ -394,7 +394,7 @@ export default Vue.extend({
           });
     },
     deleteArticle: function () {
-      this.status = "deleting knowledge...";
+      this.status = `deleting ${this.currentMaterial.toLowerCase()}...`;
       axiosDelete("/content/article/" + this.selectedArticle)
           .then(() => {
             this.status = "all set";
@@ -402,7 +402,7 @@ export default Vue.extend({
           })
           .catch((e) => {
             console.warn(e.response.data.error);
-            this.status = "error: creating section... try again";
+            this.status = `error: deleting ${this.currentMaterial.toLowerCase()}... try again.`;
           });
     },
     saveArticle: async function () {
@@ -474,7 +474,7 @@ export default Vue.extend({
           api = `/content/article/${this.selectedArticle}/${part}`;
           break;
         case 1:
-          api = `content/section/${this.selectedSection}/${part}`;
+          api = `/content/section/${this.selectedSection}/${part}`;
           break;
       }
       axiosPatch(api, {toChange: content})
@@ -482,7 +482,7 @@ export default Vue.extend({
             this.status = "all set";
           })
           .catch((e) => {
-            console.warn(e.response);
+            console.warn(e);
             this.status = "error: saving changes - reload site";
           });
     },
@@ -516,6 +516,8 @@ export default Vue.extend({
   }
 });
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style lang="scss">
 .status {
   text-align: right;
