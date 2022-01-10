@@ -203,7 +203,6 @@ export default Vue.extend({
     },
     filterData: function (data: IText[]) {
       this.filteredData = data
-      console.log(data)
       this.filteredData = this.filteredData.filter((d) => {
         if (this.onlyShowEmpty !== 'none')
           return !d[this.onlyShowEmpty]
