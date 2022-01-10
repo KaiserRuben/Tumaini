@@ -21,6 +21,14 @@ articleRouter.get('/article/material/:material', (req, res) => {
     } else
         res.status(404).json({hasError: true, error: "Wrong Material"})
 })
+articleRouter.get('/article/material/:material/published', (req, res) => {
+    if (["REPORT", "PROJECT"].includes(req.params.material)) {
+        Article.find({material: <"REPORT" | "PROJECT">req.params.material, published: true}).populate('content')
+            .then((a) => res.status(200).json(a))
+            .catch(err => res.status(500).json({hasError: true, error: err}))
+    } else
+        res.status(404).json({hasError: true, error: "Wrong Material"})
+})
 // Get all published content
 articleRouter.get('/article/published', (req, res) => {
     Article.find({published: true}).populate('content')

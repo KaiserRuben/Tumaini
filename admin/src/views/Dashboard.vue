@@ -44,6 +44,11 @@
           </md-list-item>
 
           <md-list-item class="mouse-style">
+            <md-icon>volunteer_activism</md-icon>
+            <span class="md-list-item-text " @click="$router.push({name:'Donors'})">Donors</span>
+          </md-list-item>
+
+          <md-list-item class="mouse-style">
             <md-icon>folder</md-icon>
             <span class="md-list-item-text" @click="$router.push({name:'Files'})">Files</span>
           </md-list-item>
