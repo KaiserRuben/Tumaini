@@ -2,16 +2,19 @@
   <div>
     <Header/>
     <div class="container">
-      <div class="contentContainer">
+      <div class="contentContainer" v-if="projects.length">
         <h2>{{ text[0] }}</h2>
 
         <div class="cardContainer">
           <TeaserCard
-              class="cardContainerItem"/>
-          <TeaserCard
-              class="cardContainerItem"/>
-          <TeaserCard
-              class="cardContainerItem"/>
+              class="cardContainerItem"
+              v-for="project in projects"
+              v-bind:key="project._id"
+              :img="project.image"
+              :header="project.title"
+              :text="project.content[0].text"
+              :click="`/project/${project._id}`"
+          />
           <!-- Section 3 (About) -->
         </div>
       </div>
@@ -53,6 +56,8 @@
 import {defineComponent} from "vue";
 import Header from "@/components/Header.vue";
 import TeaserCard from "@/components/TeaserCard.vue";
+import {axiosGet} from "../../admin/src/utils/axiosWrapper";
+import {IArticle} from "../../api/models/article";
 
 export default defineComponent({
   name: "Spenden Details",
@@ -60,10 +65,12 @@ export default defineComponent({
   data() {
     return {
       option: parseInt(typeof this.$router.currentRoute.value.params.option === "string" ? this.$router.currentRoute.value.params.option : "1"),
-      text: [] as string[]
+      text: [] as string[],
+      projects: [] as IArticle[]
     }
   },
   async mounted() {
+    this.projects = (await axiosGet('/content/article/material/PROJECT')).data.sort((a: IArticle, b: IArticle) => b.created.getDate() - a.created.getDate())
 
     this.text = [
       await this.textObject.getContent('61d56377cc3bfb06f031f986'),

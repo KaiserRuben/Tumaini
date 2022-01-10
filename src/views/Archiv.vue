@@ -5,35 +5,25 @@
       <h1>{{ text[0] }}</h1>
       <div class="berichtContainer">
         <TeaserCard
-            class="bericht"/>
-        <TeaserCard
-            class="bericht"/>
-        <TeaserCard
-            class="bericht"/>
-        <TeaserCard
-            class="bericht"/>
-        <TeaserCard
-            class="bericht"/>
-        <TeaserCard
-            class="bericht"/>
-        <TeaserCard
-            class="bericht"/>
-        <TeaserCard
-            class="bericht"/>
+            class="cardContainerItem"
+            v-for="project in projects"
+            v-bind:key="project._id"
+            :img="project.image"
+            :header="project.title"
+            :text="project.content[0].text"
+            :click="`/project/${project._id}`"
+        />
       </div>
     </div>
     <div class="contentContainer" v-else>
       <h1>{{ text[1] }}</h1>
       <div class="berichtContainer">
-        <div class="bericht" v-for="i in [1,2,3,4,5]" v-bind:key="i" @click="$router.push('/bericht')">
-          <h2>Bericht {{ i }}</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-            dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-            clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
-            consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-            sed diam voluptua...
-          </p>
+        <div class="bericht" v-for="report in reports" v-bind:key="report._id"
+             @click="$router.push(`/bericht/${report._id}`)">
+          <h2>{{ report.title }}</h2>
+          <Markdown :source='report.content[0].text.split(" ").slice(0, 50).join(" ") + "..."' :breaks="true"
+                    :html="true"/>
+
         </div>
       </div>
     </div>
@@ -43,14 +33,22 @@
 import {defineComponent} from "vue";
 import Header from "@/components/Header.vue";
 import TeaserCard from "@/components/TeaserCard.vue";
+import {IArticle} from "../../api/models/article";
+import {axiosGet} from "../../admin/src/utils/axiosWrapper";
+import Markdown from 'vue3-markdown-it';
 
 export default defineComponent({
   name: "Berichte Archiv",
-  components: {Header, TeaserCard},
+  components: {Header, TeaserCard, Markdown},
   data() {
     return {
       page: this.$router.currentRoute.value.params.page,
-      text: [] as string[]
+      text: [] as string[],
+
+
+      projects: [] as IArticle[],
+      reports: [] as IArticle[],
+
     }
   },
   watch: {
@@ -61,6 +59,9 @@ export default defineComponent({
     }
   },
   async mounted() {
+    this.projects = (await axiosGet('/content/article/material/PROJECT')).data.sort((a: IArticle, b: IArticle) => b.created.getDate() - a.created.getDate())
+    this.reports = (await axiosGet('/content/article/material/REPORT')).data.sort((a: IArticle, b: IArticle) => b.created.getDate() - a.created.getDate())
+
     this.text = [
       await this.textObject.getContent('61d56537cc3bfb06f031f996'),
       await this.textObject.getContent('61d56537cc3bfb06f031f997')

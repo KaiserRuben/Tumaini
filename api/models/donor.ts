@@ -1,5 +1,5 @@
 import {Document, model, Schema} from "mongoose"
-import {IProject} from "./project";
+import {IArticle} from "./article";
 // Schema
 const DonorSchema = new Schema({
     firstName: {
@@ -22,7 +22,7 @@ const DonorSchema = new Schema({
     },
     project: {
         type: Schema.Types.ObjectId,
-        ref: 'project',
+        ref: 'Article',
         default: undefined
     }
 })
@@ -32,7 +32,7 @@ export interface IDonor extends Document {
     lastName: string;
     email: string;
     status: "CREATED" | "PENDING DONATION" | "PENDING CONFIRMATION" | "DONE";
-    project: IProject | undefined;
+    project: IArticle | undefined;
 }
 
 
