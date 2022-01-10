@@ -1,9 +1,23 @@
 <template>
   <div class="container">
     <div>
+      <select id="language" name="language" v-model="language" @change="changeLanguage()">
+        <option value="DE">Deutsch</option>
+        <option value="EN">English</option>
+        <option value="NL">Dutch</option>
+      </select>
+    </div>
+    <div>
       <router-link to="/impressum_datenschutz/impressum">{{ text[0] }}</router-link>
       &
       <router-link to="/impressum_datenschutz/datenschutz">{{ text[1] }}</router-link>
+    </div>
+    <div style="visibility: hidden">
+      <select id="languageHidden" name="language" v-model="language">
+        <option value="DE">Deutsch</option>
+        <option value="EN">English</option>
+        <option value="NL">Dutch</option>
+      </select>
     </div>
   </div>
 </template>
@@ -14,10 +28,16 @@ export default defineComponent({
   name: "Footer",
   data() {
     return {
-      text: [] as string[]
+      text: [] as string[],
+      language: this.textObject.language
     }
   },
-  methods: {},
+  methods: {
+    changeLanguage() {
+      this.textObject.setLanguage(this.language)
+      this.$router.go(0)
+    }
+  },
   async mounted() {
     this.text = [
       await this.textObject.getContent('61d4afdbac24bf3707c69728'),
