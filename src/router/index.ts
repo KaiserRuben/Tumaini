@@ -12,9 +12,9 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../views/Datenschutz_Impressum.vue')
     },
     {
-        path: '/bericht',
+        path: '/bericht/:id',
         name: 'Bericht',
-        alias: '/project',
+        alias: '/project/:id',
         component: () => import('../views/Bericht.vue')
     },
     {
@@ -27,6 +27,11 @@ const routes: Array<RouteRecordRaw> = [
         name: 'Spenden',
         component: () => import('../views/Spenden.vue')
     },
+    {
+        path: "/:catchAll(.*)",
+        name: "NotFound",
+        redirect: '/'
+    }
 
 ]
 

@@ -69,18 +69,12 @@
           {{ text[11] }}
         </p>
       </div>
-      <div class="textContainer" style="padding-top: 20px;">
+      <div class="textContainer" style="padding-top: 20px;" v-if="report">
         <h2>
-          Aktueller Bericht
+          {{ report.title }}
         </h2>
-        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-          dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-          clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
-          consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-          sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-          takimata sanctus est Lorem ipsum dolor sit amet.
-        </p>
-        <button style="float: right;" @click="$router.push('/bericht')">
+        <Markdown :source="report.content[0].text" :breaks="true" :html="true"/>
+        <button style="float: right;" @click="$router.push(`/bericht/${report._id}`)">
           {{ text[12] }}
         </button>
       </div>
@@ -115,26 +109,32 @@ import {defineComponent} from 'vue';
 
 import Card from "@/components/Card.vue";
 import donationCard from "@/components/DonationCard.vue";
+import {IArticle} from "../../api/models/article";
 
 // Photos for Cards
 import * as p1 from '@/assets/landing/roman-nguyen-lPPkJ4NfQtQ-unsplash.webp'
 import * as p2 from '@/assets/landing/elcarito-fouVDmGXoPI-unsplash.webp'
 import * as p3 from '@/assets/landing/damian-patkowski-T-LfvX-7IVg-unsplash.webp'
+import {axiosGet} from '../../admin/src/utils/axiosWrapper';
+import Markdown from 'vue3-markdown-it';
 
 
 export default defineComponent({
   name: 'Home',
-  components: {Card, donationCard},
+  components: {Card, donationCard, Markdown},
   data() {
     return {
       photo1: p1,
       photo2: p2,
       photo3: p3,
 
-      text: [] as string[]
+      text: [] as string[],
+      report: undefined as undefined | IArticle
     }
   },
   async mounted() {
+    this.report = (await axiosGet('/content/article/material/REPORT')).data.sort((a: IArticle, b: IArticle) => b.created.getDate() - a.created.getDate())[0]
+
     this.text = [
       await this.textObject.getContent('61d55fa9cc3bfb06f031f96a'),
       await this.textObject.getContent('61d55fa9cc3bfb06f031f96b'),
