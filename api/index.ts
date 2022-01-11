@@ -22,7 +22,8 @@ app.use(cors());
 app.use(compression()); //Compress all routes
 app.use(helmet()); //Protects against known vulnerabilities
 app.use(express.json());
-app.use(express.urlencoded({extended: false, limit: '1024mb', parameterLimit: 1000000}));
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
 app.use(fileUpload({
     useTempFiles: true,
     tempFileDir: 'tmp/'
