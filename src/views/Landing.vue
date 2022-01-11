@@ -42,17 +42,17 @@
         <div class="cardContainer">
           <Card
               class="cardContainerItem"
-              :img="photo1"
+              img="https://files.tumaini.be/landing_wer.webp"
               :header="text[4]"
               :text="text[5]"/>
           <Card
               class="cardContainerItem"
-              :img="photo1"
+              img="https://files.tumaini.be/landing_was.webp"
               :header="text[6]"
               :text="text[7]"/>
           <Card
               class="cardContainerItem"
-              :img="photo1"
+              img="https://files.tumaini.be/landing_wo.webp"
               :header="text[8]"
               :text="text[9]"/>
         </div>

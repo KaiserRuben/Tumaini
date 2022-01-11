@@ -13,8 +13,8 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         path: '/bericht/:id',
-        name: 'Bericht',
         alias: '/project/:id',
+        name: 'Bericht',
         component: () => import('../views/Bericht.vue')
     },
     {
@@ -44,5 +44,11 @@ const router = createRouter({
     }
 
 })
-
+router.beforeEach((to, from, next) => {
+    if (to.name)
+        document.title = to.name.toString() + ' | Tumaini'
+    else
+        document.title = 'Tumaini'
+    next()
+})
 export default router
