@@ -90,13 +90,13 @@
       />
       <donation-card
           click-u-r-l="/spenden/1"
-          :nr="1"
+          :nr="2"
           :header="text[15]"
           :text="text[16]"
       />
       <donation-card
           click-u-r-l="/spenden/1"
-          :nr="1"
+          :nr="3"
           :header="text[17]"
           :text="text[18]"
       />
