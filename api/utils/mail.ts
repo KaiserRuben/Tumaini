@@ -93,7 +93,7 @@ export function sendNewDonorMail(donor: IDonor): boolean {
     let spendenOption
     switch (donor.option) {
         case 2:
-            spendenOption = "2 (Forestering: 50€ / Monat)"
+            spendenOption = "2 (Forestering: 25€ / Monat)"
             break
         case 3:
             spendenOption = "3 (Sponsorship: 200€ / Monat)"
