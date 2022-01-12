@@ -115,6 +115,8 @@ export function sendNewDonorMail(donor: IDonor): boolean {
         `<tr><td>Vorname:</td><td>${donor.firstName}</td></tr>` +
         `<tr><td>Nachname:</td><td>${donor.lastName}</td></tr>` +
         `<tr><td>E-Mail:</td><td>${donor.email}</td></tr>` +
+        `<tr><td>Telefon:</td><td>${donor.phone}</td></tr>` +
+        `<tr><td>Adresse:</td><td>${donor.address}</td></tr>` +
         `<tr><td>Spendenoption:</td><td>${spendenOption}</td></tr>` +
         "</table>" +
         "</div>"
