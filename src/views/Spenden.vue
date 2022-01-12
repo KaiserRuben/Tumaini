@@ -25,7 +25,7 @@
           {{ text[1] }}
         </h2>
         <div class="partnerTextAndImg">
-          <img src="../assets/temp_partner.jpg" alt="Unser Partner"/>
+          <img src="../assets/Joackim.webp" alt="Unser Partner Jaockim"/>
           <p>
             {{ text[2] }}
           </p>
