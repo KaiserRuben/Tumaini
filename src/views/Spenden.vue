@@ -18,8 +18,8 @@
           <input :placeholder="text[5]" type="text" v-model="donor.firstName" required/>
           <input :placeholder="text[6]" type="text" v-model="donor.lastName" required/>
           <input :placeholder="text[7]" type="email" v-model="donor.email" required/>
-          <input :placeholder="text[16]" type="text" v-model="donor.address"/>
-          <input :placeholder="text[15]" type="tel" v-model="donor.phone"/>
+          <input :placeholder="text[16]" type="tel" v-model="donor.phone"/>
+          <input :placeholder="text[15]" type="text" v-model="donor.address"/>
           <div class="break"></div>
           <button type="submit">{{ text[4] }}</button>
         </form>
@@ -82,6 +82,8 @@ export default defineComponent({
         firstName: "",
         lastName: "",
         email: "",
+        phone: "",
+        address: "",
         status: "CREATED",
         option: parseInt(typeof this.$router.currentRoute.value.params.option === "string" ? this.$router.currentRoute.value.params.option : "1")
       } as IDonor
@@ -94,6 +96,8 @@ export default defineComponent({
         this.donor.firstName = ''
         this.donor.lastName = ''
         this.donor.email = ''
+        this.donor.phone = ''
+        this.donor.address = ''
         alert(this.text[11])
       } catch (err) {
         console.error(err)
