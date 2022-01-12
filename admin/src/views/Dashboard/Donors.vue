@@ -8,6 +8,8 @@
       <md-table-row>
         <md-table-head>Name</md-table-head>
         <md-table-head>E-Mail</md-table-head>
+        <md-table-head>Phone</md-table-head>
+        <md-table-head>Address</md-table-head>
         <md-table-head>E-Mail send</md-table-head>
         <md-table-head>Delete</md-table-head>
       </md-table-row>
@@ -15,6 +17,8 @@
       <md-table-row v-for="(item, index) in donors.filter(d => d.status === 'CREATED')" v-bind:key="index">
         <md-table-cell>{{ item.firstName }} {{ item.lastName }}</md-table-cell>
         <md-table-cell>{{ item.email }}</md-table-cell>
+        <md-table-cell>{{ item.phone }}</md-table-cell>
+        <md-table-cell>{{ item.address }}</md-table-cell>
         <md-table-cell>
           <md-button @click="increaseStatus(item._id)">
             <md-icon>arrow_downward</md-icon>
@@ -35,6 +39,8 @@
       <md-table-row>
         <md-table-head>Name</md-table-head>
         <md-table-head>E-Mail</md-table-head>
+        <md-table-head>Phone</md-table-head>
+        <md-table-head>Address</md-table-head>
         <md-table-head>Donation received</md-table-head>
         <md-table-head>Delete</md-table-head>
       </md-table-row>
@@ -42,6 +48,8 @@
       <md-table-row v-for="(item, index) in donors.filter(d => d.status === 'PENDING DONATION')" v-bind:key="index">
         <md-table-cell>{{ item.firstName }} {{ item.lastName }}</md-table-cell>
         <md-table-cell>{{ item.email }}</md-table-cell>
+        <md-table-cell>{{ item.phone }}</md-table-cell>
+        <md-table-cell>{{ item.address }}</md-table-cell>
         <md-table-cell>
           <md-button @click="increaseStatus(item._id)">
             <md-icon>arrow_downward</md-icon>
@@ -57,11 +65,13 @@
     <hr v-if="donors.filter(d => d.status === 'PENDING CONFIRMATION').length"/>
     <md-table v-if="donors.filter(d => d.status === 'PENDING CONFIRMATION').length">
       <md-table-toolbar>
-        <h1 class="md-title">Pending confirmation</h1>
+        <h1 class="md-title">Pending Confirmation</h1>
       </md-table-toolbar>
       <md-table-row>
         <md-table-head>Name</md-table-head>
         <md-table-head>E-Mail</md-table-head>
+        <md-table-head>Phone</md-table-head>
+        <md-table-head>Address</md-table-head>
         <md-table-head>Confirmation send</md-table-head>
         <md-table-head>Delete</md-table-head>
       </md-table-row>
@@ -69,6 +79,8 @@
       <md-table-row v-for="(item, index) in donors.filter(d => d.status === 'PENDING CONFIRMATION')" v-bind:key="index">
         <md-table-cell>{{ item.firstName }} {{ item.lastName }}</md-table-cell>
         <md-table-cell>{{ item.email }}</md-table-cell>
+        <md-table-cell>{{ item.phone }}</md-table-cell>
+        <md-table-cell>{{ item.address }}</md-table-cell>
         <md-table-cell>
           <md-button @click="increaseStatus(item._id)">
             <md-icon>arrow_downward</md-icon>
@@ -89,12 +101,16 @@
       <md-table-row>
         <md-table-head>Name</md-table-head>
         <md-table-head>E-Mail</md-table-head>
+        <md-table-head>Phone</md-table-head>
+        <md-table-head>Address</md-table-head>
         <md-table-head>Delete</md-table-head>
       </md-table-row>
 
       <md-table-row v-for="(item, index) in donors.filter(d => d.status === 'DONE')" v-bind:key="index">
         <md-table-cell>{{ item.firstName }} {{ item.lastName }}</md-table-cell>
         <md-table-cell>{{ item.email }}</md-table-cell>
+        <md-table-cell>{{ item.phone }}</md-table-cell>
+        <md-table-cell>{{ item.address }}</md-table-cell>
         <md-table-cell>
           <md-button @click="deleteEntry(item._id)">
             <md-icon class="md-accent">delete</md-icon>

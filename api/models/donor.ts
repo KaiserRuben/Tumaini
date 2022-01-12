@@ -15,6 +15,12 @@ const DonorSchema = new Schema({
         unique: true,
         type: String
     },
+    phone: {
+        type: String
+    },
+    address: {
+        type: String
+    },
     status: {
         required: true,
         type: String,
@@ -35,6 +41,8 @@ export interface IDonor extends Document {
     firstName: string;
     lastName: string;
     email: string;
+    phone?: string;
+    address?: string;
     status: "CREATED" | "PENDING DONATION" | "PENDING CONFIRMATION" | "DONE";
     project?: IArticle;
     option: number;
