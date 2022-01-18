@@ -167,7 +167,7 @@ export default defineComponent({
 
   img
     width: 25vw
-    height: max-content
+    height: autoß
     max-width: 300px
     border-radius: 20px
     @media only screen and (max-width: 640px)
