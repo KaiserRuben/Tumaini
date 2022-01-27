@@ -98,9 +98,11 @@ export function sendNewDonorMail(donor: IDonor): boolean {
         case 3:
             spendenOption = "3 (Sponsorship: 200€ / Monat)"
             break
-        default:
+        case 1:
             spendenOption = "1 (Support: 5550 €)"
             break
+        default:
+            spendenOption = "Just Information"
 
     }
     const html = "<div style=\"margin: 10px;\">\n" +

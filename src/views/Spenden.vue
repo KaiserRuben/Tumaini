@@ -21,6 +21,10 @@
           <input :placeholder="text[16]" type="tel" v-model="donor.phone"/>
           <input :placeholder="text[15]" type="text" v-model="donor.address"/>
           <div class="break"></div>
+          <div style="margin: auto 0; padding-left: 10px">
+            <input type="checkbox" style="width: auto" v-model="justInfo"/> {{ text[17] }}
+          </div>
+          <div class="break"></div>
           <button type="submit">{{ text[4] }}</button>
         </form>
       </div>
@@ -86,11 +90,15 @@ export default defineComponent({
         address: "",
         status: "CREATED",
         option: parseInt(typeof this.$router.currentRoute.value.params.option === "string" ? this.$router.currentRoute.value.params.option : "1")
-      } as IDonor
+      } as IDonor,
+
+      justInfo: false
     }
   },
   methods: {
     async pushDonor() {
+      if (this.justInfo)
+        this.donor.option = 0
       try {
         await axiosPost('/donor/', this.donor)
         this.donor.firstName = ''
@@ -98,6 +106,7 @@ export default defineComponent({
         this.donor.email = ''
         this.donor.phone = ''
         this.donor.address = ''
+        this.justInfo = false
         alert(this.text[11])
       } catch (err) {
         console.error(err)
@@ -129,6 +138,8 @@ export default defineComponent({
 
       await this.textObject.getContent('61deb5d939267e2068003a95'),
       await this.textObject.getContent('61deb5d939267e2068003a96'),
+
+      await this.textObject.getContent('61f29f5fab98050332eb9a72'),
     ]
 
     if (isNaN(this.option))
