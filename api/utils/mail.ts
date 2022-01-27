@@ -93,13 +93,13 @@ export function sendNewDonorMail(donor: IDonor): boolean {
     let spendenOption
     switch (donor.option) {
         case 2:
-            spendenOption = "2 (Forestering: 25€ / Monat)"
+            spendenOption = "2 (Joint Sponsorship: from 25 €/month)"
             break
         case 3:
-            spendenOption = "3 (Sponsorship: 200€ / Monat)"
+            spendenOption = "3 (Sponsorship: 100€/month)"
             break
         case 1:
-            spendenOption = "1 (Support: 5550 €)"
+            spendenOption = "1 (Every penny is welcome and will support specific projects on site)"
             break
         default:
             spendenOption = "Just Information"
