@@ -1,3 +1,10 @@
+/**
+ * This module provides several function to handle version numbers on client side.
+ *
+ * Copyright: Ruben Kaiser 2022
+ * Version: 0.1.0
+ */
+
 import * as pj from '../../package.json'
 
 const version = pj.version
