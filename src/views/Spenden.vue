@@ -21,9 +21,9 @@
           <input :placeholder="text[16]" type="tel" v-model="donor.phone"/>
           <input :placeholder="text[15]" type="text" v-model="donor.address"/>
           <div class="break"></div>
-          <div style="margin: auto 0; padding-left: 10px">
-            <input type="checkbox" style="width: auto" v-model="justInfo"/> {{ text[17] }}
-          </div>
+          <!--          <div style="margin: auto 0; padding-left: 10px">-->
+          <!--            <input type="checkbox" style="width: auto" v-model="justInfo"/> {{ text[17] }}-->
+          <!--          </div>-->
           <div class="break"></div>
           <button type="submit">{{ text[4] }}</button>
         </form>
@@ -97,8 +97,8 @@ export default defineComponent({
   },
   methods: {
     async pushDonor() {
-      if (this.justInfo)
-        this.donor.option = 0
+      // if (this.justInfo)
+      //   this.donor.option = 0
       try {
         await axiosPost('/donor/', this.donor)
         this.donor.firstName = ''

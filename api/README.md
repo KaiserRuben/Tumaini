@@ -30,22 +30,21 @@
 
 ## About The Project
 
-This repository is the frontend codebase of [Tumaini](https://tumaini.be/).
+This repository is the api codebase of [Tumaini](https://tumaini.be/).
 
 ### Built With
 
-* [Vue](https://cli.vuejs.org/)
 * [NodeJS](https://nodejs.org/en/)
 
 <!-- GETTING STARTED -->
 
 ## Getting Started
 
-To run the frontend just follow these steps.
+To run the api just follow these steps.
 
 ### Prerequisites
 
-There is a small number of steps you need to follow in order to get the frontend up and running.
+There is a small number of steps you need to follow in order to get the api up and running.
 
 * NodeJS (to install node we are using the node version manager short [nvm](https://github.com/nvm-sh/nvm))
   ```sh
@@ -63,7 +62,11 @@ There is a small number of steps you need to follow in order to get the frontend
    ```sh
    git clone https://github.com/KaiserRuben/Tumaini.git
    ```
-2. Install NPM packages
+2. Navigate to the api folder
+   ```sh
+   cd api
+   ```
+3. Install NPM packages
    ```sh
    npm install
    ```
@@ -80,33 +83,11 @@ There is a small number of steps you need to follow in order to get the frontend
 
 ## Usage
 
-For running the frontend in development mode simply run
+For running the api in development mode simply run
 
    ```sh
-   npm run serve
+   npm run dev
    ```
-
-The page will be available under http://localhost:8080.
-
-To compile and minify the frontend for production run
-
-   ```sh
-   npm run build
-   ```
-
-The compiled frontend can be found in the directory named "dist".
-
-To run the local frontend in combination with the local backend you need to change dbOnline to false in src/config.js.
-
-
-<!-- Copyright -->
-
-## Copyright
-
-Copyright (c) Ruben Kaiser 2022
-
-All code in the admin folder belongs to Ruben Kaiser.
-
 
 <!-- Copyright -->
 
