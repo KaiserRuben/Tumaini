@@ -1,3 +1,10 @@
+/**
+ * The Axios Wrapper is, well surprise, a wrapper for axios, implementing the proxy schema.
+ *
+ * Copyright: Ruben Kaiser 2022
+ * Version: 0.1.0
+ */
+
 import axios, {AxiosResponse} from "axios";
 import {SERVER_ADDRESS} from "@/config";
 

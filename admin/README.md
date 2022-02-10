@@ -30,7 +30,7 @@
 
 ## About The Project
 
-This repository is the frontend codebase of [Tumaini](https://tumaini.be/).
+This repository is the admin codebase of [Tumaini](https://admin.tumaini.be/).
 
 ### Built With
 
@@ -41,11 +41,11 @@ This repository is the frontend codebase of [Tumaini](https://tumaini.be/).
 
 ## Getting Started
 
-To run the frontend just follow these steps.
+To run the cms just follow these steps.
 
 ### Prerequisites
 
-There is a small number of steps you need to follow in order to get the frontend up and running.
+There is a small number of steps you need to follow in order to get the cms up and running.
 
 * NodeJS (to install node we are using the node version manager short [nvm](https://github.com/nvm-sh/nvm))
   ```sh
@@ -63,7 +63,11 @@ There is a small number of steps you need to follow in order to get the frontend
    ```sh
    git clone https://github.com/KaiserRuben/Tumaini.git
    ```
-2. Install NPM packages
+2. Navigate to the admin folder
+   ```sh
+   cd admin
+   ```
+3. Install NPM packages
    ```sh
    npm install
    ```
@@ -80,7 +84,7 @@ There is a small number of steps you need to follow in order to get the frontend
 
 ## Usage
 
-For running the frontend in development mode simply run
+For running the cms in development mode simply run
 
    ```sh
    npm run serve
@@ -88,15 +92,15 @@ For running the frontend in development mode simply run
 
 The page will be available under http://localhost:8080.
 
-To compile and minify the frontend for production run
+To compile and minify the cms for production run
 
    ```sh
    npm run build
    ```
 
-The compiled frontend can be found in the directory named "dist".
+The compiled cms can be found in the directory named "dist".
 
-To run the local frontend in combination with the local backend you need to change dbOnline to false in src/config.js.
+To run the local cms in combination with the local backend you need to change dbOnline to false in src/config.js.
 
 
 <!-- Copyright -->
@@ -108,16 +112,8 @@ Copyright (c) Ruben Kaiser 2022
 All code in the admin folder belongs to Ruben Kaiser.
 
 
-<!-- Copyright -->
-
-## Copyright
-
-Copyright (c) Tumaini 2020
-
-
 <!-- CONTACT -->
 
 ## Contact
 
-- [Tumaini](mailto:info@tumaini.be)
-- [Ruben Kaiser](mailto:ruben@kaiser.fyi)
+[Ruben Kaiser](mailto:ruben@kaiser.fyi)
