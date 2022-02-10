@@ -103,15 +103,6 @@ To run the local frontend in combination with the local backend you need to chan
 
 ## Copyright
 
-Copyright (c) Ruben Kaiser 2022
-
-All code in the admin folder belongs to Ruben Kaiser.
-
-
-<!-- Copyright -->
-
-## Copyright
-
 Copyright (c) Tumaini 2020
 
 
