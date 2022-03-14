@@ -103,7 +103,7 @@ input:focus
   flex-direction: row
   justify-content: center
 
-  .cardContainerItem
+.cardContainerItem
     margin: 10px
 
 @keyframes appear
