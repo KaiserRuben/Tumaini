@@ -38,7 +38,7 @@ import {axiosGet} from "../../admin/src/utils/axiosWrapper";
 import Markdown from 'vue3-markdown-it';
 
 export default defineComponent({
-  name: "Berichte Archiv",
+  name: "BerichteArchiv",
   components: {Header, TeaserCard, Markdown},
   data() {
     return {

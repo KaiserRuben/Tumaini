@@ -74,7 +74,7 @@ import {IArticle} from "../../api/models/article";
 import {IDonor} from "../../api/models/donor";
 
 export default defineComponent({
-  name: "Spenden Details",
+  name: "SpendenDetails",
   components: {Header, TeaserCard},
   data() {
     return {

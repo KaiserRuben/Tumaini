@@ -14,7 +14,7 @@ import {defineComponent} from "vue";
 import Markdown from 'vue3-markdown-it';
 
 export default defineComponent({
-  name: 'Card',
+  name: 'TeaserCardEntity',
   props: {
     img: {
       type: String,
