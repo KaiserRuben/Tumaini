@@ -115,7 +115,7 @@ import Markdown from 'vue3-markdown-it';
 
 
 export default defineComponent({
-  name: 'Home',
+  name: 'HomePage',
   components: {Card, donationCard, Markdown},
   data() {
     return {

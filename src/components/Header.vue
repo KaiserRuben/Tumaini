@@ -13,7 +13,7 @@
 import {defineComponent} from "vue";
 
 export default defineComponent({
-  name: "Header",
+  name: "HeaderComponent",
   data() {
     return {
       text: [] as string[]

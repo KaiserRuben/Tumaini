@@ -82,7 +82,7 @@ import Markdown from 'vue3-markdown-it';
 import {axiosGet} from "../../admin/src/utils/axiosWrapper";
 
 export default defineComponent({
-  name: "Bericht",
+  name: "BerichtComponent",
   components: {Header, Markdown},
   data() {
     return {

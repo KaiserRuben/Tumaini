@@ -25,7 +25,7 @@
 import {defineComponent} from "vue";
 
 export default defineComponent({
-  name: "Footer",
+  name: "FooterComponent",
   data() {
     return {
       text: [] as string[],
