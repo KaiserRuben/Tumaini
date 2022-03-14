@@ -73,6 +73,7 @@ export default defineComponent({
   color: #EDF0F3
   text-align: left
   padding: 20px
+  height: 150px
 
   h2
     margin: 0
