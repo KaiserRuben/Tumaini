@@ -72,6 +72,7 @@ import TeaserCard from "@/components/TeaserCard.vue";
 import {axiosGet, axiosPost} from "../../admin/src/utils/axiosWrapper";
 import {IArticle} from "../../api/models/article";
 import {IDonor} from "../../api/models/donor";
+import {sortArticles} from "@/utils/dates";
 
 export default defineComponent({
   name: "SpendenDetails",
@@ -114,7 +115,7 @@ export default defineComponent({
     }
   },
   async mounted() {
-    this.projects = (await axiosGet('/content/article/material/PROJECT/published')).data.sort((a: IArticle, b: IArticle) => b.created.getDate() - a.created.getDate())
+    this.projects = (await axiosGet('/content/article/material/PROJECT/published')).data.sort((a: IArticle, b: IArticle) => sortArticles(a, b))
 
     this.text = [
       await this.textObject.getContent('61d56377cc3bfb06f031f986'),

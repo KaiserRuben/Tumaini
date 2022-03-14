@@ -112,6 +112,7 @@ import donationCard from "@/components/DonationCard.vue";
 import {IArticle} from "../../api/models/article";
 import {axiosGet} from '../../admin/src/utils/axiosWrapper';
 import Markdown from 'vue3-markdown-it';
+import {sortArticles} from "@/utils/dates";
 
 
 export default defineComponent({
@@ -124,7 +125,7 @@ export default defineComponent({
     }
   },
   async mounted() {
-    this.report = (await axiosGet('/content/article/material/REPORT/published')).data.sort((a: IArticle, b: IArticle) => b.created.getDate() - a.created.getDate())[0]
+    this.report = (await axiosGet('/content/article/material/REPORT/published')).data.sort((a: IArticle, b: IArticle) => sortArticles(a, b))[0]
 
     this.text = [
       await this.textObject.getContent('61d55fa9cc3bfb06f031f96a'),
