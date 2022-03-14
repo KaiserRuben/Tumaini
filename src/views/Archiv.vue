@@ -58,9 +58,14 @@ export default defineComponent({
       }
     }
   },
+  methods: {
+    sortArticles(a: IArticle, b: IArticle): number {
+      return (new Date(b.created).getDate()) - (new Date(a.created).getDate())
+    }
+  },
   async mounted() {
-    this.projects = (await axiosGet('/content/article/material/PROJECT/published')).data.sort((a: IArticle, b: IArticle) => b.created.getDate() - a.created.getDate())
-    this.reports = (await axiosGet('/content/article/material/REPORT/published')).data.sort((a: IArticle, b: IArticle) => b.created.getDate() - a.created.getDate())
+    this.projects = (await axiosGet('/content/article/material/PROJECT/published')).data.sort((a: IArticle, b: IArticle) => this.sortArticles(a, b))
+    this.reports = (await axiosGet('/content/article/material/REPORT/published')).data.sort((a: IArticle, b: IArticle) => this.sortArticles(a, b))
 
     this.text = [
       await this.textObject.getContent('61d56537cc3bfb06f031f996'),
