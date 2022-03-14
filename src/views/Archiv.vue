@@ -36,6 +36,7 @@ import TeaserCard from "@/components/TeaserCard.vue";
 import {IArticle} from "../../api/models/article";
 import {axiosGet} from "../../admin/src/utils/axiosWrapper";
 import Markdown from 'vue3-markdown-it';
+import {sortArticles} from "@/utils/dates";
 
 export default defineComponent({
   name: "BerichteArchiv",
@@ -58,14 +59,9 @@ export default defineComponent({
       }
     }
   },
-  methods: {
-    sortArticles(a: IArticle, b: IArticle): number {
-      return (new Date(b.created).getDate()) - (new Date(a.created).getDate())
-    }
-  },
   async mounted() {
-    this.projects = (await axiosGet('/content/article/material/PROJECT/published')).data.sort((a: IArticle, b: IArticle) => this.sortArticles(a, b))
-    this.reports = (await axiosGet('/content/article/material/REPORT/published')).data.sort((a: IArticle, b: IArticle) => this.sortArticles(a, b))
+    this.projects = (await axiosGet('/content/article/material/PROJECT/published')).data.sort((a: IArticle, b: IArticle) => sortArticles(a, b))
+    this.reports = (await axiosGet('/content/article/material/REPORT/published')).data.sort((a: IArticle, b: IArticle) => sortArticles(a, b))
 
     this.text = [
       await this.textObject.getContent('61d56537cc3bfb06f031f996'),
@@ -99,7 +95,7 @@ export default defineComponent({
     flex-direction: row
     flex-wrap: wrap
     justify-content: space-evenly
-    align-items: center
+    align-items: stretch
 
     .bericht
       background-color: #151919
