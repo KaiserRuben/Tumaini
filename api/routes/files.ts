@@ -28,7 +28,7 @@ fileRouter.post('/', function (req, res) {
                 return res.status(500).send(err);
         });
     }
-    res.status(201).send('File uploaded!');
+    return res.status(201).send('File uploaded!');
 });
 
 fileRouter.delete('/:name', (req, res) => {
