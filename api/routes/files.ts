@@ -24,6 +24,7 @@ fileRouter.post('/', function (req, res) {
             .replace(")", '')
         // @ts-ignore
         req.files[file].mv(fileLocation + filename, function (err) {
+            console.log(err)
             if (err)
                 return res.status(500).send(err);
         });
