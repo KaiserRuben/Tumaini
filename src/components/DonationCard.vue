@@ -7,9 +7,11 @@
       <h2>
         {{ header }}
       </h2>
-      <button @click="$router.push(clickURL)">
-        {{ textLoaded[0] }}
-      </button>
+      <a :href="clickURL">
+        <button>
+          {{ textLoaded[0] }}
+        </button>
+      </a>
     </div>
     <p>
       {{ text }}
