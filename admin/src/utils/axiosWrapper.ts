@@ -10,7 +10,11 @@ import {SERVER_ADDRESS} from "@/config";
 
 const auth = {
     username: 'adminWebsite',
-    password: '***REMOVED***'
+    password: process.env.ADMIN_API_PASSWORD!
+}
+
+if (!auth.password) {
+    console.error('Auth PW not found!')
 }
 
 export function axiosGet(url: string): Promise<AxiosResponse> {
