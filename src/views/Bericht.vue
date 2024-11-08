@@ -184,7 +184,7 @@ button
 
 .header
   --width: 100vw
-  background-size: 100% 100%
+  background-size: auto 100%
   width: var(--width)
   height: calc(var(--width) * (1668 / 2388))
   max-width: 1700px
@@ -193,6 +193,9 @@ button
   background-blend-mode: darken
   color: #ffffff
   overflow: auto
+  //background-size: cover
+  background-position: center
+  background-repeat: no-repeat
 
   .title
     font-size: 4em
