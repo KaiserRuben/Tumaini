@@ -73,7 +73,8 @@
         <h2>
           {{ report.title }}
         </h2>
-        <Markdown :source="report.content[0].text" :breaks="true" :html="true"/>
+        <Markdown v-if="report.content && report.content[0]" :source="report.content[0].text" :breaks="true"
+                  :html="true"/>
         <button style="float: right;" @click="$router.push(`/bericht/${report._id}`)">
           {{ text[12] }}
         </button>
