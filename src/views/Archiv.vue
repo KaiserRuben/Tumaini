@@ -10,7 +10,7 @@
             v-bind:key="project._id"
             :img="project.image"
             :header="project.title"
-            :text="project.content[0].text"
+            :text="report.content && report.content[0]?project.content[0].text:''"
             :click="`/project/${project._id}`"
         />
       </div>
@@ -21,7 +21,8 @@
         <div class="bericht" v-for="report in reports" v-bind:key="report._id"
              @click="$router.push(`/bericht/${report._id}`)">
           <h2>{{ report.title }}</h2>
-          <Markdown :source='report.content[0].text.split(" ").slice(0, 50).join(" ") + "..."' :breaks="true"
+          <Markdown v-if="report.content && report.content[0]"
+                    :source='report.content[0].text.split(" ").slice(0, 50).join(" ") + "..."' :breaks="true"
                     :html="true"/>
 
         </div>
