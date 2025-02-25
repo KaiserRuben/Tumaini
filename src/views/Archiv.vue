@@ -238,8 +238,10 @@ export default defineComponent({
         const query = this.searchQuery.toLowerCase();
         result = items.filter(item =>
           item.title.toLowerCase().includes(query) ||
-          (item.content && item.content[0] && item.content[0].text &&
-            item.content[0].text.toLowerCase().includes(query))
+          (item.content && item.content.some(contentElem =>
+            contentElem && contentElem.text &&
+            contentElem.text.toLowerCase().includes(query)
+          ))
         );
       }
 
