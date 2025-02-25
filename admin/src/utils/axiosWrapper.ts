@@ -10,7 +10,8 @@ import {SERVER_ADDRESS} from "@/config";
 
 const auth = {
     username: 'adminWebsite',
-    password: process.env.ADMIN_API_PASSWORD!
+    password: 'z7dUCw8BgKvm4vYWG5aA3nY2B7nf2tQA'
+    // password: process.env.ADMIN_API_PASSWORD!
 }
 
 if (!auth.password) {

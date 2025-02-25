@@ -1,20 +1,24 @@
 <template>
-  <div class="card" @click="$router.push(click)">
-    <div class="cardImg" id="cardImg" :style="backgroundImg()"></div>
-    <div class="content">
-      <h2>
-        {{ header }}
-      </h2>
-      <Markdown :source='text.split(" ").slice(0, 50).join(" ") + "..."' :breaks="true" :html="true"/>
+  <div class="teaser-card" @click="$router.push(click)">
+    <div class="teaser-card__image" :style="cardImageStyle"></div>
+    <div class="teaser-card__content">
+      <h2 class="teaser-card__title">{{ header }}</h2>
+      <div class="teaser-card__excerpt">
+        <Markdown :source="excerpt" :breaks="true" :html="true"/>
+      </div>
+      <div class="teaser-card__footer">
+        <span class="teaser-card__read-more">Mehr erfahren →</span>
+      </div>
     </div>
   </div>
 </template>
+
 <script lang="ts">
-import {defineComponent} from "vue";
+import {computed, defineComponent} from "vue";
 import Markdown from 'vue3-markdown-it';
 
 export default defineComponent({
-  name: 'TeaserCardEntity',
+  name: 'TeaserCard',
   props: {
     img: {
       type: String,
@@ -38,43 +42,146 @@ export default defineComponent({
     },
   },
   components: {Markdown},
-  methods: {
-    backgroundImg() {
+  setup(props) {
+    const excerpt = computed(() => {
+      if (!props.text) return '';
+      const words = props.text.split(' ');
+      return words.slice(0, 25).join(' ') + '...';
+    });
+
+    const cardImageStyle = computed(() => {
       return {
-        'background': `url(${this.img}) no-repeat center`,
-        'background-size': '120% auto'
-      }
+        'background-image': `url(${props.img})`,
+        'background-position': 'center',
+        'background-repeat': 'no-repeat',
+        'background-size': 'cover'
+      };
+    });
+
+    return {
+      excerpt,
+      cardImageStyle
+    };
+  }
+});
+</script>
+
+<style lang="scss" scoped>
+.teaser-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  background-color: #151919;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+
+    .teaser-card__content {
+      background-color: #5F9AAE;
+      color: #F5FFFF;
+    }
+
+    .teaser-card__read-more {
+      color: #F5FFFF;
     }
   }
 
-});
-</script>
-<style lang="sass" scoped>
-.card
-  min-width: 200px
-  max-width: 25vw
-  width: max-content
-  @media only screen and (max-width: 640px)
-    max-width: 80vw
+  &__image {
+    height: 200px;
+    width: 100%;
+    position: relative;
 
-.content:hover
-  background-color: #5F9AAE
-  color: #F5FFFF
-  //background-color: #FFA400
-  //color: #0C0D08
-  cursor: pointer
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: linear-gradient(to top, rgba(21, 25, 25, 0.8), transparent);
+    }
 
-.cardImg
-  height: 200px
+    @media (max-width: 768px) {
+      height: 180px;
+    }
 
-.content
-  transition: 1s
-  background-color: #151919
-  color: #EDF0F3
-  text-align: left
-  padding: 20px
-  min-height: 200px
+    @media (max-width: 480px) {
+      height: 160px;
+    }
+  }
 
-  h2
-    margin: 0
+  &__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background-color: #151919;
+    color: #EDF0F3;
+    transition: all 0.3s ease;
+
+    @media (max-width: 768px) {
+      padding: 1.25rem;
+    }
+
+    @media (max-width: 480px) {
+      padding: 1rem;
+    }
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    line-height: 1.3;
+
+    @media (max-width: 768px) {
+      font-size: 1.35rem;
+      margin-bottom: 0.75rem;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 1.2rem;
+    }
+  }
+
+  &__excerpt {
+    flex: 1;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+
+    @media (max-width: 768px) {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    :deep(p) {
+      margin: 0;
+    }
+  }
+
+  &__footer {
+    text-align: right;
+    margin-top: auto;
+  }
+
+  &__read-more {
+    display: inline-block;
+    color: #5F9AAE;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+  }
+}
 </style>
