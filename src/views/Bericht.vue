@@ -1,377 +1,422 @@
 <template>
-  <div class="bigContainer">
-    <Header></Header>
+  <div class="report">
+    <Header :class="{ 'header--hidden': isHeaderHidden }"/>
 
     <div
-        class="header flexColumn"
-        :style="`background-image: linear-gradient(#00000041, #00000041), url(${article.image})`"
+      class="report__hero"
+      :style="`background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${article.image})`"
     >
-      <div class="title">
-        {{ article.title }}
-      </div>
-      <div class="subheader">
-        {{ article.subheader }}
+      <div class="report__hero-content">
+        <h1 class="report__title">{{ article.title }}</h1>
+        <div class="report__subheader">{{ article.subheader }}</div>
       </div>
     </div>
-    <div class="content">
-      <div class="meta">
-        <div class="mainPoints" v-if="article.mainPoints && article.mainPoints.length">
-          {{ text[0] }}:
-          <ul>
-            <li v-for="point in article.mainPoints" v-bind:key="point">
-              {{ point }}
-            </li>
-          </ul>
-        </div>
-        <div class="date" v-if="article.created">
-          {{ text[1] }}: {{ new Date(article.created).toLocaleDateString() }}
-        </div>
-        <div class="share">
-          <button
-              class="shareLink"
-              @click="
-              copyToClipboard();
-              showSnackbar();
-            "
-          >
-            {{ text[2] }}
-          </button>
-          <div id="snackbar">{{ text[3] }}</div>
-        </div>
-        <!-- WIP - Maybe future Feature! -->
-        <!--<h4 style="text-align: center">Comments</h4>
-        <div class="comments">
-          <div class="comment" v-for="comment in comments" v-bind:key="comment">
-            <span class="commentAuthor">{{ comment.author }}</span
-            >: <span class="commentText">{{ comment.text }}</span>
+
+    <div class="report__container">
+      <aside class="report__sidebar">
+        <div class="report__meta">
+          <div class="report__main-points" v-if="article.mainPoints && article.mainPoints.length">
+            <h2>{{ text[0] }}:</h2>
+            <ul>
+              <li v-for="point in article.mainPoints" v-bind:key="point">
+                {{ point }}
+              </li>
+            </ul>
           </div>
-        </div>-->
-      </div>
-      <div class="infoContainer">
+
+          <div class="report__date" v-if="article.created">
+            <div class="report__meta-label">{{ text[1] }}:</div>
+            <div class="report__meta-value">{{ formatDate(article.created) }}</div>
+          </div>
+
+          <div class="report__share">
+            <button
+              class="report__share-button"
+              @click="copyToClipboard(); showSnackbar();"
+            >
+              {{ text[2] }}
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="report__content">
         <div
-            class="information"
-            v-for="(paragraph, i) in article.content"
-            v-bind:key="paragraph">
-          <div class="title" v-if="paragraph.title">
+          class="report__section"
+          v-for="(paragraph, i) in article.content"
+          v-bind:key="paragraph"
+        >
+          <h2 class="report__section-title" v-if="paragraph.title">
             {{ paragraph.title }}
-          </div>
-          <div class="image" v-if="paragraph.image">
+          </h2>
+
+          <div class="report__image" v-if="paragraph.image">
             <img :src="paragraph.image" :alt="paragraph.title"/>
-            <i>{{ paragraph.imageDescription }}</i>
+            <figcaption v-if="paragraph.imageDescription">{{ paragraph.imageDescription }}</figcaption>
           </div>
+
           <div
-              :class="i === 0 ? 'paragraph firstParagraph' : 'paragraph'"
-              v-if="paragraph.text"
+            :class="['report__paragraph', { 'report__paragraph--first': i === 0 }]"
+            v-if="paragraph.text"
           >
             <Markdown :source="paragraph.text" :breaks="true" :html="true"/>
           </div>
         </div>
-        <!-- Moved date to below author in new layout! -->
-        <!--<div class="date" v-if="article.created">
-          Published: {{ new Date(article.created).toLocaleString(myLanguage) }}
-        </div>-->
-      </div>
+      </main>
     </div>
+
+    <div id="snackbar" class="report__snackbar">{{ text[3] }}</div>
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue"
-import Header from "@/components/Header.vue"
+import {defineComponent} from "vue";
+import Header from "@/components/Header.vue";
 import Markdown from 'vue3-markdown-it';
 import {axiosGet} from "../../admin/src/utils/axiosWrapper";
 
 export default defineComponent({
   name: "BerichtComponent",
   components: {Header, Markdown},
+
   data() {
     return {
       article: {},
       articleLink: window.location.href,
-
       text: [] as string[],
-
-      id: this.$route.params.id
-    }
+      id: this.$route.params.id,
+      isHeaderHidden: false,
+      lastScrollPosition: 0
+    };
   },
+
   methods: {
+    formatDate(dateString: string): string {
+      const date = new Date(dateString);
+      return new Intl.DateTimeFormat('de-DE', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      }).format(date);
+    },
+
     copyToClipboard(): Promise<void> {
-      /***
-       * Alternative Clipboard Copy function to be able to use in development area.
-       * Source: https://stackoverflow.com/questions/51805395/navigator-clipboard-is-undefined
-       */
-      // navigator clipboard api needs a secure context (https)
       if (navigator.clipboard && window.isSecureContext) {
-        // navigator clipboard api method'
-        return navigator.clipboard.writeText(this.articleLink)
+        return navigator.clipboard.writeText(this.articleLink);
       } else {
-        // text area method
-        let textArea = document.createElement("textarea");
+        // Fallback for non-secure contexts
+        const textArea = document.createElement("textarea");
         textArea.value = this.articleLink;
-        // make the textarea out of viewport
         textArea.style.position = "fixed";
         textArea.style.left = "-999999px";
         textArea.style.top = "-999999px";
         document.body.appendChild(textArea);
         textArea.focus();
         textArea.select();
+
         return new Promise((res, rej) => {
-          // here the magic happens
           document.execCommand("copy") ? res() : rej();
           textArea.remove();
-        })
+        });
       }
     },
+
     showSnackbar() {
-      let x = document.getElementById("snackbar")
-      console.log(x)
-      if (x) {
-        x.className = "show"
-        setTimeout(function () {
-          let x = document.getElementById("snackbar")
-          if (x)
-            x.className = x.className.replace("show", "")
-        }, 2000)
+      const snackbar = document.getElementById("snackbar");
+      if (snackbar) {
+        snackbar.classList.add("report__snackbar--visible");
+        setTimeout(() => {
+          snackbar.classList.remove("report__snackbar--visible");
+        }, 3000);
       }
+    },
+    onScroll() {
+      const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+
+      // Determine scroll direction and distance
+      if (currentScrollPosition < 0) {
+        return;
+      }
+
+      // Show header when scrolling up, hide when scrolling down
+      // Only trigger after scrolling at least 50px to avoid small movements
+      if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 50) {
+        return;
+      }
+
+      this.isHeaderHidden = currentScrollPosition > this.lastScrollPosition && currentScrollPosition > 100;
+      this.lastScrollPosition = currentScrollPosition;
     },
   },
+
   async beforeMount() {
-    // this.article = (
-    //     await axios.get(
-    //         SERVER_ADDRESS +
-    //         "/selfSupport/article/id" +
-    //         // this.$router.currentRoute.value.params.id
-    //     )
-    // ).data
-    this.article = (
-        await axiosGet('/content/article/id/' + this.id)
-    ).data
-    this.text = [
-      await this.textObject.getContent('61d56628cc3bfb06f031f99a'),
-      await this.textObject.getContent('61d56628cc3bfb06f031f99b'),
-      await this.textObject.getContent('61d56628cc3bfb06f031f99c'),
-      await this.textObject.getContent('61d56628cc3bfb06f031f99d'),
-    ]
-  }
-})
+    try {
+      const response = await axiosGet('/content/article/id/' + this.id);
+      this.article = response.data;
+
+      this.text = [
+        await this.textObject.getContent('61d56628cc3bfb06f031f99a'),
+        await this.textObject.getContent('61d56628cc3bfb06f031f99b'),
+        await this.textObject.getContent('61d56628cc3bfb06f031f99c'),
+        await this.textObject.getContent('61d56628cc3bfb06f031f99d'),
+      ];
+    } catch (error) {
+      console.error('Error fetching article:', error);
+    }
+  },
+
+  mounted() {
+    window.addEventListener('scroll', this.onScroll);
+  },
+
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+  },
+});
 </script>
-<style lang="sass" scoped>
-.bigContainer
-  display: flex
-  flex-direction: column
-  flex-wrap: nowrap
-  justify-content: center
-  align-items: center
 
-.container
-  width: 80vw
-  min-height: 93vh
-  padding: 0 10vw
+<style lang="scss">
+/* Header hide/show animation */
+::v-deep(.header) {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
 
-h1
-  font-size: 3em
+.header--hidden {
+  transform: translateY(-100%);
+}
 
-h2
-  font-size: 2em
+.report {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 
-button
-  padding-top: 0
-  padding-bottom: 0
+  &__hero {
+    width: 100%;
+    height: 60vh;
+    max-height: 600px;
+    min-height: 300px;
+    margin-top: 0; /* Adjusted for fixed header */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 
-.flexColumn
-  display: flex
-  flex-direction: column
+    &-content {
+      width: 90%;
+      max-width: 1200px;
+      text-align: center;
+      padding: 2rem;
+      color: #ffffff;
+    }
+  }
 
-.header
-  --width: 100vw
-  background-size: auto 100%
-  width: var(--width)
-  height: calc(var(--width) * (1668 / 2388))
-  max-width: 1700px
-  max-height: calc(1700px * (1668 / 2388))
-  justify-content: center
-  background-blend-mode: darken
-  color: #ffffff
-  overflow: auto
-  //background-size: cover
-  background-position: center
-  background-repeat: no-repeat
+  &__title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
 
-  .title
-    font-size: 4em
-    line-height: 2em
-    font-weight: bold
-    text-shadow: 0 0 10px black
-    text-align: center
+    @media (max-width: 768px) {
+      font-size: 2.5rem;
+    }
 
-  .subheader
-    font-size: 3em
-    line-height: 1.5em
-    text-align: center
+    @media (max-width: 480px) {
+      font-size: 2rem;
+    }
+  }
 
-.content
-  width: 100%
-  display: flex
-  flex-direction: row
-  max-width: 1700px
-  margin: 50px
+  &__subheader {
+    font-size: 1.75rem;
+    font-weight: 400;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
 
-.date
-  text-align: left
-  margin: 25px 0
+    @media (max-width: 768px) {
+      font-size: 1.5rem;
+    }
 
-.meta
-  width: 30%
-  margin: 25px 5% 50px
-  text-align: left
-  font-size: 1em
-  line-height: 1.5em
-  display: flex
-  flex-direction: column
+    @media (max-width: 480px) {
+      font-size: 1.25rem;
+    }
+  }
 
-  .mainPoints
-    font-size: 2rem
-    font-weight: bold
+  &__container {
+    display: flex;
+    width: 90%;
+    max-width: 1200px;
+    margin: 3rem auto;
+    gap: 4rem;
 
-    li
-      font-size: 1.5rem
-      line-height: 1.5rem
-      font-weight: normal
-      padding: 5px
+    @media (max-width: 992px) {
+      flex-direction: column;
+      gap: 2rem;
+    }
+  }
 
-    li:first-child
-      padding-top: 0.75em
+  &__sidebar {
+    flex: 0 0 30%;
+    max-width: 350px;
 
-.share
-  position: relative
-  padding: 0
-  margin: 0
-  display: flex
-  flex-direction: row
-  justify-content: space-between
-  width: 300px
-  height: 28px
+    @media (max-width: 992px) {
+      max-width: 100%;
+    }
+  }
 
-.infoContainer
-  width: 70%
+  &__content {
+    flex: 1;
+  }
 
-.information
-  display: flex
-  flex-direction: column
-  margin-bottom: 50px
-  margin-right: 50px
+  &__meta {
+    position: sticky;
+    top: 2rem;
+    border-radius: 8px;
+    background-color: rgba(245, 245, 245, 0.05);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 
-  .firstParagraph
-    display: inline-block
+    @media (max-width: 992px) {
+      position: static;
+      margin-bottom: 0;
+    }
+  }
 
-  .firstParagraph::first-letter
-    font-size: 2em
-    font-weight: bold
+  &__main-points {
+    margin-bottom: 2rem;
 
-  .title
-    font-size: 2rem
-    line-height: 2rem
-    font-weight: 900
-    text-align: justify
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
 
-  .paragraph
-    font-size: 1.5em
-    line-height: 1.5em
-    text-align: justify
+    ul {
+      padding-left: 1.5rem;
 
-  .image
-    font-size: 1em
-    display: flex
-    flex-direction: column
-    max-width: 80%
-    text-align: left
-    align-self: center
-    font-family: var(--text)
-    padding-top: 2em
+      li {
+        margin-bottom: 0.75rem;
+        font-size: 1.1rem;
+        line-height: 1.5;
+      }
+    }
+  }
 
-/* SNACKBAR */
-#snackbar
-  visibility: hidden
-  max-width: 200px
-  background-color: #fff
-  color: #000
-  text-align: center
-  border-radius: 5px
-  padding: 5px
-  position: fixed
-  float: right
-  left: 0
-  right: 0
-  bottom: 0
-  margin: 0 auto
-  z-index: 1
-  transition: 0.5s
-  transform: scale(0)
+  &__date {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
-.show
-  visibility: visible !important
-  //-webkit-animation: fadein 1s, fadeout 0.5s 2.5s
-  //animation: fadein 1s, fadeout 0.5s 2.5s
-  transform: scale(1.2) !important
+    .report__meta-label {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
 
-@media only screen and (max-width: 1700px)
-  .content
-    max-width: 95%
+    .report__meta-value {
+      font-size: 1.1rem;
+    }
+  }
 
-@media only screen and (max-width: 640px)
-  .content
-    flex-direction: column
-    font-family: var(--text)
-    width: 90%
-    margin: 40px
+  &__share {
+    &-button {
+      display: inline-block;
+      background-color: #5F9AAE;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
 
-  .meta
-    width: 95%
-    margin: 0 2.5%
-    font-size: 0.8em
+      &:hover {
+        background-color: darken(#5F9AAE, 10%);
+      }
+    }
+  }
 
-    .mainPoints
-      font-size: 2em
+  &__section {
+    margin-bottom: 3rem;
 
-      li
-        font-size: 0.9em
-        line-height: 1.2em
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 
-  .date
-    padding-top: 10px
-    border-top: 1px dashed black
+  &__section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
 
-  .information
-    width: 100%
-    margin-bottom: 0
+    @media (max-width: 768px) {
+      font-size: 1.75rem;
+    }
+  }
 
-    .title
-      font-size: 2em
-      text-align: left
+  &__paragraph {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
 
-    .paragraph
-      font-size: 1.5em
-      line-height: 1.3em
+    p {
+      margin-bottom: 1.5rem;
+    }
 
-    .image
-      max-width: 90%
+    &--first::first-letter {
+      float: left;
+      font-size: 3.5rem;
+      line-height: 0.85;
+      margin-right: 0.5rem;
+      font-weight: 700;
+    }
+  }
 
-  .infoContainer
-    width: 95%
-    border-top: 1px dashed black
-    padding-top: 10px
-    margin: 20px 2.5% 0
+  &__image {
+    margin: 2rem 0;
 
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      display: block;
+    }
 
-  .header
-    .title
-      font-size: 2em
-      line-height: 1.5em
-      font-weight: bold
+    figcaption {
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      font-style: italic;
+      opacity: 0.8;
+      text-align: center;
+    }
+  }
 
-    .subheader
-      font-size: 2em
-      line-height: 1.5em
+  &__snackbar {
+    visibility: hidden;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 1rem;
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    z-index: 100;
+    opacity: 0;
+    transition: all 0.3s ease;
 
-
+    &--visible {
+      visibility: visible;
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
+  }
+}
 </style>
