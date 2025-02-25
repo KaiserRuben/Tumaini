@@ -99,6 +99,10 @@ h2 {
   }
 }
 
+h3 {
+  font-family: 'Montserrat', sans-serif;
+}
+
 p {
   font-family: 'Montserrat', sans-serif;
   margin: 10px auto;

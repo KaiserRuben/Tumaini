@@ -59,7 +59,9 @@
             class="archive__report"
             @click="navigateToReport(report._id)"
           >
-            <h2 class="archive__report-title">{{ report.title }}</h2>
+            <h3 class="archive__report-title">{{ extractTitles(report)[0] }} </h3>
+            <h3 class="archive__report-title small">{{ extractTitles(report)[1] }} </h3>
+
             <div class="archive__report-meta">
               <span v-if="report.createdAt">{{ formatDate(report.createdAt) }}</span>
             </div>
@@ -256,6 +258,20 @@ export default defineComponent({
 
     navigateToReport(id: string): void {
       this.$router.push(`/bericht/${id}`);
+    },
+
+    extractTitles(my_report: IArticle): [string, string] {
+      console.log(my_report);
+      if (!my_report || ![my_report.title])
+        return ["", ""]
+      if (my_report.title.includes("-")) {
+        const sides = my_report.title.split("-")
+        if (sides[0].includes("-") || sides[1].includes("-")) {
+          return [my_report.title, ""]
+        }
+        return [sides[0], sides[1]]
+      }
+      return [my_report.title, ""]
     }
   },
 
@@ -435,9 +451,18 @@ export default defineComponent({
   }
 
   &__report-title {
-    font-size: 1.75rem;
+    font-size: 1rem;
     margin-bottom: 1rem;
     color: #f5ffff;
+
+    &.small {
+      font-size: 0.85rem;
+      font-weight: normal;
+      font-style: italic;
+      color: #aaa;
+      margin-top: -0.5rem;
+      margin-bottom: 1.25rem;
+    }
   }
 
   &__report-meta {
