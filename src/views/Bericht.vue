@@ -202,7 +202,7 @@ export default defineComponent({
     max-height: 600px;
     min-height: 300px;
     margin-top: 0; /* Adjusted for fixed header */
-    background-size: cover;
+    background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     display: flex;
