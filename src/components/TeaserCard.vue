@@ -2,7 +2,7 @@
   <div class="teaser-card" @click="$router.push(click)">
     <div class="teaser-card__image" :style="cardImageStyle"></div>
     <div class="teaser-card__content">
-      <h2 class="teaser-card__title">{{ header }}</h2>
+      <h3 class="teaser-card__title">{{ header }}</h3>
       <div class="teaser-card__excerpt">
         <Markdown :source="excerpt" :breaks="true" :html="true"/>
       </div>
@@ -71,30 +71,47 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   height: 100%;
-  border-radius: 16px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s ease;
   background-color: #151919;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 
   &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 
-    .teaser-card__content {
-      background-color: #5F9AAE;
-      color: #F5FFFF;
+    .teaser-card__image {
+      &::before {
+        opacity: 0.15;
+      }
     }
 
     .teaser-card__read-more {
-      color: #F5FFFF;
+      gap: 0.5rem;
     }
   }
 
+  &:active {
+    transform: translateY(-2px);
+  }
+
+  // Image - Mobile First
   &__image {
-    height: 200px;
+    height: 160px;
     width: 100%;
     position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: #5F9AAE;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      z-index: 1;
+    }
 
     &::after {
       content: '';
@@ -102,68 +119,64 @@ export default defineComponent({
       bottom: 0;
       left: 0;
       right: 0;
-      height: 40px;
-      background: linear-gradient(to top, rgba(21, 25, 25, 0.8), transparent);
+      height: 60px;
+      background: linear-gradient(to top, #151919, transparent);
+      z-index: 2;
     }
 
-    @media (max-width: 768px) {
+    @media (min-width: 480px) {
       height: 180px;
     }
 
-    @media (max-width: 480px) {
-      height: 160px;
+    @media (min-width: 768px) {
+      height: 200px;
     }
   }
 
+  // Content - Mobile First
   &__content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 1.5rem;
+    padding: 1rem;
     background-color: #151919;
     color: #EDF0F3;
-    transition: all 0.3s ease;
 
-    @media (max-width: 768px) {
+    @media (min-width: 480px) {
       padding: 1.25rem;
     }
 
-    @media (max-width: 480px) {
-      padding: 1rem;
+    @media (min-width: 768px) {
+      padding: 1.5rem;
     }
   }
 
   &__title {
-    font-size: 1.5rem;
+    font-size: 1.125rem;
     font-weight: 700;
-    margin: 0 0 1rem 0;
+    margin: 0 0 0.75rem 0;
     line-height: 1.3;
 
-    @media (max-width: 768px) {
-      font-size: 1.35rem;
-      margin-bottom: 0.75rem;
+    @media (min-width: 480px) {
+      font-size: 1.25rem;
     }
 
-    @media (max-width: 480px) {
-      font-size: 1.2rem;
+    @media (min-width: 768px) {
+      font-size: 1.375rem;
+      margin-bottom: 1rem;
     }
   }
 
   &__excerpt {
     flex: 1;
-    font-size: 1rem;
+    font-size: 0.9rem;
     line-height: 1.6;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+    color: rgba(237, 240, 243, 0.8);
 
-    @media (max-width: 768px) {
+    @media (min-width: 768px) {
       font-size: 0.95rem;
-      line-height: 1.5;
       margin-bottom: 1.25rem;
-    }
-
-    @media (max-width: 480px) {
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
     }
 
     :deep(p) {
@@ -172,16 +185,17 @@ export default defineComponent({
   }
 
   &__footer {
-    text-align: right;
     margin-top: auto;
   }
 
   &__read-more {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
     color: #5F9AAE;
     font-weight: 600;
-    font-size: 0.95rem;
-    transition: color 0.3s ease;
+    font-size: 0.875rem;
+    transition: gap 0.2s ease;
   }
 }
 </style>

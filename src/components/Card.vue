@@ -2,9 +2,9 @@
   <div class="card">
     <div class="cardImg" id="cardImg" :style="backgroundImg()"></div>
     <div class="content">
-      <h2>
+      <h3>
         {{header}}
-      </h2>
+      </h3>
       <p>
         {{text}}
       </p>
@@ -54,6 +54,6 @@ export default defineComponent({
   color: #EDF0F3
   text-align: left
   padding: 20px
-  h2
+  h3
     margin: 0
 </style>

@@ -4,9 +4,9 @@
       <h1>
         0{{ nr }}
       </h1>
-      <h2>
+      <h3>
         {{ header }}
-      </h2>
+      </h3>
       <a :href="clickURL">
         <button>
           {{ textLoaded[0] }}
@@ -56,49 +56,90 @@ export default defineComponent({
 });
 </script>
 <style lang="sass" scoped>
+// Mobile First
 .container
   display: flex
   flex-direction: column
-  justify-content: center
-  align-items: center
-  width: 800px
+  width: 100%
+  max-width: 800px
+  padding: 0 1rem
   color: #EDF0F3
 
   .firstRow
     width: 100%
-    display: grid
-    grid-template-columns: auto 65% 25%
-    align-items: center
+    display: flex
+    flex-direction: column
+    gap: 0.75rem
+    margin-bottom: 1rem
 
     h1
       margin: 0
       color: #363636
-      font-size: 2.5em
+      font-size: 1.5rem
+      order: 1
 
-    h2
-      font-size: 3em
+    h3
+      font-size: 1.125rem
+      font-weight: 600
       margin: 0
+      line-height: 1.3
+      order: 2
+
+    a
+      order: 3
+      align-self: flex-start
 
     button
       background-color: #5F9AAE
       color: #F5FFFF
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1)
+
+      &:hover
+        background-color: darken(#5F9AAE, 8%)
+        box-shadow: 0 4px 12px rgba(#5F9AAE, 0.3)
 
   p
-    width: 90%
-    align-self: flex-end
-    margin: 10px 0
+    width: 100%
+    margin: 0
+    line-height: 1.6
+    font-size: 0.95rem
 
-
-@media only screen and (max-width: 800px)
+// Tablet and up
+@media (min-width: 640px)
   .container
-    width: 90vw
+    padding: 0
 
     .firstRow
-      h1
-        font-size: 1em
+      display: grid
+      grid-template-columns: auto 1fr auto
+      align-items: center
+      gap: 1rem
+      margin-bottom: 0.75rem
 
-      h2
-        font-size: 2em
-  button
-    padding: 5px 10px
+      h1
+        font-size: 2rem
+        order: 0
+
+      h3
+        font-size: 1.25rem
+        order: 0
+
+      a
+        order: 0
+        align-self: center
+
+    p
+      width: 90%
+      align-self: flex-end
+      margin: 0.5rem 0
+
+// Desktop
+@media (min-width: 800px)
+  .container
+    .firstRow
+      h1
+        font-size: 2.5rem
+
+      h3
+        font-size: 1.5rem
 </style>
