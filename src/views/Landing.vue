@@ -234,8 +234,12 @@ export default defineComponent({
   flex-direction: column
   flex-wrap: nowrap
   align-items: center
-  justify-content: space-around
-  @media only screen and (max-width: 640px)
-    padding: 2em 0
+  justify-content: center
+  gap: 3rem
+  padding: 3rem 1rem
+
+  @media (min-width: 640px)
+    gap: 4rem
+    padding: 4rem 2rem
 
 </style>

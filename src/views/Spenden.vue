@@ -4,11 +4,11 @@
 
     <div class="donate">
       <div class="donate__container">
-        <h2 class="donate__title">
+        <h3 class="donate__title">
           <template v-if="option === 2">{{ text[9] }}</template>
           <template v-else-if="option === 3">{{ text[10] }}</template>
           <template v-else>{{ text[8] }}</template>
-        </h2>
+        </h3>
 
         <p class="donate__description">
           <template v-if="option === 2">{{ text[13] }}</template>
@@ -71,9 +71,9 @@
 
     <div class="donate__partner">
       <div class="donate__partner-container">
-        <h2 class="donate__partner-title">
+        <h3 class="donate__partner-title">
           {{ text[1] }}
-        </h2>
+        </h3>
         <div class="donate__partner-content">
           <img
             src="../assets/Joackim.webp"
@@ -89,7 +89,7 @@
 
     <div class="donate__projects" v-if="projects.length">
       <div class="donate__container">
-        <h2 class="donate__title">{{ text[0] }}</h2>
+        <h3 class="donate__title">{{ text[0] }}</h3>
 
         <div class="donate__card-grid">
           <div
@@ -256,8 +256,8 @@ export default defineComponent({
   &__input {
     flex: 1;
     padding: 0.875rem 1.25rem;
-    border-radius: 8px;
-    border: 2px solid #5F9AAE;
+    border-radius: 6px;
+    border: 1.5px solid #5F9AAE;
     background-color: rgba(21, 25, 25, 0.8);
     color: #f5ffff;
     font-size: 1rem;
@@ -278,19 +278,32 @@ export default defineComponent({
     color: #0C0D08;
     border: none;
     padding: 0.875rem 2rem;
-    font-size: 1rem;
+    font-size: 0.9375rem;
     font-weight: 600;
-    border-radius: 8px;
+    letter-spacing: 0.025em;
+    border-radius: 6px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 
     &:hover {
-      background-color: darken(#FFA400, 10%);
-      transform: translateY(-2px);
+      background-color: darken(#FFA400, 8%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(#FFA400, 0.3);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     }
 
     &:focus {
       outline: none;
+      box-shadow: 0 0 0 2px rgba(#FFA400, 0.4), 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    &:focus:not(:focus-visible) {
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     }
   }
 
