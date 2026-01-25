@@ -1,21 +1,9 @@
 <template>
   <footer class="site-footer">
     <div class="site-footer__container">
-      <div class="site-footer__language">
-        <label for="language" class="site-footer__language-label">
-          <span class="site-footer__language-icon">🌐</span>
-          <select
-            id="language"
-            name="language"
-            v-model="language"
-            @change="changeLanguage()"
-            class="site-footer__select"
-          >
-            <option value="DE">Deutsch</option>
-            <option value="EN">English</option>
-            <option value="NL">Nederlands</option>
-          </select>
-        </label>
+      <div class="site-footer__brand">
+        <span class="site-footer__logo">Tumaini</span>
+        <span class="site-footer__copyright">&copy; {{ currentYear }}</span>
       </div>
 
       <div class="site-footer__links">
@@ -25,7 +13,7 @@
         >
           {{ text[0] }}
         </router-link>
-        <span class="site-footer__divider">&</span>
+        <span class="site-footer__divider">&bull;</span>
         <router-link
           to="/impressum_datenschutz/datenschutz"
           class="site-footer__link"
@@ -34,8 +22,19 @@
         </router-link>
       </div>
 
-      <div class="site-footer__copyright">
-        &copy; {{ currentYear }} Tumaini
+      <div class="site-footer__language">
+        <select
+          id="language"
+          name="language"
+          v-model="language"
+          @change="changeLanguage()"
+          class="site-footer__select"
+          aria-label="Select language"
+        >
+          <option value="DE">Deutsch</option>
+          <option value="EN">English</option>
+          <option value="NL">Nederlands</option>
+        </select>
       </div>
     </div>
   </footer>
@@ -73,89 +72,120 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .site-footer {
-  background-color: #FFF;
-  border-top: 1px solid rgba(12, 13, 8, 0.1);
-  color: #0C0D08;
+  background-color: #0C0D08;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: #EDF0F3;
   width: 100%;
-  padding: 2rem 0;
   margin-top: auto;
 
   &__container {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 1.25rem 1rem;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    padding: 0 2rem;
+    gap: 1rem;
 
-    @media (max-width: 768px) {
-      flex-direction: column;
+    @media (min-width: 480px) {
+      padding: 1.5rem 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 1.25rem 2rem;
       gap: 1.5rem;
-      padding: 0 1rem;
-      text-align: center;
     }
   }
 
-  &__language {
-    position: relative;
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 
-    &-label {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      cursor: pointer;
-    }
-
-    &-icon {
-      font-size: 1.2rem;
+    @media (min-width: 768px) {
+      order: 1;
     }
   }
 
-  &__select {
-    appearance: none;
-    background-color: transparent;
-    border: 2px solid rgba(12, 13, 8, 0.1);
-    border-radius: 8px;
-    padding: 0.5rem 2rem 0.5rem 1rem;
+  &__logo {
+    font-weight: 600;
     font-size: 1rem;
-    color: #0C0D08;
-    cursor: pointer;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 0.7rem center;
-    background-size: 1em;
+    letter-spacing: 0.02em;
 
-    &:focus {
-      outline: none;
-      border-color: #5F9AAE;
+    @media (min-width: 480px) {
+      font-size: 1.0625rem;
     }
+  }
+
+  &__copyright {
+    color: rgba(237, 240, 243, 0.5);
+    font-size: 0.875rem;
   }
 
   &__links {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+
+    @media (min-width: 768px) {
+      order: 2;
+    }
   }
 
   &__link {
-    color: #0C0D08;
+    color: rgba(237, 240, 243, 0.7);
     text-decoration: none;
+    font-size: 0.875rem;
     transition: color 0.2s ease;
 
     &:hover {
       color: #5F9AAE;
-      text-decoration: underline;
+      text-decoration: none;
     }
   }
 
   &__divider {
-    margin: 0 0.25rem;
-    color: rgba(12, 13, 8, 0.6);
+    color: rgba(237, 240, 243, 0.3);
+    font-size: 0.75rem;
   }
 
-  &__copyright {
-    color: rgba(12, 13, 8, 0.6);
-    font-size: 0.9rem;
+  &__language {
+    @media (min-width: 768px) {
+      order: 3;
+    }
+  }
+
+  &__select {
+    appearance: none;
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    padding: 0.4rem 2rem 0.4rem 0.75rem;
+    font-size: 0.875rem;
+    color: #EDF0F3;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23EDF0F3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 0.875em;
+
+    option {
+      background-color: #0C0D08;
+      color: #EDF0F3;
+    }
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #5F9AAE;
+    }
   }
 }
 </style>
