@@ -8,6 +8,7 @@
       <nav class="site-header__nav">
         <button
           class="site-header__mobile-toggle"
+          :class="{ 'is-active': mobileMenuOpen }"
           @click="mobileMenuOpen = !mobileMenuOpen"
           aria-label="Toggle navigation menu"
         >
@@ -76,45 +77,57 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .site-header {
-  background-color: #FFF;
-  color: #0C0D08;
+  background-color: #0C0D08;
+  color: #EDF0F3;
   width: 100%;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 100;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 
+  // Mobile First
   &__container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 80px;
+    height: 60px;
 
-    @media (max-width: 768px) {
-      padding: 0 1rem;
-      height: 70px;
+    @media (min-width: 480px) {
+      padding: 0 1.5rem;
+      height: 64px;
+    }
+
+    @media (min-width: 768px) {
+      padding: 0 2rem;
+      height: 72px;
     }
   }
 
   &__logo {
     text-decoration: none;
-    color: #0C0D08;
-    transition: opacity 0.2s ease;
+    color: #EDF0F3;
+    transition: color 0.2s ease;
 
     &:hover {
-      opacity: 0.8;
+      color: #5F9AAE;
+      text-decoration: none;
     }
 
     h1 {
-      font-size: 1.5rem;
+      font-size: 1.125rem;
       margin: 0;
-      font-weight: 700;
+      font-weight: 600;
+      letter-spacing: 0.02em;
 
-      @media (max-width: 480px) {
+      @media (min-width: 480px) {
         font-size: 1.25rem;
+      }
+
+      @media (min-width: 768px) {
+        font-size: 1.375rem;
       }
     }
   }
@@ -127,22 +140,26 @@ export default defineComponent({
   &__links {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 1.5rem;
 
-    @media (max-width: 768px) {
+    @media (min-width: 768px) {
+      gap: 2rem;
+    }
+
+    @media (max-width: 767px) {
       position: absolute;
-      top: 70px;
+      top: 60px;
       left: 0;
       right: 0;
-      background-color: #FFF;
+      background-color: #0C0D08;
       flex-direction: column;
-      padding: 1.5rem;
-      gap: 1.5rem;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem 1rem;
+      gap: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       transform: translateY(-100%);
       opacity: 0;
       visibility: hidden;
-      transition: all 0.3s ease;
+      transition: transform 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
 
       &.is-active {
         transform: translateY(0);
@@ -153,60 +170,79 @@ export default defineComponent({
   }
 
   &__link {
-    color: #0C0D08;
+    color: #EDF0F3;
     text-decoration: none;
     font-weight: 500;
-    font-size: 1.05rem;
-    position: relative;
+    font-size: 0.9375rem;
     padding: 0.5rem 0;
+    transition: color 0.2s ease;
 
-    &::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 2px;
-      background-color: #5F9AAE;
-      transform: scaleX(0);
-      transition: transform 0.3s ease;
-      transform-origin: center;
+    &:hover {
+      color: #5F9AAE;
+      text-decoration: none;
     }
 
-    &:hover::after, &.router-link-active::after {
-      transform: scaleX(1);
+    @media (max-width: 767px) {
+      width: 100%;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    @media (min-width: 768px) {
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 2px;
+        background-color: #5F9AAE;
+        transform: scaleX(0);
+        transition: transform 0.2s ease;
+        transform-origin: center;
+      }
+
+      &:hover::after {
+        transform: scaleX(1);
+      }
     }
   }
 
   &__mobile-toggle {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
     background: none;
     border: none;
     cursor: pointer;
-    width: 32px;
-    height: 24px;
-    position: relative;
-    z-index: 10;
+    width: 28px;
+    height: 28px;
     padding: 0;
+    z-index: 10;
 
-    @media (max-width: 768px) {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+    @media (min-width: 768px) {
+      display: none;
     }
 
     span {
       display: block;
       width: 100%;
-      height: 3px;
-      background-color: #0C0D08;
-      border-radius: 3px;
-      transition: transform 0.3s ease, opacity 0.3s ease;
+      height: 2px;
+      background-color: #EDF0F3;
+      border-radius: 2px;
+      transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
     &.is-active {
       span:nth-child(1) {
-        transform: translateY(10.5px) rotate(45deg);
+        transform: translateY(7px) rotate(45deg);
       }
 
       span:nth-child(2) {
@@ -214,7 +250,7 @@ export default defineComponent({
       }
 
       span:nth-child(3) {
-        transform: translateY(-10.5px) rotate(-45deg);
+        transform: translateY(-7px) rotate(-45deg);
       }
     }
   }
