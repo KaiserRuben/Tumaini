@@ -101,6 +101,17 @@ h2 {
 
 h3 {
   font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.3;
+
+  @media (min-width: 480px) {
+    font-size: 1.375rem;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 1.5rem;
+  }
 }
 
 p {
@@ -126,57 +137,78 @@ a {
 
 // Form elements
 select {
-  border-radius: 8px;
+  border-radius: 6px;
   border: 0;
-  padding: 8px 12px;
+  padding: 10px 14px;
+  padding-right: 36px;
   color: $dark-bg;
   background-color: $white;
   font-family: 'Montserrat', sans-serif;
+  font-size: 0.875rem;
   appearance: none;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
-  background-position: right 8px center;
+  background-position: right 10px center;
   background-size: 1em;
   cursor: pointer;
+  transition: box-shadow 0.2s ease;
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 2px rgba($accent-color, 0.5);
+    box-shadow: 0 0 0 2px rgba($accent-color, 0.4);
   }
 }
 
 button {
-  border-radius: 8px;
+  border-radius: 6px;
   border: 0;
-  padding: 10px 20px;
-  transition: all 0.3s ease;
+  padding: 12px 24px;
   font-family: 'Montserrat', sans-serif;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.025em;
   cursor: pointer;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    opacity: 0.85;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   }
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba($accent-color, 0.5);
+    box-shadow: 0 0 0 2px rgba($accent-color, 0.4), 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:focus:not(:focus-visible) {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px rgba($accent-color, 0.4), 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 }
 
 input {
   border: 0;
   font-size: 1em;
-  padding: 10px 12px;
+  padding: 12px 14px;
   background: rgba($dark-bg, 0.8);
   color: $light-text;
-  transition: all 0.3s ease;
-  border-radius: 8px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 6px;
   font-family: 'Montserrat', sans-serif;
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 2px $accent-color;
+    box-shadow: 0 0 0 2px rgba($accent-color, 0.4);
   }
 }
 
@@ -209,7 +241,8 @@ input {
       color: $light-text;
 
       &:hover {
-        background-color: lighten($dark-card-bg, 10%);
+        background-color: lighten($dark-card-bg, 8%);
+        box-shadow: 0 4px 12px rgba($dark-card-bg, 0.4);
       }
     }
   }
@@ -318,18 +351,33 @@ input {
 // Buttons
 .btn {
   display: inline-block;
-  padding: 10px 20px;
-  border-radius: 8px;
+  padding: 12px 24px;
+  border-radius: 6px;
   text-align: center;
-  font-weight: 500;
-  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.025em;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 
   &-primary {
     background-color: $primary-color;
     color: $white;
 
     &:hover {
-      background-color: darken($primary-color, 10%);
+      background-color: darken($primary-color, 8%);
+      box-shadow: 0 4px 12px rgba($primary-color, 0.3);
     }
   }
 
@@ -338,18 +386,21 @@ input {
     color: $dark-bg;
 
     &:hover {
-      background-color: darken($accent-color, 10%);
+      background-color: darken($accent-color, 8%);
+      box-shadow: 0 4px 12px rgba($accent-color, 0.3);
     }
   }
 
   &-outline {
     background-color: transparent;
-    border: 2px solid $primary-color;
+    border: 1.5px solid $primary-color;
     color: $primary-color;
+    box-shadow: none;
 
     &:hover {
       background-color: $primary-color;
       color: $white;
+      box-shadow: 0 4px 12px rgba($primary-color, 0.25);
     }
   }
 }
