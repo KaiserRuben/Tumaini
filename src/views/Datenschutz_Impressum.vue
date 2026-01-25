@@ -3,7 +3,7 @@
     <Header></Header>
     <div v-if="page.toLowerCase() === 'datenschutz'" class="container">
       <h1>Datenschutz&shy;erkl&auml;rung</h1>
-      <h2>1. Datenschutz auf einen Blick</h2>
+      <h3 class="section-title">1. Datenschutz auf einen Blick</h3>
       <h3>Allgemeine Hinweise</h3>
       <p>Die folgenden Hinweise geben einen einfachen &Uuml;berblick dar&uuml;ber, was mit Ihren personenbezogenen Daten
         passiert, wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie pers&ouml;nlich
@@ -38,7 +38,7 @@
         sogenannten Analyseprogrammen.</p>
       <p>Detaillierte Informationen zu diesen Analyseprogrammen finden Sie in der folgenden
         Datenschutzerkl&auml;rung.</p>
-      <h2>2. Hosting</h2>
+      <h3 class="section-title">2. Hosting</h3>
       <h3>Externes Hosting</h3>
       <p>Diese Website wird bei einem externen Dienstleister gehostet (Hoster). Die personenbezogenen Daten, die auf
         dieser Website erfasst werden, werden auf den Servern des Hosters gespeichert. Hierbei kann es sich v. a. um
@@ -56,7 +56,7 @@
       <p>Wir setzen folgenden Hoster ein:</p>
       <p>DigitalOcean, LLC<br/>
         101 Avenue of the Americas 10th Floor New York, NY 10013 United States</p>
-      <h2>3. Allgemeine Hinweise und Pflicht&shy;informationen</h2>
+      <h3 class="section-title">3. Allgemeine Hinweise und Pflicht&shy;informationen</h3>
       <h3>Datenschutz</h3>
       <p>Die Betreiber dieser Seiten nehmen den Schutz Ihrer pers&ouml;nlichen Daten sehr ernst. Wir behandeln Ihre
         personenbezogenen Daten vertraulich und entsprechend den gesetzlichen Datenschutzvorschriften sowie dieser
@@ -198,7 +198,7 @@
         der
         Seiten behalten sich ausdr&uuml;cklich rechtliche Schritte im Falle der unverlangten Zusendung von
         Werbeinformationen, etwa durch Spam-E-Mails, vor.</p>
-      <h2>4. Datenerfassung auf dieser Website</h2>
+      <h3 class="section-title">4. Datenerfassung auf dieser Website</h3>
       <h3>Cookies</h3>
       <p>Unsere Internetseiten verwenden so genannte &bdquo;Cookies&ldquo;. Cookies sind kleine Textdateien und richten
         auf Ihrem Endger&auml;t keinen Schaden an. Sie werden entweder vor&uuml;bergehend f&uuml;r die Dauer einer
@@ -263,7 +263,7 @@
         auffordern, Ihre Einwilligung zur Speicherung widerrufen oder der Zweck f&uuml;r die Datenspeicherung entf&auml;llt
         (z.&nbsp;B. nach abgeschlossener Bearbeitung Ihres Anliegens). Zwingende gesetzliche Bestimmungen &ndash;
         insbesondere gesetzliche Aufbewahrungsfristen &ndash; bleiben unber&uuml;hrt.</p>
-      <h2>5. Newsletter</h2>
+      <h3 class="section-title">5. Newsletter</h3>
       <h3>Newsletter&shy;daten</h3>
       <p>Wenn Sie den auf der Website angebotenen Newsletter beziehen m&ouml;chten, ben&ouml;tigen wir von Ihnen eine
         E-Mail-Adresse sowie Informationen, welche uns die &Uuml;berpr&uuml;fung gestatten, dass Sie der Inhaber der
@@ -291,7 +291,7 @@
         der gesetzlichen Vorgaben beim Versand von Newslettern (berechtigtes Interesse im Sinne des Art. 6 Abs. 1 lit. f
         DSGVO). Die Speicherung in der Blacklist ist zeitlich nicht befristet. <strong>Sie k&ouml;nnen der Speicherung
           widersprechen, sofern Ihre Interessen unser berechtigtes Interesse &uuml;berwiegen.</strong></p>
-      <h2>6. Plugins und Tools</h2>
+      <h3 class="section-title">6. Plugins und Tools</h3>
       <h3>Google Web Fonts</h3>
       <p>Diese Seite nutzt zur einheitlichen Darstellung von Schriftarten so genannte Web Fonts, die von Google
         bereitgestellt werden. Beim Aufruf einer Seite l&auml;dt Ihr Browser die ben&ouml;tigten Web Fonts in ihren
@@ -316,7 +316,7 @@
     <div v-else class="container">
       <h1>Impressum</h1>
 
-      <h2>Angaben gem&auml;&szlig; &sect; 5 TMG</h2>
+      <h3 class="section-title">Angaben gem&auml;&szlig; &sect; 5 TMG</h3>
       <p>Stiftung Tumaini<br/>
         Theekamp 10<br/>
         22869 Schenefeld</p>
@@ -325,16 +325,16 @@
         Martina Schwarz<br/>
         Dr. Rainer Eberlein</p>
 
-      <h2>Kontakt</h2>
+      <h3 class="section-title">Kontakt</h3>
       <p>Telefon: +494046873100<br/>
         E-Mail: info@tumaini.be</p>
 
-      <h2>Redaktionell verantwortlich</h2>
+      <h3 class="section-title">Redaktionell verantwortlich</h3>
       <p>Dr. Rainer Eberlein<br/>
         Theekamp 10<br/>
         22869 Schenefeld</p>
 
-      <h2>Verbraucher&shy;streit&shy;beilegung/Universal&shy;schlichtungs&shy;stelle</h2>
+      <h3 class="section-title">Verbraucher&shy;streit&shy;beilegung/Universal&shy;schlichtungs&shy;stelle</h3>
       <p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle
         teilzunehmen.</p>
 
@@ -379,8 +379,10 @@ h1
   @media only screen and (max-width: 640px)
     font-size: 2em
 
-h2
-  font-size: 2em
+.section-title
+  font-size: 1.5em
+  margin-top: 2rem
+  margin-bottom: 1rem
 
 a
   color: #EDF0F3
