@@ -4,7 +4,7 @@ import {sendStandardMail} from './mail'
 export async function connectDataBase(url: string | undefined): Promise<boolean> {
     if (url) {
         try {
-            await mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true, connectTimeoutMS: 1000000});
+            await mongoose.connect(url, {connectTimeoutMS: 1000000});
             return true
         } catch (MongooseServerSelectionError) {
             console.warn("Database connection failed.", MongooseServerSelectionError)

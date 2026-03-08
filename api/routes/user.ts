@@ -19,7 +19,7 @@ userRouter.get('/', async (req: Request, res: Response) => {
     try {
         const users: Array<IUser> = await UserModel.find()
         res.status(202).json(users)
-    } catch (err) {
+    } catch (err: any) {
         res.status(500).json({message: err.message})
     }
 })
@@ -29,7 +29,7 @@ userRouter.get('/:id', async (req: Request, res: Response) => {
     try {
         const userData = await UserModel.findOne({_id: req.params.id})
         res.status(200).json({hasError: false, data: userData})
-    } catch (err) {
+    } catch (err: any) {
         res.status(500).json({hasError: true, data: err.message})
     }
 })
@@ -39,7 +39,7 @@ userRouter.get('/email/:email', async (req: Request, res: Response) => {
     try {
         const userData = await UserModel.findOne({email: req.params.email})
         res.status(200).json({hasError: false, data: userData})
-    } catch (err) {
+    } catch (err: any) {
         res.status(500).json({hasError: true, data: err.message})
     }
 })
@@ -49,7 +49,7 @@ userRouter.post('/', async (req: Request, res: Response) => {
     try {
         const userToBeReturned = await createUser(req.body);
         res.status(201).json({hasError: false, data: userToBeReturned})
-    } catch (err) {
+    } catch (err: any) {
         res.status(500).json({hasError: true, data: err.message})
     }
 })
@@ -60,7 +60,7 @@ userRouter.patch('/:id', async (req: Request, res: Response) => {
     try {
         UserModel.updateOne({_id: req.params.id}, {...req.body})
         res.status(201).json({hasError: false})
-    } catch (err) {
+    } catch (err: any) {
         res.status(500).json({hasError: true, data: err.message})
     }
 })
@@ -86,7 +86,7 @@ userRouter.post('/validate', async (req: Request, res: Response) => {
             throw new Error('Password / Email dont match.')
 
         res.status(200).json({hasError: false, data: user})
-    } catch (err) {
+    } catch (err: any) {
         res.status(401).json({hasError: true, data: err.message})
     }
 })
@@ -117,25 +117,27 @@ userRouter.post('/elevate/:kind', async (req: Request, res: Response) => {
         }
 
         res.status(200).json({hasError: false, data: user})
-    } catch (err) {
+    } catch (err: any) {
         res.status(500).json({hasError: true, data: err.message})
     }
 })
 userRouter.post('/password/new', async (req, res) => {
-    const newPassword = Math.random().toString(36).slice(-8);
-    UserModel.findOneAndUpdate(
-        {email: req.body.email},
-        {pwdHash: bcrypt.hashSync(newPassword, 10)},
-        // @ts-ignore
-        (err, result) => {
-            if (err)
-                res.status(500).json({message: err.message})
-            else {
-                sendPwByMail(req.body.email, result.name, newPassword)
-                res.status(202).json(result)
-            }
-
-        })
+    try {
+        const newPassword = Math.random().toString(36).slice(-8);
+        const result = await UserModel.findOneAndUpdate(
+            {email: req.body.email},
+            {pwdHash: bcrypt.hashSync(newPassword, 10)},
+            {new: true}
+        );
+        if (!result) {
+            res.status(404).json({message: 'User not found'});
+            return;
+        }
+        sendPwByMail(req.body.email, result.name!, newPassword);
+        res.status(202).json(result);
+    } catch (err: any) {
+        res.status(500).json({message: err.message});
+    }
 })
 
 async function createUser(data: IUser) {

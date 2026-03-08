@@ -65,16 +65,13 @@ articleRouter.patch('/publish/', (req, res) => {
 })
 
 
-function executeQuery<ResBody, Locals, P, ReqBody, ReqQuery>(query: mongoose.Query<any, any>, res: Response<ResBody, Locals>, req: Request<P, ResBody, ReqBody, ReqQuery, Locals>) {
-    query.exec(function (err: any, doc: any) {
-        if (err) {
-            // @ts-ignore
-            res.status(500).json({message: `Could not change ${req.params.part} to ${req.body.toChange}.`, error: err})
-        } else {
-            // @ts-ignore
-            res.status(202).json({"Success": doc})
-        }
-    });
+async function executeQuery(query: mongoose.Query<any, any>, res: Response, req: Request) {
+    try {
+        const doc = await query.exec();
+        res.status(202).json({"Success": doc});
+    } catch (err: any) {
+        res.status(500).json({message: `Could not change ${req.params.part} to ${req.body.toChange}.`, error: err});
+    }
 }
 
 articleRouter.patch('/article/:id/:part', (req, res) => {

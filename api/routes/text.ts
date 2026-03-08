@@ -8,7 +8,7 @@ textRouter.get('/', async (req: Request, res: Response) => {
     try {
         const text = await Text.find().sort('created')
         res.status(200).json(text)
-    } catch (err) {
+    } catch (err: any) {
         res.status(500).json({message: err.message, hasError: true})
     }
 })
@@ -17,7 +17,7 @@ textRouter.get('/id/:id', async (req: Request, res: Response) => {
     try {
         const text = await Text.findById(req.params.id)
         res.status(200).json(text)
-    } catch (err) {
+    } catch (err: any) {
         res.status(500).json({message: err.message, hasError: true})
     }
 })
@@ -28,7 +28,7 @@ textRouter.get('/view/:view', async (req: Request, res: Response) => {
         const cacheText = await Text.find({page: req.params.view}).sort('created')
         res.status(200).json(cacheText)
     } catch
-        (err) {
+        (err: any) {
         res.status(500).json({message: err.message, hasError: true})
     }
 })
@@ -40,7 +40,7 @@ textRouter.post('/', async (req: Request, res: Response) => {
         await text.save()
         res.status(201).json({message: 'created Text'})
         console.log("New Text generated")
-    } catch (err) {
+    } catch (err: any) {
         res.status(500).json({message: err.message, hasError: true})
     }
 })
@@ -50,7 +50,7 @@ textRouter.post('/multiple', async (req: Request, res: Response) => {
         await Text.insertMany(req.body)
         console.log("Data inserted")  // Success
         res.status(201).send("Success")
-    } catch (error) {
+    } catch (error: any) {
         console.log(error)      // Failure
         res.status(500).send({message: error.message, hasError: true})
     }
@@ -91,7 +91,7 @@ textRouter.delete('/id/:id', async (req: Request, res: Response) => {
     try {
         await Text.deleteOne({_id: req.params.id})
         res.json({message: 'Deleted Object'})
-    } catch (err) {
+    } catch (err: any) {
         res.status(500).json({message: err.message, hasError: true})
     }
 })
