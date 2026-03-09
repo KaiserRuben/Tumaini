@@ -1,139 +1,72 @@
 <template>
   <div>
     <div class="md-title">Donors</div>
-    <md-table v-if="donors.filter(d => d.status === 'CREATED').length">
-      <md-table-toolbar>
-        <h1 class="md-title">Created</h1>
-      </md-table-toolbar>
-      <md-table-row>
-        <md-table-head>Name</md-table-head>
-        <md-table-head>E-Mail</md-table-head>
-        <md-table-head>Phone</md-table-head>
-        <md-table-head>Address</md-table-head>
-        <md-table-head>E-Mail send</md-table-head>
-        <md-table-head>Delete</md-table-head>
-      </md-table-row>
 
-      <md-table-row v-for="(item, index) in donors.filter(d => d.status === 'CREATED')" v-bind:key="index">
-        <md-table-cell>{{ item.firstName }} {{ item.lastName }}</md-table-cell>
-        <md-table-cell>{{ item.email }}</md-table-cell>
-        <md-table-cell>{{ item.phone }}</md-table-cell>
-        <md-table-cell>{{ item.address }}</md-table-cell>
-        <md-table-cell>
-          <md-button @click="increaseStatus(item._id)">
-            <md-icon>arrow_downward</md-icon>
-          </md-button>
-        </md-table-cell>
-        <md-table-cell>
-          <md-button @click="deleteEntry(item._id)">
-            <md-icon class="md-accent">delete</md-icon>
-          </md-button>
-        </md-table-cell>
-      </md-table-row>
-    </md-table>
-    <hr v-if="donors.filter(d => d.status === 'PENDING DONATION').length"/>
-    <md-table v-if="donors.filter(d => d.status === 'PENDING DONATION').length">
-      <md-table-toolbar>
-        <h1 class="md-title">Pending Donation</h1>
-      </md-table-toolbar>
-      <md-table-row>
-        <md-table-head>Name</md-table-head>
-        <md-table-head>E-Mail</md-table-head>
-        <md-table-head>Phone</md-table-head>
-        <md-table-head>Address</md-table-head>
-        <md-table-head>Donation received</md-table-head>
-        <md-table-head>Delete</md-table-head>
-      </md-table-row>
-
-      <md-table-row v-for="(item, index) in donors.filter(d => d.status === 'PENDING DONATION')" v-bind:key="index">
-        <md-table-cell>{{ item.firstName }} {{ item.lastName }}</md-table-cell>
-        <md-table-cell>{{ item.email }}</md-table-cell>
-        <md-table-cell>{{ item.phone }}</md-table-cell>
-        <md-table-cell>{{ item.address }}</md-table-cell>
-        <md-table-cell>
-          <md-button @click="increaseStatus(item._id)">
-            <md-icon>arrow_downward</md-icon>
-          </md-button>
-        </md-table-cell>
-        <md-table-cell>
-          <md-button @click="deleteEntry(item._id)">
-            <md-icon class="md-accent">delete</md-icon>
-          </md-button>
-        </md-table-cell>
-      </md-table-row>
-    </md-table>
-    <hr v-if="donors.filter(d => d.status === 'PENDING CONFIRMATION').length"/>
-    <md-table v-if="donors.filter(d => d.status === 'PENDING CONFIRMATION').length">
-      <md-table-toolbar>
-        <h1 class="md-title">Pending Confirmation</h1>
-      </md-table-toolbar>
-      <md-table-row>
-        <md-table-head>Name</md-table-head>
-        <md-table-head>E-Mail</md-table-head>
-        <md-table-head>Phone</md-table-head>
-        <md-table-head>Address</md-table-head>
-        <md-table-head>Confirmation send</md-table-head>
-        <md-table-head>Delete</md-table-head>
-      </md-table-row>
-
-      <md-table-row v-for="(item, index) in donors.filter(d => d.status === 'PENDING CONFIRMATION')" v-bind:key="index">
-        <md-table-cell>{{ item.firstName }} {{ item.lastName }}</md-table-cell>
-        <md-table-cell>{{ item.email }}</md-table-cell>
-        <md-table-cell>{{ item.phone }}</md-table-cell>
-        <md-table-cell>{{ item.address }}</md-table-cell>
-        <md-table-cell>
-          <md-button @click="increaseStatus(item._id)">
-            <md-icon>arrow_downward</md-icon>
-          </md-button>
-        </md-table-cell>
-        <md-table-cell>
-          <md-button @click="deleteEntry(item._id)">
-            <md-icon class="md-accent">delete</md-icon>
-          </md-button>
-        </md-table-cell>
-      </md-table-row>
-    </md-table>
-    <hr v-if="donors.filter(d => d.status === 'DONE').length"/>
-    <md-table v-if="donors.filter(d => d.status === 'DONE').length">
-      <md-table-toolbar>
-        <h1 class="md-title">Archive</h1>
-      </md-table-toolbar>
-      <md-table-row>
-        <md-table-head>Name</md-table-head>
-        <md-table-head>E-Mail</md-table-head>
-        <md-table-head>Phone</md-table-head>
-        <md-table-head>Address</md-table-head>
-        <md-table-head>Delete</md-table-head>
-      </md-table-row>
-
-      <md-table-row v-for="(item, index) in donors.filter(d => d.status === 'DONE')" v-bind:key="index">
-        <md-table-cell>{{ item.firstName }} {{ item.lastName }}</md-table-cell>
-        <md-table-cell>{{ item.email }}</md-table-cell>
-        <md-table-cell>{{ item.phone }}</md-table-cell>
-        <md-table-cell>{{ item.address }}</md-table-cell>
-        <md-table-cell>
-          <md-button @click="deleteEntry(item._id)">
-            <md-icon class="md-accent">delete</md-icon>
-          </md-button>
-        </md-table-cell>
-      </md-table-row>
-    </md-table>
+    <template v-for="section in sections" :key="section.status">
+      <template v-if="filteredDonors(section.status).length">
+        <hr v-if="section.status !== 'CREATED'" />
+        <table class="md-table">
+          <thead>
+            <tr>
+              <th colspan="6" style="text-align: left;">
+                <h1 class="md-title">{{ section.label }}</h1>
+              </th>
+            </tr>
+            <tr>
+              <th>Name</th>
+              <th>E-Mail</th>
+              <th>Phone</th>
+              <th>Address</th>
+              <th v-if="section.actionLabel">{{ section.actionLabel }}</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in filteredDonors(section.status)" :key="index">
+              <td>{{ item.firstName }} {{ item.lastName }}</td>
+              <td>{{ item.email }}</td>
+              <td>{{ item.phone }}</td>
+              <td>{{ item.address }}</td>
+              <td v-if="section.actionLabel">
+                <button class="md-button" @click="increaseStatus(item._id!)">
+                  <span class="md-icon">arrow_downward</span>
+                </button>
+              </td>
+              <td>
+                <button class="md-button" @click="deleteEntry(item._id!)">
+                  <span class="md-icon md-accent">delete</span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </template>
+    </template>
   </div>
 </template>
 
 <script lang="ts">
-import {axiosDelete, axiosGet, axiosPatch} from '@/utils/axiosWrapper';
-import Vue from 'vue';
-import {IDonor} from '../../../../api/models/donor'
+import { axiosDelete, axiosGet, axiosPatch } from '@/utils/axiosWrapper';
+import { defineComponent } from 'vue';
+import type { IDonor } from '@/types/models';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Donors',
   data() {
     return {
-      donors: [] as IDonor[]
+      donors: [] as IDonor[],
+      sections: [
+        { status: 'CREATED', label: 'Created', actionLabel: 'E-Mail send' },
+        { status: 'PENDING DONATION', label: 'Pending Donation', actionLabel: 'Donation received' },
+        { status: 'PENDING CONFIRMATION', label: 'Pending Confirmation', actionLabel: 'Confirmation send' },
+        { status: 'DONE', label: 'Archive', actionLabel: '' },
+      ]
     }
   },
   methods: {
+    filteredDonors(status: string): IDonor[] {
+      return this.donors.filter(d => d.status === status)
+    },
     async loadDonors() {
       this.donors = (await axiosGet('/donor/')).data
     },
@@ -143,7 +76,7 @@ export default Vue.extend({
       await this.loadDonors()
     },
     async increaseStatus(id: string) {
-      await axiosPatch('/donor/status/increase', {_id: id})
+      await axiosPatch('/donor/status/increase', { _id: id })
       await this.loadDonors()
     }
   },

@@ -1,43 +1,44 @@
 <template>
   <div class="login">
-    <md-card class="contentCard">
+    <div class="md-card contentCard">
       <div class="md-title">Login</div>
-      <div class="md-subhead">If any problems with the login occur, <a href="mailto:help@kaiser.fyi"> send me a mail</a>.
+      <div class="md-subheading">If any problems with the login occur, <a href="mailto:help@kaiser.fyi"> send me a
+        mail</a>.
       </div>
-      <md-field>
+      <div class="md-field">
         <label>Your E-Mail</label>
-        <md-input v-model="email" name="email" md-clearable></md-input>
-      </md-field>
-      <md-field>
+        <input v-model="email" name="email" type="email"/>
+      </div>
+      <div class="md-field">
         <label>Your Password</label>
-        <md-input v-model="password" name="password" type="password" md-clearable></md-input>
-      </md-field>
+        <input v-model="password" name="password" type="password"/>
+      </div>
       <div><a style="cursor: pointer" @click="forgotPW">I forgot my password.</a></div>
-      <div v-if="loggingIn">
-        <md-progress-bar md-mode="query"></md-progress-bar>
+      <div v-if="loggingIn" class="md-progress-bar indeterminate">
+        <div class="md-progress-bar-fill"></div>
       </div>
 
-
-      <md-checkbox type="checkbox" id="rememberMeBox" v-model="rememberMeChecked"></md-checkbox>
-      <label for="rememberMeBox" v-if="rememberMeChecked">Remember me.</label>
-      <label for="rememberMeBox" v-else>Dont remember me.</label>
+      <label class="md-checkbox">
+        <input type="checkbox" v-model="rememberMeChecked"/>
+        {{ rememberMeChecked ? 'Remember me.' : 'Dont remember me.' }}
+      </label>
 
       <br/>
       <p v-if="loginError" class="warnings">{{ loginError }}</p>
-      <md-card-actions>
-        <md-button class=" loginButton" @click="$router.push({name: 'Signup'})">Signup instead</md-button>
-        <md-button class="md-raised md-primary loginButton" @click="loginSubmit()">Login</md-button>
-      </md-card-actions>
-    </md-card>
+      <div class="md-card-actions">
+        <button class="md-button loginButton" @click="$router.push({ name: 'Signup' })">Signup instead</button>
+        <button class="md-button md-raised md-primary loginButton" @click="loginSubmit()">Login</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import {axiosPost} from '@/utils/axiosWrapper';
-import Vue from 'vue';
-import {mapActions, mapState} from 'vuex';
+import { axiosPost } from '@/utils/axiosWrapper';
+import { defineComponent } from 'vue';
+import { useAuthStore } from '@/store';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Login',
   beforeMount() {
     this.checkCookie();
@@ -50,18 +51,19 @@ export default Vue.extend({
     }
   },
   computed: {
-    ...mapState([
-      'loggingIn',
-      'loginError',
-      'loginSuccessful'
-    ])
+    loggingIn(): boolean {
+      const store = useAuthStore()
+      return store.loggingIn
+    },
+    loginError(): string | null {
+      const store = useAuthStore()
+      return store.loginError
+    }
   },
   methods: {
-    ...mapActions([
-      'doLogin'
-    ]),
     loginSubmit() {
-      this.doLogin({
+      const store = useAuthStore()
+      store.doLogin({
         email: this.email,
         password: this.password,
         rememberMeChecked: this.rememberMeChecked
@@ -103,10 +105,6 @@ export default Vue.extend({
 
 .loginButton {
   margin-left: 0;
-}
-
-md-progress-bar {
-  margin: 10px;
 }
 
 .warnings {

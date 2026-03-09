@@ -1,12 +1,7 @@
-import Vue from 'vue'
-import VueRouter, {RouteConfig} from 'vue-router'
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+import { useAuthStore } from '@/store'
 
-import store from '@/store/index';
-
-Vue.use(VueRouter)
-
-const routes: Array<RouteConfig> = [
-
+const routes: Array<RouteRecordRaw> = [
   {
     path: '/dashboard',
     name: 'Dashboard',
@@ -53,7 +48,7 @@ const routes: Array<RouteConfig> = [
         component: () => import('../views/Dashboard/Donors.vue'),
       },
       {
-        path: '*',
+        path: ':pathMatch(.*)*',
         meta: {
           levelRequired: 0
         },
@@ -84,31 +79,32 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Legal.vue'),
   },
   {
-    path: '*',
+    path: '/:pathMatch(.*)*',
     redirect: '/dashboard/cms/translate',
   }
 ]
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes
 })
 
 const protectedRoutes = /dashboard*/
 
-router.beforeEach((to, from, next) => {
-  store.dispatch('fetchAccessToken');
-  if (!["Login", "Signup", "Legal"].includes(<string>to.name)) {
-    console.log(`Accessing protected area: ${to.name}`)
-    if (store.state.accessToken == null) {
+router.beforeEach((to, _from, next) => {
+  const store = useAuthStore()
+  store.fetchAccessToken()
+  if (!["Login", "Signup", "Legal"].includes(to.name as string)) {
+    console.log(`Accessing protected area: ${String(to.name)}`)
+    if (store.accessToken == null) {
       if (to.fullPath.match(protectedRoutes)) {
         console.warn("Tried to access protected area without being logged in. Routing to sign-in page.")
-        next(`/login`);
+        next('/login')
+        return
       }
     }
   }
-  next();
-});
+  next()
+})
 
 export default router

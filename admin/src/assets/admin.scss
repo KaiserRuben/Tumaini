@@ -1,0 +1,565 @@
+/* ==========================================================================
+   Admin Panel Styles - Material-inspired replacement for vue-material
+   ========================================================================== */
+
+:root {
+  --primary: #448aff;
+  --primary-dark: #1565c0;
+  --accent: #ff5252;
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --text: #212121;
+  --text-secondary: #757575;
+  --border: #e0e0e0;
+  --hover: rgba(0, 0, 0, 0.04);
+  --shadow-1: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+  --shadow-2: 0 3px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+  --shadow-4: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Card */
+.md-card {
+  background: var(--surface);
+  border-radius: 4px;
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+
+.md-card-header {
+  padding: 16px;
+}
+
+.md-card-content {
+  padding: 16px;
+}
+
+.md-card-actions {
+  padding: 8px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Typography */
+.md-title {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+
+.md-subheading {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.md-body-1 {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.md-body-2 {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.md-caption {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+/* Buttons */
+.md-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 64px;
+  height: 36px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+  gap: 8px;
+}
+
+.md-button:hover {
+  background: var(--hover);
+}
+
+.md-button.md-raised {
+  box-shadow: var(--shadow-1);
+}
+
+.md-button.md-raised:hover {
+  box-shadow: var(--shadow-2);
+}
+
+.md-button.md-primary {
+  color: var(--primary);
+}
+
+.md-button.md-raised.md-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.md-button.md-accent {
+  color: var(--accent);
+}
+
+.md-button.md-raised.md-accent {
+  background: var(--accent);
+  color: white;
+}
+
+.md-button.md-icon-button {
+  min-width: 40px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+}
+
+/* Icons (using Material Icons font) */
+.material-icons,
+.md-icon {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}
+
+.md-icon.md-accent {
+  color: var(--accent);
+}
+
+/* Form fields */
+.md-field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  padding-top: 8px;
+}
+
+.md-field label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.md-field input,
+.md-field textarea,
+.md-field select {
+  width: 100%;
+  padding: 8px 0;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.md-field input:focus,
+.md-field textarea:focus,
+.md-field select:focus {
+  border-bottom-color: var(--primary);
+  border-bottom-width: 2px;
+}
+
+.md-field textarea {
+  resize: vertical;
+  min-height: 48px;
+}
+
+.md-field.md-invalid input,
+.md-field.md-invalid textarea {
+  border-bottom-color: var(--accent);
+}
+
+/* Checkbox */
+.md-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  margin: 8px 0;
+}
+
+.md-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+}
+
+/* Switch */
+.md-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.md-switch input[type="checkbox"] {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  appearance: none;
+  background: #ccc;
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.md-switch input[type="checkbox"]::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: var(--shadow-1);
+  transition: transform 0.2s;
+}
+
+.md-switch input[type="checkbox"]:checked {
+  background: var(--primary);
+}
+
+.md-switch input[type="checkbox"]:checked::after {
+  transform: translateX(16px);
+}
+
+/* Progress bar */
+.md-progress-bar {
+  width: 100%;
+  height: 4px;
+  background: #e0e0e0;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.md-progress-bar-fill {
+  height: 100%;
+  background: var(--primary);
+  transition: width 0.3s;
+}
+
+.md-progress-bar.indeterminate .md-progress-bar-fill {
+  width: 30%;
+  animation: indeterminate 1.5s infinite ease-in-out;
+}
+
+@keyframes indeterminate {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
+/* Table */
+.md-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.md-table-toolbar {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.md-table th,
+.md-table-head {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+}
+
+.md-table td,
+.md-table-cell {
+  padding: 12px 16px;
+  font-size: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.md-table tr:hover {
+  background: var(--hover);
+}
+
+/* Tabs */
+.md-tabs {
+  width: 100%;
+}
+
+.md-tabs-navigation {
+  display: flex;
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+}
+
+.md-tab-button {
+  flex: 1;
+  padding: 12px 24px;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.md-tab-button:hover {
+  color: var(--primary);
+}
+
+.md-tab-button.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.md-tab-content {
+  padding: 16px;
+}
+
+/* App layout */
+.md-app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.md-app-toolbar {
+  background: var(--primary);
+  color: white;
+  padding: 16px 24px;
+  box-shadow: var(--shadow-2);
+  z-index: 10;
+}
+
+.md-app-toolbar .md-button {
+  color: white;
+}
+
+.md-app-toolbar .md-title {
+  color: white;
+}
+
+.md-app-toolbar .md-icon {
+  color: white;
+}
+
+.md-app-body {
+  display: flex;
+  flex: 1;
+}
+
+.md-app-drawer {
+  width: 230px;
+  background: var(--surface);
+  box-shadow: var(--shadow-2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+}
+
+.md-app-drawer.active {
+  transform: translateX(0);
+}
+
+.md-app-drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+}
+
+.md-app-content {
+  flex: 1;
+  padding: 16px;
+}
+
+/* List */
+.md-list {
+  list-style: none;
+  padding: 8px 0;
+  margin: 0;
+}
+
+.md-list-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.md-list-item:hover {
+  background: var(--hover);
+}
+
+.md-list-item-text {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* Snackbar */
+.md-snackbar {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #323232;
+  color: white;
+  padding: 14px 24px;
+  border-radius: 4px;
+  box-shadow: var(--shadow-4);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 1000;
+}
+
+.md-snackbar .md-button {
+  color: var(--primary);
+}
+
+/* Autocomplete */
+.md-autocomplete {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.md-autocomplete label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.md-autocomplete input {
+  width: 100%;
+  padding: 8px 0;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--text);
+  outline: none;
+}
+
+.md-autocomplete input:focus {
+  border-bottom-color: var(--primary);
+  border-bottom-width: 2px;
+}
+
+.md-autocomplete-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  background: var(--surface);
+  box-shadow: var(--shadow-2);
+  border-radius: 0 0 4px 4px;
+  z-index: 10;
+}
+
+.md-autocomplete-item {
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.md-autocomplete-item:hover {
+  background: var(--hover);
+}
+
+/* Transitions */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+/* Select */
+.md-select {
+  width: 100%;
+  padding: 8px 0;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+}
+
+.md-select:focus {
+  border-bottom-color: var(--primary);
+  border-bottom-width: 2px;
+}

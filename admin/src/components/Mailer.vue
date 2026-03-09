@@ -1,58 +1,58 @@
 <template>
-  <div class="">
-    <md-ripple>
-      <md-card-header>
-        <div class="md-title">E-Mail</div>
-      </md-card-header>
+  <div>
+    <div class="md-card-header">
+      <div class="md-title">E-Mail</div>
+    </div>
 
-      <md-card-content>
-        <md-switch v-model="sendToAll"> This is an E-Mail to all {{ emails.length }} donors.
-        </md-switch>
+    <div class="md-card-content">
+      <label class="md-switch">
+        <input type="checkbox" v-model="sendToAll"/>
+        This is an E-Mail to all {{ emails.length }} donors.
+      </label>
 
-        <md-field v-if="!sendToAll && (emails.includes(toMail) || toMail === '')">
-          <label for="email">Select an E-Mail-Address for the receiver.</label>
-          <md-select v-model="toMail" name="toMail" id="email" md-dense>
-            <md-option v-for="(u,key) in emails" :value="u" v-bind:key="key">{{ u }}
-            </md-option>
-            <md-option :value="null">Other E-Mail</md-option>
-          </md-select>
-        </md-field>
+      <div class="md-field" v-if="!sendToAll && (emails.includes(toMail) || toMail === '')">
+        <label for="email">Select an E-Mail-Address for the receiver.</label>
+        <select v-model="toMail" name="toMail" id="email" class="md-select">
+          <option v-for="(u, key) in emails" :value="u" :key="key">{{ u }}</option>
+          <option :value="''">Other E-Mail</option>
+        </select>
+      </div>
 
-        <md-field v-if="!sendToAll">
-          <label>Enter the receiver.</label>
-          <md-input v-model="toMail" type="text"></md-input>
-        </md-field>
+      <div class="md-field" v-if="!sendToAll">
+        <label>Enter the receiver.</label>
+        <input v-model="toMail" type="text"/>
+      </div>
 
-        <md-field>
-          <label>Who is the sender? (must end with @{{ websiteName }})</label>
-          <md-input v-model="fromMail" type="text"></md-input>
-        </md-field>
+      <div class="md-field">
+        <label>Who is the sender? (must end with @{{ websiteName }})</label>
+        <input v-model="fromMail" type="text"/>
+      </div>
 
-        <md-field>
-          <label>What is the subject?</label>
-          <md-textarea v-model="subject" md-autogrow></md-textarea>
-        </md-field>
+      <div class="md-field">
+        <label>What is the subject?</label>
+        <textarea v-model="subject"></textarea>
+      </div>
 
-        <md-field>
-          <label>What is your message?</label>
-          <md-textarea v-model="message" md-autogrow></md-textarea>
-        </md-field>
-        {{ infoText }}
-        <md-progress-bar v-if="progress>=0" md-mode="determinate"
-                         :md-value="(progress/progressMax)*100"></md-progress-bar>
-      </md-card-content>
+      <div class="md-field">
+        <label>What is your message?</label>
+        <textarea v-model="message"></textarea>
+      </div>
+      {{ infoText }}
+      <div v-if="progress >= 0" class="md-progress-bar">
+        <div class="md-progress-bar-fill" :style="{ width: (progress / progressMax) * 100 + '%' }"></div>
+      </div>
+    </div>
 
-      <md-card-actions>
-        <md-button @click="clearAll()">Clear</md-button>
-        <md-button class="md-primary" @click="sendMail()">Send</md-button>
-      </md-card-actions>
-    </md-ripple>
+    <div class="md-card-actions">
+      <button class="md-button" @click="clearAll()">Clear</button>
+      <button class="md-button md-primary" @click="sendMail()">Send</button>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import {axiosPost} from '@/utils/axiosWrapper';
-import Vue from 'vue';
+import { axiosPost } from '@/utils/axiosWrapper';
+import { defineComponent } from 'vue';
 
 function validEmail(email: string) {
   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -66,11 +66,11 @@ interface Mail {
   message: string;
 }
 
-export default Vue.extend({
+export default defineComponent({
   name: 'E-Mail',
   props: {
     emails: {
-      type: [],
+      type: Array as () => string[],
       default: () => []
     },
     serverAddress: String,
@@ -82,7 +82,6 @@ export default Vue.extend({
       type: String,
       default: ""
     },
-
     defaultFrom: {
       type: String,
       default: ""
@@ -105,20 +104,19 @@ export default Vue.extend({
   methods: {
     clearAll: function () {
       this.toMail = ""
-      this.fromMail = this.defaultFrom
+      this.fromMail = this.defaultFrom ?? ""
       this.subject = ""
       this.message = ""
       this.mailArray = []
-
     },
     sendMail: function () {
       if (!validEmail(this.fromMail)) {
-        alert(this.fromMail + 'is not an E-Mail.')
+        alert(this.fromMail + ' is not an E-Mail.')
         return
       }
       if (!this.sendToAll) {
         if (!validEmail(this.toMail)) {
-          console.warn(this.toMail + 'is not an E-Mail.')
+          console.warn(this.toMail + ' is not an E-Mail.')
         }
         this.progressMax = 2
         this.progress = 0
@@ -132,7 +130,7 @@ export default Vue.extend({
       } else {
         this.progressMax = this.emails.length * 2
         this.progress = 0
-        this.emails.forEach(u => {
+        this.emails.forEach((u: string) => {
           this.mailArray.push({
             toMail: u,
             fromMail: this.fromMail,
@@ -143,10 +141,9 @@ export default Vue.extend({
         })
       }
       this.mailArray.forEach((m, index) => {
-        axiosPost(this.serverAddress, m)
+        axiosPost(this.serverAddress ?? '', m)
             .then(() => {
               this.progress += 1
-
               console.log("Sending Email", index + 1, "from ", this.mailArray.length)
             })
             .catch(err => console.warn(err))
@@ -156,7 +153,6 @@ export default Vue.extend({
       })
     },
     doneSending: function () {
-
       this.progress = -1
       this.progressMax = 1
       this.clearAll()
@@ -165,7 +161,7 @@ export default Vue.extend({
     }
   },
   mounted() {
-    this.fromMail = this.defaultFrom
+    this.fromMail = this.defaultFrom ?? ""
   }
 });
 </script>

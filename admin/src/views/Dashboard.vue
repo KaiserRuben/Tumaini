@@ -1,95 +1,80 @@
 <template>
   <div class="content">
-    <md-app md-waterfall md-mode="overlap">
-      <md-app-toolbar class="md-primary md-large">
-        <div class="md-toolbar-row">
-          <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
-            <md-icon>menu</md-icon>
-          </md-button>
+    <div class="md-app">
+      <div class="md-app-toolbar">
+        <div style="display: flex; align-items: center;">
+          <button class="md-button md-icon-button" @click="menuVisible = !menuVisible">
+            <span class="md-icon">menu</span>
+          </button>
 
           <div class="md-title title">
             <span>Welcome, {{ user.name }}</span>
             <span>kaiser dashboard</span>
           </div>
         </div>
-      </md-app-toolbar>
+      </div>
 
-      <md-app-drawer v-bind:md-active="menuVisible">
-        <md-toolbar class="md-transparent" md-elevation="0">
-          <md-button class="md-icon-button" @click="menuVisible = !menuVisible" style="opacity:.7">
-            <md-icon>arrow_back_ios</md-icon>
-          </md-button>
+      <div v-if="menuVisible" class="md-app-drawer-overlay" @click="menuVisible = false"></div>
+      <div class="md-app-drawer" :class="{ active: menuVisible }">
+        <div style="padding: 8px;">
+          <button class="md-button md-icon-button" @click="menuVisible = false" style="opacity:.7">
+            <span class="md-icon">arrow_back_ios</span>
+          </button>
+        </div>
 
-        </md-toolbar>
+        <ul class="md-list">
+          <li class="md-list-item mouse-style" @click="navigate('Translate')">
+            <span class="md-icon">translate</span>
+            <span class="md-list-item-text">Translate</span>
+          </li>
 
-        <md-list>
-          <md-list-item class="mouse-style">
-            <md-icon>translate</md-icon>
-            <span class="md-list-item-text " @click="$router.push({name:'Translate'})">Translate</span>
-          </md-list-item>
+          <li class="md-list-item mouse-style" @click="navigate('/dashboard/cms/content/report')">
+            <span class="md-icon">summarize</span>
+            <span class="md-list-item-text">Report</span>
+          </li>
 
-          <md-list-item class="mouse-style">
-            <md-icon>summarize</md-icon>
-            <span class="md-list-item-text " @click="$router.push('/dashboard/cms/content/report')">Report</span>
-          </md-list-item>
+          <li class="md-list-item mouse-style" @click="navigate('/dashboard/cms/content/project')">
+            <span class="md-icon">view_headline</span>
+            <span class="md-list-item-text">Project</span>
+          </li>
 
-          <md-list-item class="mouse-style">
-            <md-icon>view_headline</md-icon>
-            <span class="md-list-item-text " @click="$router.push('/dashboard/cms/content/project')">Project</span>
-          </md-list-item>
+          <li class="md-list-item mouse-style" @click="navigate('Mail')">
+            <span class="md-icon">mail</span>
+            <span class="md-list-item-text">Mail</span>
+          </li>
 
-          <md-list-item class="mouse-style">
-            <md-icon>mail</md-icon>
-            <span class="md-list-item-text " @click="$router.push({name:'Mail'})">Mail</span>
-          </md-list-item>
+          <li class="md-list-item mouse-style" @click="navigate('Donors')">
+            <span class="md-icon">volunteer_activism</span>
+            <span class="md-list-item-text">Donors</span>
+          </li>
 
-          <md-list-item class="mouse-style">
-            <md-icon>volunteer_activism</md-icon>
-            <span class="md-list-item-text " @click="$router.push({name:'Donors'})">Donors</span>
-          </md-list-item>
+          <li class="md-list-item mouse-style" @click="navigate('Files')">
+            <span class="md-icon">folder</span>
+            <span class="md-list-item-text">Files</span>
+          </li>
 
-          <md-list-item class="mouse-style">
-            <md-icon>folder</md-icon>
-            <span class="md-list-item-text" @click="$router.push({name:'Files'})">Files</span>
-          </md-list-item>
+          <li class="md-list-item mouse-style" @click="doLogout()">
+            <span class="md-icon">logout</span>
+            <span class="md-list-item-text">Logout</span>
+          </li>
+        </ul>
+      </div>
 
-          <md-list-item class="mouse-style">
-            <md-icon>logout</md-icon>
-            <span class="md-list-item-text " @click="logout()">Logout</span>
-          </md-list-item>
-        </md-list>
-      </md-app-drawer>
-
-      <md-app-content>
+      <div class="md-app-content">
         <router-view/>
-      </md-app-content>
-    </md-app>
-
-    <!--    <md-dialog :md-active="showVersionPopup">-->
-    <!--      <md-dialog-title>New Version: v{{ version }}</md-dialog-title>-->
-
-    <!--      <md-dialog-content>-->
-    <!--        <p>Adapted the Dashboard for Tumaini. </p>-->
-    <!--        <p>Ruben</p>-->
-    <!--      </md-dialog-content>-->
-
-    <!--      <md-dialog-actions>-->
-    <!--        <md-button class="md-primary" @click="showVersionPopup = false">OK!</md-button>-->
-    <!--      </md-dialog-actions>-->
-    <!--    </md-dialog>-->
-
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import store from '@/store'
-import {mapActions} from 'vuex';
-import {checkVersion, getVersion} from '@/utils/version';
-import {axiosGet} from '@/utils/axiosWrapper';
-import {IUser} from "../../../api/models/user";
+import { defineComponent } from 'vue';
+import { useAuthStore } from '@/store';
+import { checkVersion, getVersion } from '@/utils/version';
+import { axiosGet } from '@/utils/axiosWrapper';
+import type { IUser } from '@/types/models';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Dashboard',
   data() {
     return {
@@ -97,7 +82,6 @@ export default Vue.extend({
         name: "",
         email: ""
       } as IUser,
-      userId: store.state.accessToken,
 
       menuVisible: false,
 
@@ -105,10 +89,25 @@ export default Vue.extend({
       version: getVersion()
     }
   },
+  computed: {
+    userId(): string | null {
+      const store = useAuthStore()
+      return store.accessToken
+    }
+  },
   methods: {
-    ...mapActions([
-      'logout'
-    ]),
+    navigate(target: string) {
+      this.menuVisible = false
+      if (target.startsWith('/')) {
+        this.$router.push(target)
+      } else {
+        this.$router.push({ name: target })
+      }
+    },
+    doLogout() {
+      const store = useAuthStore()
+      store.logout()
+    },
     loadData() {
       return axiosGet('/users/' + this.userId)
           .then(function (response: { data: { data: IUser }; }) {
@@ -140,7 +139,6 @@ export default Vue.extend({
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
-
 }
 
 .welcome {
@@ -148,11 +146,7 @@ export default Vue.extend({
 }
 
 .md-app {
-  height: calc(100vh - 40px);
-}
-
-.md-drawer {
-  width: 230px;
+  min-height: calc(100vh - 40px);
 }
 
 .mouse-style:hover {

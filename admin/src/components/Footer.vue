@@ -13,10 +13,10 @@
 </template>
 
 <script lang="ts">
-import {getVersion} from '@/utils/version';
-import Vue from 'vue';
+import { getVersion } from '@/utils/version';
+import { defineComponent } from 'vue';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Footer',
   data() {
     return {

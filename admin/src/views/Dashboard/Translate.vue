@@ -1,178 +1,149 @@
 <template>
-  <div class="home">
-    <md-progress-bar v-if="query" md-mode="query"></md-progress-bar>
-    <span class="warnings" v-if="!Object.values(show).reduce((x, y) => x && y)">Warning: Not all columns are selected. Change this in settings.<br/></span>
+  <div>
+    <div v-if="query" class="md-progress-bar indeterminate">
+      <div class="md-progress-bar-fill"></div>
+    </div>
+    <span class="warnings" v-if="!allColumnsShown">Warning: Not all columns are selected. Change this in settings.<br/></span>
     <span class="warnings" v-if="onlyShowEmpty !== 'none'">Warning: Filter set, will be lost when data is updated.<br/></span>
     <span class="warnings" v-if="page">Warning: Only showing Objects belonging to {{ page }}.<br/></span>
-    <md-tabs md-alignment="fixed">
 
-      <!--      Main Table-->
-      <md-tab id="data" md-label="Data">
-        <div class="navigation md-layout" v-if="filteredData && filteredData.length>elemProPage">
-          <md-button @click="currentPage > 1?currentPage = currentPage - 1:currentPage">
-            <md-icon class="md-layout-item">arrow_left</md-icon>
-          </md-button>
-          <span class="md-layout-item"
-                v-if="filteredData"
-                style="text-align:center">Page {{ currentPage }} of {{
-              Math.ceil(filteredData.length / elemProPage)
-            }}</span>
-          <md-button
-              v-if="filteredData"
-              @click="currentPage < Math.ceil(filteredData.length/elemProPage)?currentPage = currentPage + 1:currentPage">
-            <md-icon class="md-layout-item">arrow_right</md-icon>
-          </md-button>
+    <div class="md-tabs">
+      <div class="md-tabs-navigation">
+        <button class="md-tab-button" :class="{ active: activeTab === 'data' }" @click="activeTab = 'data'">Data</button>
+        <button class="md-tab-button" :class="{ active: activeTab === 'settings' }" @click="activeTab = 'settings'">Settings</button>
+      </div>
+
+      <!-- Main Table -->
+      <div class="md-tab-content" v-if="activeTab === 'data'">
+        <div class="navigation" style="display: flex; align-items: center; justify-content: center;" v-if="filteredData && filteredData.length > elemProPage">
+          <button class="md-button" @click="currentPage > 1 ? currentPage = currentPage - 1 : currentPage">
+            <span class="md-icon">arrow_left</span>
+          </button>
+          <span v-if="filteredData" style="text-align: center">
+            Page {{ currentPage }} of {{ Math.ceil(filteredData.length / elemProPage) }}
+          </span>
+          <button class="md-button" v-if="filteredData"
+                  @click="currentPage < Math.ceil(filteredData.length / elemProPage) ? currentPage = currentPage + 1 : currentPage">
+            <span class="md-icon">arrow_right</span>
+          </button>
         </div>
-        <md-table md-height="100%" class="myTable" md-card>
-          <md-table-toolbar>
-            <div class="md-toolbar-section-start">
-              <h1 class="md-title">Text Data</h1>
-            </div>
-            <span v-if="uploading">Saving changes...</span>
-            <md-button class="md-primary" @click="loadData">Update Data</md-button>
-          </md-table-toolbar>
+        <table class="md-table">
+          <thead>
+            <tr class="md-table-toolbar" style="display: table-row;">
+              <th colspan="5" style="text-align: left;">
+                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                  <h1 class="md-title">Text Data</h1>
+                  <div>
+                    <span v-if="uploading">Saving changes...</span>
+                    <button class="md-button md-primary" @click="loadData">Update Data</button>
+                  </div>
+                </div>
+              </th>
+            </tr>
+            <tr>
+              <th v-if="show.page">Page</th>
+              <th v-if="show.description">Description</th>
+              <th v-if="show.EN">English</th>
+              <th v-if="show.NL">Dutch</th>
+              <th v-if="show.DE">German</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in filterArrayForPage()" :key="item._id">
+              <td v-if="show.page">{{ item.page }}</td>
+              <td v-if="show.description">{{ item.description }}</td>
+              <td v-if="show.EN">
+                <div class="md-field" style="margin: 0">
+                  <textarea v-model="item.EN" @change="change(item._id, 'EN', item.EN)" rows="2"></textarea>
+                </div>
+              </td>
+              <td v-if="show.NL">
+                <div class="md-field" style="margin: 0">
+                  <textarea v-model="item.NL" @change="change(item._id, 'NL', item.NL)" rows="2"></textarea>
+                </div>
+              </td>
+              <td v-if="show.DE">
+                <div class="md-field" style="margin: 0">
+                  <textarea v-model="item.DE" @change="change(item._id, 'DE', item.DE)" rows="2"></textarea>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-          <md-table-row>
-            <md-table-head v-if="show.page">Page</md-table-head>
-            <md-table-head v-if="show.description">Description</md-table-head>
-            <md-table-head v-if="show.EN">English</md-table-head>
-            <md-table-head v-if="show.NL">Dutch</md-table-head>
-            <md-table-head v-if="show.DE">German</md-table-head>
-          </md-table-row>
+      <!-- Settings -->
+      <div class="md-tab-content" v-if="activeTab === 'settings'">
+        <div class="md-card" style="margin-bottom: 16px; padding: 16px;">
+          <div class="md-title">Show columns</div>
+          <label class="md-switch"><input type="checkbox" v-model="show.page"/> Page</label>
+          <label class="md-switch"><input type="checkbox" v-model="show.description"/> Description</label>
+          <label class="md-switch"><input type="checkbox" v-model="show.EN"/> English</label>
+          <label class="md-switch"><input type="checkbox" v-model="show.DE"/> German</label>
+          <label class="md-switch"><input type="checkbox" v-model="show.NL"/> Dutch</label>
+        </div>
 
-          <md-table-row v-for="item in filterArrayForPage()" v-bind:key="item._id">
-            <md-table-cell v-if="show.page">
-              {{ item.page }}
-            </md-table-cell>
-            <md-table-cell v-if="show.description">
-              <!--              <md-field md-inline>-->
-              <!--                <label>Your description</label>-->
-              <!--                <md-textarea v-model="item.Description" @change="change(item._id, 'description', item.description)" md-autogrow></md-textarea>-->
-              <!--              </md-field>-->
-              {{ item.description }}
-            </md-table-cell>
-            <md-table-cell v-if="show.EN">
-              <md-field md-inline>
-                <label>Your english text</label>
-                <md-textarea v-model="item.EN" @change="change(item._id, 'EN', item.EN)" md-autogrow></md-textarea>
-              </md-field>
-            </md-table-cell>
-            <md-table-cell v-if="show.NL">
-              <md-field md-inline>
-                <label>Your dutch text</label>
-                <md-textarea v-model="item.NL" @change="change(item._id, 'NL', item.NL)" md-autogrow></md-textarea>
-              </md-field>
-            </md-table-cell>
-            <md-table-cell v-if="show.DE">
-              <md-field md-inline>
-                <label>Your german text</label>
-                <md-textarea v-model="item.DE" @change="change(item._id, 'DE', item.DE)" md-autogrow></md-textarea>
-              </md-field>
-            </md-table-cell>
-          </md-table-row>
-        </md-table>
-      </md-tab>
-      <md-tab id="settings" md-label="Settings">
-        <md-card md-with-hover>
-          <md-ripple>
-            <md-card-header>
-              <div class="md-title">Show columns</div>
-            </md-card-header>
+        <div class="md-card" style="margin-bottom: 16px; padding: 16px;">
+          <div class="md-title">Show only empty</div>
+          <div class="md-field">
+            <label>Language:</label>
+            <select v-model="onlyShowEmpty" class="md-select" @change="filterData(myData!)">
+              <option value="none">None</option>
+              <option value="DE">German</option>
+              <option value="EN">English</option>
+              <option value="NL">Dutch</option>
+            </select>
+          </div>
+        </div>
 
-            <md-card-content>
-              <md-switch v-model="show.page" class="md-primary">Page</md-switch>
-              <md-switch v-model="show.description" class="md-primary">Description</md-switch>
-              <md-switch v-model="show.EN">English</md-switch>
-              <md-switch v-model="show.DE">German</md-switch>
-              <md-switch v-model="show.NL">Dutch</md-switch>
-            </md-card-content>
-          </md-ripple>
-        </md-card>
+        <div class="md-card" style="margin-bottom: 16px; padding: 16px;">
+          <div class="md-title">Filter page</div>
+          <div class="md-field">
+            <label>Page:</label>
+            <select v-model="page" class="md-select" @change="filterData(myData!)">
+              <option value="">None</option>
+              <option v-for="view in viewOptionsList" :value="view" :key="view">{{ view }}</option>
+            </select>
+          </div>
+        </div>
 
-        <md-card md-with-hover>
-          <md-ripple>
-            <md-card-header>
-              <div class="md-title">Show only empty</div>
-
-            </md-card-header>
-
-            <md-card-content>
-              Language:
-              <md-field>
-                <md-select v-model="onlyShowEmpty" name="onlyShowEmpty" id="onlyShowEmpty"
-                           @md-selected="filterData(myData)">
-                  <md-option value="none">None</md-option>
-                  <md-option value="DE">German</md-option>
-                  <md-option value="EN">English</md-option>
-                  <md-option value="NL">Dutch</md-option>
-                </md-select>
-              </md-field>
-            </md-card-content>
-          </md-ripple>
-        </md-card>
-        <md-card md-with-hover>
-          <md-ripple>
-            <md-card-header>
-              <div class="md-title">Filter page</div>
-
-            </md-card-header>
-
-            <md-card-content>
-              Page:
-              <md-field>
-                <md-select v-model="page" name="view" id="view" @md-selected="filterData(myData)">
-                  <md-option value="">None</md-option>
-                  <md-option v-for="view in viewOptions" :value="view" v-bind:key="view">{{ view }}</md-option>
-                </md-select>
-              </md-field>
-            </md-card-content>
-          </md-ripple>
-        </md-card>
-        <md-card md-with-hover>
-          <md-ripple>
-            <md-card-header>
-              <div class="md-title">Elements per Page</div>
-
-            </md-card-header>
-
-            <md-card-content>
-              Be careful, a number greater 100 might significantly decrease performance!
-              <md-field>
-                <md-input v-model="elemProPage" type="number">
-                </md-input>
-              </md-field>
-            </md-card-content>
-          </md-ripple>
-        </md-card>
-      </md-tab>
-    </md-tabs>
-
+        <div class="md-card" style="margin-bottom: 16px; padding: 16px;">
+          <div class="md-title">Elements per Page</div>
+          <p>Be careful, a number greater 100 might significantly decrease performance!</p>
+          <div class="md-field">
+            <input v-model.number="elemProPage" type="number"/>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import {axiosGet, axiosPatch} from '@/utils/axiosWrapper';
-import Vue from 'vue';
+import { axiosGet, axiosPatch } from '@/utils/axiosWrapper';
+import { defineComponent } from 'vue';
 
-export interface IText extends Document {
+export interface IText {
+  _id?: string;
   page: string;
   EN?: string;
   DE?: string;
   NL?: string;
   description?: string;
-  created: Date;
+  created?: Date;
 }
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Translate',
   data() {
     return {
+      activeTab: 'data',
       query: false,
       uploading: false,
 
       onlyShowEmpty: "none" as 'none' | "EN" | "DE" | "NL",
       page: "",
-      viewOptions: {},
+      viewOptions: new Set<string>(),
       elemProPage: 20,
       currentPage: 1,
 
@@ -187,19 +158,25 @@ export default Vue.extend({
       }
     }
   },
+  computed: {
+    allColumnsShown(): boolean {
+      return Object.values(this.show).every(v => v)
+    },
+    viewOptionsList(): string[] {
+      return Array.from(this.viewOptions)
+    }
+  },
   methods: {
     loadData: async function () {
       this.query = true
       this.myData = (await axiosGet('/text')).data
       if (this.myData) {
         this.viewOptions = new Set(this.myData.map(item => item.page))
-
         this.filterData(this.myData)
       } else {
         console.warn("Could not load any text... This is a problem.")
       }
       this.query = false
-
     },
     filterData: function (data: IText[]) {
       this.filteredData = data
@@ -209,12 +186,10 @@ export default Vue.extend({
         else
           return d
       })
-      console.log(this.filteredData)
       if (this.page)
         this.filteredData = this.filteredData.filter((d) => d.page == this.page)
-      console.log(this.filteredData)
     },
-    change: async function (id: string, language: "EN" | "DE" | "NL", content: string) {
+    change: async function (id: string | undefined, language: "EN" | "DE" | "NL", content: string | undefined) {
       this.uploading = true
       await axiosPatch('/text', {
         "_id": id,

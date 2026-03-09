@@ -1,9 +1,9 @@
 <template>
   <div class="imprint">
 
-    <md-button @click="$router.push('/')">
-      <md-icon>arrow_back_ios_new</md-icon>
-    </md-button>
+    <button class="md-button" @click="$router.push('/')">
+      <span class="md-icon">arrow_back_ios_new</span>
+    </button>
     <h1 class="md-title">Impressum</h1>
     <h2 class="md-subheading">Angaben gem&auml;&szlig; &sect; 5 TMG</h2>
     <p>Ruben Alexander Kaiser<br/>
@@ -47,9 +47,9 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from 'vue';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Legal',
 });
 </script>

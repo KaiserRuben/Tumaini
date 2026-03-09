@@ -8,13 +8,13 @@
 </template>
 <script lang="ts">
 import Mailer from "@/components/Mailer.vue";
-import Vue from 'vue';
-import {axiosGet} from "@/utils/axiosWrapper";
+import { defineComponent } from 'vue';
+import { axiosGet } from "@/utils/axiosWrapper";
 
-export default Vue.extend({
+export default defineComponent({
   data() {
     return {
-      emailList: [],
+      emailList: [] as string[],
       sever_address: '/mail/'
     }
   },

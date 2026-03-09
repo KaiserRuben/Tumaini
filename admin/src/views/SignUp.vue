@@ -1,45 +1,46 @@
 <template>
   <div class="login">
-    <md-card class="contentCard">
+    <div class="md-card contentCard">
       <div class="md-title">Sign Up</div>
-      <div class="md-subhead"></div>
-      <md-field>
+      <div class="md-subheading"></div>
+      <div class="md-field">
         <label>Enter your Name</label>
-        <md-input v-model="userdata.name" name="name" md-clearable></md-input>
-      </md-field>
-      <md-field>
+        <input v-model="userdata.name" name="name"/>
+      </div>
+      <div class="md-field">
         <label>Fill in your E-Mail</label>
-        <md-input v-model="userdata.email" name="email" type="email"></md-input>
-      </md-field>
-      <md-field>
+        <input v-model="userdata.email" name="email" type="email"/>
+      </div>
+      <div class="md-field">
         <label>Enter a password</label>
-        <md-input v-model="userdata.password" name="password" type="password"></md-input>
-      </md-field>
-      <md-field :class="userdata.password === password2 ? '' : 'md-invalid'">
+        <input v-model="userdata.password" name="password" type="password"/>
+      </div>
+      <div class="md-field" :class="userdata.password === password2 ? '' : 'md-invalid'">
         <label>Repeat your password</label>
-        <md-input v-model="password2" name="password" type="password" md-clearable></md-input>
-      </md-field>
-      <md-checkbox v-model="agb" class="md-primary">I read the Terms of Service and the privacy statement and agree to
-        the mentioned terms.
-      </md-checkbox>
-      <div v-if="query">
-        <md-progress-bar md-mode="query"></md-progress-bar>
+        <input v-model="password2" name="password2" type="password"/>
+      </div>
+      <label class="md-checkbox">
+        <input type="checkbox" v-model="agb"/>
+        I read the Terms of Service and the privacy statement and agree to the mentioned terms.
+      </label>
+      <div v-if="query" class="md-progress-bar indeterminate">
+        <div class="md-progress-bar-fill"></div>
       </div>
       <br/>
       <p v-if="formErrors" class="warnings">{{ formErrors }}</p>
-      <md-card-actions>
-        <md-button class=" loginButton" @click="$router.push({name: 'Login'})">Login instead</md-button>
-        <md-button class="md-raised md-primary loginButton" @click="checkForm()">Sign up</md-button>
-      </md-card-actions>
-    </md-card>
+      <div class="md-card-actions">
+        <button class="md-button loginButton" @click="$router.push({ name: 'Login' })">Login instead</button>
+        <button class="md-button md-raised md-primary loginButton" @click="checkForm()">Sign up</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import {axiosDelete, axiosGet, axiosPost} from '@/utils/axiosWrapper';
-import Vue from 'vue';
+import { axiosDelete, axiosGet, axiosPost } from '@/utils/axiosWrapper';
+import { defineComponent } from 'vue';
 
-export default Vue.extend({
+export default defineComponent({
   name: "Signup",
   data() {
     return {
@@ -126,10 +127,6 @@ export default Vue.extend({
 
 .loginButton {
   margin-left: 0;
-}
-
-md-progress-bar {
-  margin: 10px;
 }
 
 .warnings {

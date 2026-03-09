@@ -1,13 +1,11 @@
 /**
- * This module provides several function to handle version numbers on client side.
+ * This module provides several functions to handle version numbers on client side.
  *
  * Copyright: Ruben Kaiser 2022
  * Version: 0.1.0
  */
 
-import * as pj from '../../package.json'
-
-const version = pj.version
+const version = '0.9.0'
 
 function getCookieVersion(): number {
     const v: string | null = localStorage.getItem("v")
@@ -21,7 +19,6 @@ export function getVersion(): string {
 }
 
 function getParsedVersion(): number {
-    // console.log(parseInt(version.split(".").join("")))
     return parseInt(version.split(".").join(""))
 }
 
