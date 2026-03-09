@@ -30,23 +30,19 @@ export interface IUser extends Document {
 }
 
 
-UserSchema.pre<IUser>("save", async function (next) {
+UserSchema.pre("save", function () {
     if (this.isModified('password')) {
         this.password = hashSync(this.password, saltRounds);
     }
-    next()
 });
 /**
- * Document middlewares
- * TS thinks for some reason, that this_update does not exist - but it does...
+ * Query middleware for updateOne
  */
-UserSchema.pre<IUser>("updateOne", async function (next) {
-    // @ts-ignore
-    if (this._update.password) {
-        // @ts-ignore
-        this._update.password = hashSync(this._update.password, saltRounds);
+UserSchema.pre("updateOne", function () {
+    const update = this.getUpdate() as any;
+    if (update && update.password) {
+        update.password = hashSync(update.password, saltRounds);
     }
-    next()
 });
 
 
