@@ -6,5 +6,14 @@ module.exports = defineConfig({
     chainWebpack: config => {
         // Disable TypeScript type checking to avoid pre-existing errors
         config.plugins.delete('fork-ts-checker')
+    },
+    css: {
+        loaderOptions: {
+            sass: {
+                sassOptions: {
+                    silenceDeprecations: ['legacy-js-api']
+                }
+            }
+        }
     }
 })
