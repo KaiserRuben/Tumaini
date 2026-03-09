@@ -160,14 +160,14 @@ articleRouter.patch('/section/:id/:part', (req, res) => {
 articleRouter.delete('/section/:id', async (req, res) => {
     try {
         await deleteSection(req.params.id)
-        await Article.updateMany({$pullAll: {content: [req.params.id]}})
+        await Article.updateMany({}, {$pullAll: {content: [req.params.id]}})
         res.status(200).json({hasError: false})
     } catch (err) {
         res.status(500).json({hasError: true, error: err})
     }
 })
 
-async function deleteSection(id: string) {
+async function deleteSection(id: any) {
     return Section.deleteOne({_id: id});
 }
 
