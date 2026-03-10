@@ -230,7 +230,7 @@ export default defineComponent({
     .block__title {
       font-size: 1.25rem;
       font-weight: 600;
-      color: #5F9AAE;
+      color: var(--t-brand-light);
       margin-bottom: 0.75rem;
 
       @media (min-width: 768px) {
@@ -301,7 +301,7 @@ export default defineComponent({
     .block__title {
       font-size: 1.25rem;
       font-weight: 600;
-      color: #5F9AAE;
+      color: var(--t-brand-light);
       margin-bottom: 1rem;
 
       @media (min-width: 768px) {
@@ -345,7 +345,7 @@ export default defineComponent({
     .block__title {
       font-size: 1.25rem;
       font-weight: 600;
-      color: #5F9AAE;
+      color: var(--t-brand-light);
       margin-bottom: 1rem;
 
       @media (min-width: 768px) {
@@ -388,11 +388,11 @@ export default defineComponent({
         font-size: 1.125rem;
         font-style: italic;
         font-weight: 300;
-        color: #5F9AAE;
-        border-left: 4px solid #5F9AAE;
+        color: var(--t-brand-light);
+        border-left: 4px solid var(--t-brand-light);
         padding: 1rem 1.5rem;
         margin: 1.5rem 0;
-        background: rgba(95, 154, 174, 0.05);
+        background: rgba(200, 113, 46, 0.05);
         border-radius: 0 8px 8px 0;
 
         @media (min-width: 768px) {
