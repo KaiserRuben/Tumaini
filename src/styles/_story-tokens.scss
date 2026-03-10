@@ -1,0 +1,13 @@
+// Story design tokens — imported by all story components
+$black: #0C0D08;
+$dark: #151919;
+$light: #EDF0F3;
+$muted: rgba(237, 240, 243, 0.55);
+$accent: #c8712e;
+$accent-light: #e8a05c;
+$glow: rgba(200, 113, 46, 0.4);
+
+$ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+$ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+$breakpoint-mobile: 768px;

@@ -20,10 +20,8 @@
         </div>
       </div>
 
-      <!-- Story Viewport - Screens transition in/out -->
+      <!-- Story Viewport -->
       <div v-else key="content" class="story__viewport">
-
-        <!-- Screen Wrapper with Transitions -->
         <TransitionGroup
           name="screen"
           tag="div"
@@ -32,169 +30,74 @@
           @enter="onEnter"
           @leave="onLeave"
         >
-
-          <!-- HERO Screen (Adaptive) -->
-          <section
+          <!-- HERO -->
+          <StoryHero
             v-if="currentScreen === 0 && heroScreen"
             key="hero"
-            :class="['screen', `screen--${heroScreen.layout.type}`]"
+            :hero="heroData"
+            :layout="heroScreen.layout"
+            :localize="localized"
           >
-            <!-- Hero Full: Background with overlay -->
-            <template v-if="heroScreen.layout.type === 'hero-full'">
-              <div class="screen__bg" :style="{ backgroundImage: article.image ? `url(${article.image})` : undefined }"></div>
-              <div class="screen__overlay screen__overlay--hero"></div>
-            </template>
-
-            <!-- Hero Grid -->
-            <div class="screen__grid screen__grid--hero" :style="getGridStyle(heroScreen)">
-              <div
-                v-for="cell in heroScreen.cells"
-                :key="cell.id"
-                :class="['cell', `cell--${cell.type}`]"
-                :style="{ gridArea: cell.gridArea }"
-              >
-                <!-- Hero Image Cell -->
-                <div v-if="cell.type === 'hero-image'" class="cell__image" :style="getCellBgStyle(cell)"></div>
-
-                <!-- Hero Content Cell -->
-                <template v-else-if="cell.type === 'hero-content'">
-                  <div class="hero">
-                    <h1 class="hero__title">{{ localized(article.title, 'strict') }}</h1>
-                    <p v-if="article.subheader" class="hero__subtitle">{{ localized(article.subheader, 'strict') }}</p>
-                    <div class="hero__meta">
-                      <time v-if="article.created">{{ formatDate(article.created) }}</time>
-                      <span class="hero__sep">·</span>
-                      <button class="hero__share" @click="share">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
-                          <polyline points="16 6 12 2 8 6"/>
-                          <line x1="12" y1="2" x2="12" y2="15"/>
-                        </svg>
-                        {{ uiText[2] || 'Teilen' }}
-                      </button>
-                    </div>
-                  </div>
-                </template>
+            <template #meta>
+              <div class="hero-meta">
+                <time v-if="article.created">{{ formatDate(article.created) }}</time>
+                <span class="hero-meta__sep">&middot;</span>
+                <button class="hero-meta__share" @click="share">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                    <polyline points="16 6 12 2 8 6"/>
+                    <line x1="12" y1="2" x2="12" y2="15"/>
+                  </svg>
+                  {{ uiText[2] || 'Teilen' }}
+                </button>
               </div>
-            </div>
+            </template>
+          </StoryHero>
 
-            <!-- Scroll Hint -->
-            <div class="screen__hint">
-              <span>Scroll</span>
-              <div class="screen__hint-line"></div>
-            </div>
-          </section>
-
-          <!-- KEY POINTS Screen -->
-          <section
+          <!-- KEY POINTS -->
+          <StoryKeyPoints
             v-if="hasKeyPoints && currentScreen === 1"
             key="points"
-            class="screen screen--points"
-          >
-            <div class="screen__inner screen__inner--centered">
-              <div class="points">
-                <ul class="points__list">
-                  <li
-                    v-for="(point, idx) in article.mainPoints"
-                    :key="idx"
-                    class="points__item"
-                    :style="{ animationDelay: `${idx * 150}ms` }"
-                  >
-                    <span class="points__num">{{ String(idx + 1).padStart(2, '0') }}</span>
-                    <span class="points__text">{{ localized(point, 'strict') }}</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </section>
+            :points="article.mainPoints"
+            :localize="localized"
+          />
 
-          <!-- CONTENT Screens -->
-          <section
-            v-for="(screen, idx) in plannedScreens"
-            v-show="currentScreen === getContentScreenIndex(idx)"
-            :key="`content-${screen.id}`"
-            :class="['screen', `screen--${screen.layout.type}`]"
-          >
-            <!-- Background for showcase/cinematic -->
-            <template v-if="screen.layout.type === 'showcase' || screen.layout.type === 'cinematic'">
-              <div class="screen__bg" :style="getScreenBgStyle(screen)"></div>
-              <div class="screen__overlay"></div>
-            </template>
-
-            <!-- Grid -->
-            <div class="screen__grid" :style="getGridStyle(screen)">
-              <div
-                v-for="(cell, cellIdx) in screen.cells"
-                :key="cell.id"
-                :class="['cell', `cell--${cell.type}`]"
-                :style="{ gridArea: cell.gridArea, animationDelay: `${cellIdx * 100}ms` }"
-              >
-                <!-- Image Cell -->
-                <div v-if="cell.type === 'image'" class="cell__image" :style="getCellBgStyle(cell)"></div>
-
-                <!-- Text Cell -->
-                <div v-else-if="cell.type === 'text'" class="cell__content">
-                  <h2 v-if="cell.section.title" class="cell__title">{{ localized(cell.section.title, 'strict') }}</h2>
-                  <div v-if="cell.section.text" class="cell__body">
-                    <Markdown :source="localized(cell.section.text, 'paragraph')" :breaks="true" :html="true" />
-                  </div>
-                </div>
-
-                <!-- Caption Cell -->
-                <p v-else-if="cell.type === 'caption'" class="cell__caption">
-                  {{ localized(cell.section.imageDescription || cell.section.text || '', 'strict') }}
-                </p>
-
-                <!-- Combined Cell -->
-                <template v-else-if="cell.type === 'combined'">
-                  <div class="cell__image" :style="getCellBgStyle(cell)"></div>
-                  <div class="cell__overlay"></div>
-                  <div class="cell__content cell__content--overlay">
-                    <h2 v-if="cell.section.title" class="cell__title">{{ localized(cell.section.title, 'strict') }}</h2>
-                    <p v-if="cell.section.text && cell.section.text.length < 250" class="cell__excerpt">
-                      {{ localized(cell.section.text, 'strict') }}
-                    </p>
-                  </div>
-                </template>
-
-                <!-- Filler Cell -->
-                <div v-else-if="cell.type === 'filler'" class="cell__filler">
-                  <div class="cell__filler-accent"></div>
-                </div>
-              </div>
-            </div>
-          </section>
-
+          <!-- CONTENT SCREENS -->
+          <template v-for="(screen, idx) in effectiveScreens" :key="`content-${idx}`">
+            <StoryContentScreen
+              v-if="currentScreen === getContentScreenIndex(idx)"
+              :screen="screen"
+              :localize="localized"
+              @lightbox="openLightbox"
+            />
+          </template>
         </TransitionGroup>
       </div>
     </Transition>
 
     <!-- Back Button -->
-    <button v-if="!loading" class="back-btn" @click="$router.back()" aria-label="Go back">
+    <button v-if="!loading && currentScreen > 0" class="back-btn" @click="$router.back()" aria-label="Go back">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="19" y1="12" x2="5" y2="12"/>
         <polyline points="12 19 5 12 12 5"/>
       </svg>
     </button>
 
-    <!-- Unified Navigation -->
-    <nav class="nav" v-if="!loading">
-      <span class="nav__counter">{{ String(currentScreen + 1).padStart(2, '0') }}</span>
+    <!-- Navigation -->
+    <StoryNav
+      v-if="!loading"
+      :class="{ 'nav--hidden': showFooter }"
+      :current="currentScreen"
+      :total="totalScreens"
+      @navigate="goToScreen"
+    />
 
-      <div class="nav__track">
-        <div class="nav__progress" :style="{ height: progressPercent + '%' }"></div>
-        <div class="nav__dots">
-          <button
-            v-for="(_, idx) in totalScreens"
-            :key="idx"
-            :class="['nav__dot', { 'nav__dot--active': currentScreen === idx }]"
-            @click="goToScreen(idx)"
-          />
-        </div>
-      </div>
-
-      <span class="nav__counter nav__counter--total">{{ String(totalScreens).padStart(2, '0') }}</span>
-    </nav>
+    <!-- Lightbox -->
+    <StoryLightbox
+      :image="lightboxImage"
+      :caption="lightboxCaption"
+      @close="closeLightbox"
+    />
 
     <!-- Snackbar -->
     <Transition name="snackbar">
@@ -212,7 +115,11 @@
 import { defineComponent, nextTick } from 'vue';
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
-import Markdown from 'vue3-markdown-it';
+import StoryHero from '@/components/story/StoryHero.vue';
+import StoryKeyPoints from '@/components/story/StoryKeyPoints.vue';
+import StoryContentScreen from '@/components/story/StoryContentScreen.vue';
+import StoryNav from '@/components/story/StoryNav.vue';
+import StoryLightbox from '@/components/story/StoryLightbox.vue';
 import {
   preloadImages,
   calculateMetrics,
@@ -220,14 +127,13 @@ import {
   planHeroScreen,
   type Section,
   type PlannedScreen,
-  type ScreenCell,
   type HeroData
 } from '@/utils/screenPlanner';
 import { axiosGet } from '../../admin/src/utils/axiosWrapper';
 
 export default defineComponent({
   name: 'BerichtView',
-  components: { Header, Footer, Markdown },
+  components: { Header, Footer, StoryHero, StoryKeyPoints, StoryContentScreen, StoryNav, StoryLightbox },
 
   data() {
     return {
@@ -238,11 +144,14 @@ export default defineComponent({
       currentScreen: 0,
       isTransitioning: false,
       showFooter: false,
-      atEndOnce: false,
+      atEndOnceAt: 0,
       heroScreen: null as PlannedScreen | null,
       plannedScreens: [] as PlannedScreen[],
       lastWheelTime: 0,
-      touchStartY: 0
+      touchStartY: 0,
+      lightboxImage: null as string | null,
+      lightboxCaption: '',
+      viewportWidth: typeof window !== 'undefined' ? window.innerWidth : 1024
     };
   },
 
@@ -251,108 +160,128 @@ export default defineComponent({
       return this.article.mainPoints?.length > 0;
     },
 
-    // All screens in order: hero, key points (if any), content screens
-    allScreens(): PlannedScreen[] {
-      const screens: PlannedScreen[] = [];
+    heroData(): HeroData {
+      return {
+        title: this.article.title || '',
+        subheader: this.article.subheader,
+        image: this.article.image,
+        created: this.article.created
+      };
+    },
 
-      // Hero screen (always first)
-      if (this.heroScreen) {
-        screens.push(this.heroScreen);
+    isMobile(): boolean {
+      return this.viewportWidth <= 768;
+    },
+
+    // On mobile, split screens with 3+ cells into chunks of 2
+    effectiveScreens(): PlannedScreen[] {
+      if (!this.isMobile) return this.plannedScreens;
+
+      const result: PlannedScreen[] = [];
+      let id = 0;
+
+      for (const screen of this.plannedScreens) {
+        const contentCells = screen.cells.filter(c => c.type !== 'filler');
+
+        if (contentCells.length <= 2) {
+          result.push({ ...screen, id: id++, cells: contentCells });
+          continue;
+        }
+
+        // Split into chunks of 2
+        for (let i = 0; i < contentCells.length; i += 2) {
+          const chunk = contentCells.slice(i, i + 2);
+
+          if (chunk.length === 1) {
+            const isText = chunk[0].type === 'text' || chunk[0].type === 'caption';
+            result.push({
+              id: id++,
+              sections: screen.sections,
+              layout: {
+                type: isText ? 'text-full' : 'split-v',
+                columns: '1fr',
+                rows: '1fr',
+                areas: ['"main"'],
+                gap: '1rem'
+              },
+              cells: [{ ...chunk[0], gridArea: 'main' }]
+            });
+          } else {
+            result.push({
+              id: id++,
+              sections: screen.sections,
+              layout: {
+                type: 'split-v',
+                columns: '1fr',
+                rows: '1fr 1fr',
+                areas: ['"top"', '"bottom"'],
+                gap: '1rem'
+              },
+              cells: [
+                { ...chunk[0], gridArea: 'top' },
+                { ...chunk[1], gridArea: 'bottom' }
+              ]
+            });
+          }
+        }
       }
 
-      // Content screens (including key points if integrated later)
-      screens.push(...this.plannedScreens);
-
-      return screens;
+      return result;
     },
 
     totalScreens(): number {
-      let count = this.allScreens.length;
-      if (this.hasKeyPoints) count++; // key points s// creen is still separate
+      let count = 1; // hero
+      if (this.hasKeyPoints) count++;
+      count += this.effectiveScreens.length;
       return count;
-    },
-
-    progressPercent(): number {
-      if (this.totalScreens <= 1) return 100;
-      return ((this.currentScreen) / (this.totalScreens - 1)) * 100;
-    },
-
-    // Check if current screen is a hero layout
-    isHeroScreen(): boolean {
-      if (this.currentScreen !== 0) return false;
-      return this.heroScreen?.layout.type.startsWith('hero-') ?? false;
     }
   },
 
   methods: {
     getContentScreenIndex(idx: number): number {
-      // +1 for hero, +1 for key points if present
       return (this.hasKeyPoints ? 2 : 1) + idx;
     },
 
-    getScreenBgStyle(screen: PlannedScreen): Record<string, string> {
-      const cell = screen.cells.find(c => c.section.image);
-      if (!cell?.section.image) return {};
-      return { backgroundImage: `url(${cell.section.image})` };
+    onResize() {
+      this.viewportWidth = window.innerWidth;
     },
 
-    getGridStyle(screen: PlannedScreen): Record<string, string> {
-      return {
-        gridTemplateColumns: screen.layout.columns,
-        gridTemplateRows: screen.layout.rows,
-        gridTemplateAreas: screen.layout.areas.join(' ')
-      };
-    },
-
-    getCellBgStyle(cell: ScreenCell): Record<string, string> {
-      if (!cell.section.image) return {};
-      return { backgroundImage: `url(${cell.section.image})` };
-    },
-
-    // Navigation
+    // ---- Navigation ----
     goToScreen(idx: number) {
       if (this.isTransitioning) return;
       if (idx < 0 || idx >= this.totalScreens) return;
-
       this.isTransitioning = true;
       this.currentScreen = idx;
-
-      setTimeout(() => {
-        this.isTransitioning = false;
-      }, 400);
+      this.atEndOnceAt = 0;
+      setTimeout(() => { this.isTransitioning = false; }, 400);
     },
 
     onWheel(e: WheelEvent) {
+      if (this.lightboxImage) return;
       const atEnd = this.currentScreen === this.totalScreens - 1;
 
-      // At end scrolling down
       if (atEnd && e.deltaY > 0 && !this.showFooter) {
         e.preventDefault();
-        if (this.atEndOnce) {
-          // Second scroll at end - show footer
+        const now = Date.now();
+        if (!this.atEndOnceAt) {
+          // First scroll at end — record timestamp
+          this.atEndOnceAt = now;
+        } else if (now - this.atEndOnceAt > 500) {
+          // Second scroll at end, after a distinct gesture (500ms gap)
           this.showFooter = true;
-        } else {
-          // First scroll at end - just mark it
-          this.atEndOnce = true;
         }
         return;
       }
 
-      // Footer visible, scrolling up - hide footer
       if (this.showFooter && e.deltaY < 0) {
         e.preventDefault();
         this.showFooter = false;
         return;
       }
 
-      // Footer visible, ignore further scrolls
-      if (this.showFooter) {
-        return;
-      }
+      if (this.showFooter) return;
 
-      // Normal screen navigation
       e.preventDefault();
-
       const now = Date.now();
       if (now - this.lastWheelTime < 400) return;
 
@@ -361,8 +290,7 @@ export default defineComponent({
         if (e.deltaY > 0) {
           this.goToScreen(this.currentScreen + 1);
         } else {
-          // Reset atEndOnce when scrolling back
-          this.atEndOnce = false;
+          this.atEndOnceAt = 0;
           this.goToScreen(this.currentScreen - 1);
         }
       }
@@ -373,6 +301,7 @@ export default defineComponent({
     },
 
     onTouchEnd(e: TouchEvent) {
+      if (this.lightboxImage) return;
       const deltaY = this.touchStartY - e.changedTouches[0].clientY;
       if (Math.abs(deltaY) > 50) {
         this.goToScreen(this.currentScreen + (deltaY > 0 ? 1 : -1));
@@ -382,7 +311,11 @@ export default defineComponent({
     onKeydown(e: KeyboardEvent) {
       if (e.key === 'Escape') {
         e.preventDefault();
-        this.$router.back();
+        if (this.lightboxImage) {
+          this.closeLightbox();
+        } else {
+          this.$router.back();
+        }
       } else if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
         e.preventDefault();
         this.goToScreen(this.currentScreen + 1);
@@ -398,7 +331,20 @@ export default defineComponent({
       }
     },
 
-    // Transition hooks - faster, snappier
+    // ---- Lightbox ----
+    openLightbox(section: Section) {
+      if (section.image) {
+        this.lightboxImage = section.image;
+        this.lightboxCaption = this.localized(section.imageDescription || '', 'strict');
+      }
+    },
+
+    closeLightbox() {
+      this.lightboxImage = null;
+      this.lightboxCaption = '';
+    },
+
+    // ---- Transitions ----
     onBeforeEnter(el: Element) {
       (el as HTMLElement).style.opacity = '0';
       (el as HTMLElement).style.transform = 'translateY(40px) scale(0.97)';
@@ -420,7 +366,7 @@ export default defineComponent({
       setTimeout(done, 300);
     },
 
-    // Localization
+    // ---- Localization ----
     looksGerman(t: string): boolean {
       return /\b(und|der|die|das|ist|mit|für|auf|ein|eine|haben|wird|sind|oder|wir)\b|[äöüß]/i.test(t);
     },
@@ -466,17 +412,14 @@ export default defineComponent({
       setTimeout(() => { this.showSnackbarFlag = false; }, 3000);
     },
 
+    // ---- Data Loading ----
     async initialize() {
       this.loading = true;
-
       try {
         const routeId = this.$route.params.id;
-
-        // 1. Load article
         const res = await axiosGet('/content/article/id/' + routeId);
         this.article = res.data;
 
-        // 2. Load UI text
         if (this.textObject) {
           this.uiText = await Promise.all([
             this.textObject.getContent('61d56628cc3bfb06f031f99a'),
@@ -486,7 +429,6 @@ export default defineComponent({
           ]);
         }
 
-        // 3. Plan hero screen
         const heroData: HeroData = {
           title: this.article.title || '',
           subheader: this.article.subheader,
@@ -495,19 +437,14 @@ export default defineComponent({
         };
         this.heroScreen = planHeroScreen(heroData);
 
-        // 4. Preload images & plan content screens
         const sections: Section[] = this.article.content || [];
         const imageDims = await preloadImages(sections);
         const metrics = calculateMetrics(sections, imageDims);
         this.plannedScreens = planScreens(metrics);
 
-        // 5. Done
         this.loading = false;
-
-        // 6. Focus for keyboard
         await nextTick();
         (this.$refs.storyEl as HTMLElement)?.focus();
-
       } catch (err) {
         console.error('Error initializing:', err);
         this.loading = false;
@@ -517,29 +454,21 @@ export default defineComponent({
 
   mounted() {
     document.body.style.overflow = 'hidden';
+    window.addEventListener('resize', this.onResize);
     this.initialize();
   },
 
   beforeUnmount() {
     document.body.style.overflow = '';
+    window.removeEventListener('resize', this.onResize);
   }
 });
 </script>
 
 <style lang="scss">
-// ============ TOKENS ============
-$black: #0C0D08;
-$dark: #151919;
-$light: #EDF0F3;
-$muted: rgba(237, 240, 243, 0.55);
-$accent: #c8712e;
-$accent-light: #e8a05c;
-$glow: rgba(200, 113, 46, 0.4);
+@use '@/styles/story-tokens' as *;
 
-$ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-$ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-
-// ============ TRANSITIONS ============
+// ============ TRANSITIONS (must be unscoped) ============
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.6s $ease-out;
@@ -569,7 +498,7 @@ $ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateY(100%);
 }
 
-// ============ GLOBAL ============
+// ============ GLOBAL OVERRIDES ============
 ::v-deep(.header) {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -581,7 +510,7 @@ $ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 0;
 }
 
-// ============ STORY ============
+// ============ STORY CONTAINER ============
 .story {
   position: fixed;
   inset: 0;
@@ -590,7 +519,6 @@ $ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   outline: none;
 
-  // Footer
   &__footer {
     position: fixed;
     bottom: 0;
@@ -602,11 +530,6 @@ $ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   &--footer-visible {
     .story__viewport {
       transform: translateY(-80px);
-    }
-
-    .nav {
-      opacity: 0;
-      pointer-events: none;
     }
   }
 
@@ -658,295 +581,17 @@ $ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   to { transform: rotate(360deg); }
 }
 
-// ============ SCREEN ============
-.screen {
-  position: absolute;
-  inset: 0;
+// ============ HERO META (slotted into StoryHero) ============
+.hero-meta {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: clamp(1rem, 4vw, 3rem);
-  box-sizing: border-box;
+  gap: 0.75rem;
+  font-size: 0.8125rem;
+  color: $muted;
 
-  @media (min-width: 1024px) {
-    padding-left: 6rem;
-    padding-right: 6rem;
-  }
-
-  &__bg {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    z-index: 0;
-
-    &::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: inherit;
-      background-size: inherit;
-      background-position: inherit;
-      filter: blur(0);
-      transform: scale(1.05);
-      animation: ken-burns 20s ease-in-out infinite alternate;
-    }
-  }
-
-  &__overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: linear-gradient(
-      180deg,
-      rgba($black, 0.4) 0%,
-      rgba($black, 0.1) 30%,
-      rgba($black, 0.3) 60%,
-      rgba($black, 0.9) 100%
-    );
-
-    &--hero {
-      background: linear-gradient(
-        180deg,
-        rgba($black, 0.3) 0%,
-        rgba($black, 0) 20%,
-        rgba($black, 0.2) 50%,
-        rgba($black, 0.85) 100%
-      );
-    }
-  }
-
-  &__inner {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    max-width: 900px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding-bottom: 5rem;
-
-    &--centered {
-      justify-content: center;
-      padding-bottom: 0;
-    }
-  }
-
-  &__grid {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    max-width: 1300px;
-    height: calc(100% - 2rem);
-    display: grid;
-    gap: clamp(0.75rem, 2vw, 1.5rem);
-  }
-
-  &__hint {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    color: $muted;
-    font-size: 0.6875rem;
+  time {
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  &__hint-line {
-    width: 1px;
-    height: 40px;
-    background: linear-gradient(to bottom, $accent, transparent);
-  }
-
-  &--hero, &--hero-full {
-    // Full bleed hero - content overlay on background
-    .screen__grid--hero {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      max-width: 900px;
-      height: 100%;
-      display: grid;
-    }
-
-    .cell--hero-content {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding-bottom: 5rem;
-    }
-  }
-
-  &--hero-split {
-    background: $black;
-
-    .screen__grid--hero {
-      height: 100%;
-    }
-
-    .cell--hero-image {
-      .cell__image {
-        position: absolute;
-        inset: 0;
-        background-size: cover;
-        background-position: center;
-      }
-    }
-
-    .cell--hero-content {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: clamp(2rem, 5vw, 4rem);
-      background: $dark;
-    }
-  }
-
-  &--hero-cards {
-    background: $black;
-    padding: clamp(1.5rem, 4vw, 3rem);
-
-    .screen__grid--hero {
-      height: calc(100% - 2rem);
-      max-width: 1400px;
-    }
-
-    .cell--hero-image {
-      border-radius: clamp(12px, 2vw, 24px);
-      overflow: hidden;
-
-      .cell__image {
-        position: absolute;
-        inset: 0;
-        background-size: cover;
-        background-position: center;
-      }
-    }
-
-    .cell--hero-content {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: clamp(1.5rem, 3vw, 2.5rem);
-      background: $dark;
-      border-radius: clamp(12px, 2vw, 24px);
-    }
-  }
-
-  &--points {
-    background: linear-gradient(160deg, $black 0%, #1c2020 100%);
-  }
-
-  &--text-full {
-    background: $dark;
-  }
-
-  // Merge template layouts
-  &--duo-images,
-  &--micro-gallery,
-  &--quad-mix,
-  &--image-split-text {
-    background: $dark;
-    padding: clamp(1.5rem, 4vw, 3rem);
-
-    @media (min-width: 1024px) {
-      padding-left: 6rem;
-      padding-right: 6rem;
-    }
-  }
-
-  &--duo-images {
-    .cell--image {
-      border-radius: clamp(12px, 2vw, 20px);
-      overflow: hidden;
-    }
-
-    .cell--caption {
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 1rem;
-      text-align: center;
-    }
-  }
-
-  &--micro-gallery {
-    .cell--image {
-      border-radius: clamp(8px, 1.5vw, 16px);
-      overflow: hidden;
-    }
-  }
-
-  &--image-split-text {
-    .cell--image {
-      border-radius: clamp(12px, 2vw, 20px);
-      overflow: hidden;
-    }
-
-    .cell--text {
-      display: flex;
-      align-items: center;
-      padding: clamp(1.5rem, 3vw, 2.5rem);
-    }
-  }
-
-  &--quad-mix {
-    .cell {
-      border-radius: clamp(12px, 2vw, 20px);
-      overflow: hidden;
-    }
-  }
-}
-
-@keyframes ken-burns {
-  0% { transform: scale(1.05) translate(0, 0); }
-  100% { transform: scale(1.12) translate(-1%, -1%); }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
-}
-
-// ============ HERO ============
-.hero {
-  animation: hero-in 1s $ease-out both;
-
-  &__title {
-    font-size: clamp(2rem, 6vw, 4rem);
-    font-weight: 700;
-    line-height: 1.05;
-    margin-bottom: 1rem;
-    letter-spacing: -0.03em;
-  }
-
-  &__subtitle {
-    font-size: clamp(1rem, 2.5vw, 1.375rem);
-    color: rgba($light, 0.7);
-    line-height: 1.5;
-    margin-bottom: 2rem;
-    max-width: 600px;
-  }
-
-  &__meta {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 0.8125rem;
-    color: $muted;
-
-    time {
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
+    letter-spacing: 0.05em;
   }
 
   &__sep { opacity: 0.3; }
@@ -961,254 +606,14 @@ $ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
     font-size: inherit;
     cursor: pointer;
     transition: color 0.2s;
-
-    &:hover { color: $accent; }
-  }
-}
-
-@keyframes hero-in {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-}
-
-// ============ POINTS ============
-.points {
-  max-width: 650px;
-  width: 100%;
-
-  &__list {
-    list-style: none;
-    margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  &__item {
-    display: flex;
-    align-items: flex-start;
-    gap: 1.25rem;
-    animation: point-in 0.7s $ease-out both;
-    animation-delay: var(--delay, 0ms);
-  }
-
-  &__num {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: $accent;
-    opacity: 0.4;
-    padding-top: 0.4rem;
-    flex-shrink: 0;
-  }
-
-  &__text {
-    font-size: clamp(1.0625rem, 2.5vw, 1.375rem);
-    line-height: 1.5;
-  }
-}
-
-@keyframes point-in {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-}
-
-// ============ CELL ============
-.cell {
-  position: relative;
-  border-radius: clamp(12px, 2vw, 20px);
-  overflow: hidden;
-  background: $dark;
-  animation: cell-in 0.6s $ease-out both;
-
-  &--image, &--combined {
-    .cell__image {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      transition: transform 0.4s $ease-out;
-    }
-
-    &:hover .cell__image {
-      transform: scale(1.03);
-    }
-  }
-
-  &--text {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: clamp(1.5rem, 4vw, 3rem);
-  }
-
-  &--caption {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    text-align: center;
-  }
-
-  &--combined {
-    .cell__overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba($black, 0.9) 0%, rgba($black, 0.2) 60%, transparent 100%);
-    }
-
-    .cell__content--overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: clamp(1.5rem, 4vw, 2.5rem);
-    }
-  }
-
-  &__content {
-    max-width: 550px;
-  }
-
-  &__title {
-    font-size: clamp(1.25rem, 3vw, 1.625rem);
-    font-weight: 600;
-    color: $accent;
-    margin-bottom: 1rem;
-    line-height: 1.25;
-  }
-
-  &__body {
-    font-size: clamp(0.9375rem, 2vw, 1.0625rem);
-    line-height: 1.75;
-    color: rgba($light, 0.85);
-
-    :deep(p) {
-      margin-bottom: 1rem;
-      &:last-child { margin-bottom: 0; }
-    }
-  }
-
-  &__caption, &__excerpt {
-    font-size: 0.9375rem;
-    color: $muted;
-    line-height: 1.6;
-    font-style: italic;
-  }
-
-  &--filler {
-    background: linear-gradient(135deg, $dark 0%, #1c2020 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &__filler {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-  }
-
-  &__filler-accent {
-    width: 40px;
-    height: 2px;
-    background: rgba($accent, 0.2);
-    border-radius: 1px;
-  }
-}
-
-@keyframes cell-in {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.98);
-  }
-}
-
-// ============ NAVIGATION ============
-.nav {
-  position: fixed;
-  right: 1.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  transition: opacity 0.3s $ease-out;
-
-  @media (max-width: 767px) {
-    right: 0.75rem;
-  }
-
-  &__counter {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    color: $accent;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 0.05em;
-    transition: transform 0.2s $ease-out;
-
-    &--total {
-      color: $muted;
-    }
-  }
-
-  &__track {
-    position: relative;
-    width: 3px;
-    background: rgba($light, 0.1);
-    border-radius: 2px;
-    padding: 0.5rem 0;
-  }
-
-  &__progress {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: linear-gradient(to bottom, $accent, rgba($accent, 0.3));
-    border-radius: 2px;
-    transition: height 0.3s $ease-out;
-    z-index: 0;
-  }
-
-  &__dots {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.25rem 0;
-  }
-
-  &__dot {
-    width: 9px;
-    height: 9px;
-    padding: 0;
-    border: 2px solid transparent;
-    border-radius: 50%;
-    background: rgba($light, 0.2);
-    cursor: pointer;
-    transition: all 0.2s $ease-out;
+    min-height: unset;
+    box-shadow: none;
 
     &:hover {
-      background: rgba($light, 0.4);
-      transform: scale(1.3);
-    }
-
-    &--active {
-      background: $accent;
-      border-color: $accent;
-      box-shadow: 0 0 8px $glow;
-      transform: scale(1.2);
+      color: $accent;
+      transform: none;
+      box-shadow: none;
     }
   }
 }
@@ -1240,6 +645,12 @@ $ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
     transform: scale(1.1);
     box-shadow: 0 2px 12px $glow;
   }
+}
+
+// ============ NAV VISIBILITY ============
+.nav--hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 // ============ SNACKBAR ============

@@ -1,114 +1,128 @@
 <template>
-  <nav class="story-nav" v-if="chapters.length">
-    <a
-      v-for="chapter in chapters"
-      :key="chapter.screenIndex"
-      :class="['story-nav__item', { 'story-nav__item--active': activeIndex === chapter.screenIndex }]"
-      @click="$emit('navigate', chapter.screenIndex)"
-    >
-      <span class="story-nav__dot"></span>
-      <span class="story-nav__label">{{ chapter.title }}</span>
-    </a>
+  <nav class="nav" v-if="total > 0">
+    <span class="nav__counter">{{ String(current + 1).padStart(2, '0') }}</span>
+
+    <div class="nav__track">
+      <div class="nav__progress" :style="{ height: progressPercent + '%' }"></div>
+      <div class="nav__dots">
+        <button
+          v-for="idx in total"
+          :key="idx - 1"
+          :class="['nav__dot', { 'nav__dot--active': current === idx - 1 }]"
+          @click="$emit('navigate', idx - 1)"
+        />
+      </div>
+    </div>
+
+    <span class="nav__counter nav__counter--total">{{ String(total).padStart(2, '0') }}</span>
   </nav>
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType } from 'vue';
-
-interface Chapter {
-  title: string;
-  screenIndex: number;
-}
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'StoryNav',
-
   props: {
-    chapters: {
-      type: Array as PropType<Chapter[]>,
-      required: true
-    },
-    activeIndex: {
-      type: Number,
-      required: true
-    }
+    current: { type: Number, required: true },
+    total: { type: Number, required: true }
   },
+  emits: ['navigate'],
 
-  emits: ['navigate']
+  computed: {
+    progressPercent(): number {
+      if (this.total <= 1) return 100;
+      return (this.current / (this.total - 1)) * 100;
+    }
+  }
 });
 </script>
 
 <style scoped lang="scss">
-$light: #EDF0F3;
-$accent: #5F9AAE;
-$muted: rgba(237, 240, 243, 0.55);
-$glow: rgba(95, 154, 174, 0.35);
+@use '@/styles/story-tokens' as *;
 
-$ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-
-.story-nav {
+.nav {
   position: fixed;
-  left: 2rem;
+  right: 1.5rem;
   top: 50%;
   transform: translateY(-50%);
+  z-index: 100;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  z-index: 100;
+  align-items: center;
+  gap: 0.75rem;
+  transition: opacity 0.3s $ease-out;
 
-  @media (max-width: 768px) {
-    display: none;
+  @media (max-width: $breakpoint-mobile) {
+    right: 0.75rem;
   }
 
-  &__item {
+  &__counter {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: $accent;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.05em;
+    transition: transform 0.2s $ease-out;
+
+    &--total {
+      color: $muted;
+    }
+  }
+
+  &__track {
+    position: relative;
+    width: 3px;
+    background: rgba($light, 0.1);
+    border-radius: 2px;
+    padding: 0.5rem 0;
+  }
+
+  &__progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to bottom, $accent, rgba($accent, 0.3));
+    border-radius: 2px;
+    transition: height 0.3s $ease-out;
+    z-index: 0;
+  }
+
+  &__dots {
+    position: relative;
+    z-index: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 0.75rem;
-    cursor: pointer;
-    text-decoration: none;
-
-    &:hover {
-      .story-nav__dot {
-        transform: scale(1.3);
-        background-color: $accent;
-        box-shadow: 0 0 12px $glow;
-      }
-
-      .story-nav__label {
-        opacity: 1;
-        transform: translateX(0);
-        pointer-events: auto;
-      }
-    }
-
-    &--active {
-      .story-nav__dot {
-        background-color: $accent;
-        box-shadow: 0 0 8px $glow;
-      }
-    }
+    padding: 0.25rem 0;
   }
 
   &__dot {
-    width: 10px;
-    height: 10px;
+    width: 9px;
+    height: 9px;
+    padding: 0;
+    border: 2px solid transparent;
     border-radius: 50%;
-    background-color: $muted;
-    transition: all 0.4s $ease-out-expo;
-    flex-shrink: 0;
-  }
+    background: rgba($light, 0.2);
+    cursor: pointer;
+    transition: all 0.2s $ease-out;
+    min-height: unset;
+    box-shadow: none;
 
-  &__label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: $light;
-    white-space: nowrap;
-    opacity: 0;
-    transform: translateX(-8px);
-    transition: all 0.4s $ease-out-expo;
-    pointer-events: none;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    &:hover {
+      background: rgba($light, 0.4);
+      transform: scale(1.3);
+      box-shadow: none;
+    }
+
+    &--active {
+      background: $accent;
+      border-color: $accent;
+      box-shadow: 0 0 8px $glow;
+      transform: scale(1.2);
+    }
   }
 }
 </style>
