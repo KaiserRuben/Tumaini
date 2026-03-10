@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl:*)",
+      "WebSearch",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm ls:*)",
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(npm outdated:*)",
+      "Bash(npm update:*)",
+      "Bash(npm install:*)",
+      "Bash(npx vite:*)",
+      "Bash(cat:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(npm run:*)",
+      "Bash(npx vue-tsc:*)",
+      "Bash(find:*)",
+      "Bash(docker:*)",
+      "Bash(docker exec:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx playwright:*)",
+      "Bash(lsof:*)",
+      "Bash(git:*)",
+      "WebFetch(domain:api.tumaini.be)"
+    ]
+  }
+}
