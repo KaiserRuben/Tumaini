@@ -1,15 +1,9 @@
 <template>
-  <div class="legal">
-    <div>
-      <router-link to="/legal">Legal / Impressum</router-link>
-    </div>
-    <div>
-      Copyright 2021
-    </div>
-    <div>
-      Version {{ version }}
-    </div>
-  </div>
+  <footer class="app-footer">
+    <router-link to="/legal" class="footer-link">Legal / Impressum</router-link>
+    <span>&copy; {{ year }} Tumaini</span>
+    <span>v{{ version }}</span>
+  </footer>
 </template>
 
 <script lang="ts">
@@ -20,20 +14,30 @@ export default defineComponent({
   name: 'Footer',
   data() {
     return {
-      version: getVersion()
-    }
+      version: getVersion(),
+      year: new Date().getFullYear()
+    };
   }
 });
 </script>
 
 <style scoped>
-.legal {
-  width: 90%;
-  position: fixed;
-  bottom: 0;
-  margin: 10px 5%;
+.app-footer {
   display: flex;
-  flex-flow: row nowrap;
   justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.8rem;
+  color: var(--t-text-subtle);
+  border-top: 1px solid var(--t-surface-cream);
+}
+
+.footer-link {
+  color: var(--t-text-subtle);
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  color: var(--t-brand);
 }
 </style>

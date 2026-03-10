@@ -1,42 +1,40 @@
 <template>
-  <div class="files">
-    <div class="content">
-      <file-upload @reload="loadData"></file-upload>
-      <table class="md-table" v-if="files.length">
-        <thead>
-          <tr>
-            <th>Preview</th>
-            <th>Name</th>
-            <th>Link</th>
-            <th>Type</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in files" :key="index" @click="onSelect(item)" style="cursor: pointer;">
-            <td>
-              <img style="height: 50px;" v-if="isImage(item.type)" :src="item.link" :alt="item.name">
-              <span class="md-icon" style="height: 50px" v-else-if="isAudio(item.type)">audiotrack</span>
-              <span class="md-icon" style="height: 50px" v-else>description</span>
-            </td>
-            <td>{{ item.name }}</td>
-            <td><a :href="item.link" target="_blank">{{ item.link }}</a></td>
-            <td>{{ item.type }}</td>
-            <td>
-              <button class="md-button" @click.stop="deleteEntry(item.name)">
-                <span class="md-icon md-accent">delete</span>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div style="margin-top: 2em" v-else>
-        Nothing here to show :)
-      </div>
+  <div>
+    <div class="page-header">
+      <h2>Files</h2>
     </div>
-    <div v-if="showSnackbar" class="md-snackbar">
-      <span>Copied link to clipboard.</span>
-      <button class="md-button md-primary" @click="showSnackbar = false">Ok</button>
+
+    <file-upload @reload="loadData"></file-upload>
+
+    <div class="table-wrap" v-if="files.length">
+      <DataTable :value="files" :paginator="true" :rows="10"
+                 class="p-datatable-sm"
+                 selectionMode="single" @rowSelect="onSelect">
+        <Column header="Preview" style="width: 80px">
+          <template #body="{ data }">
+            <img class="preview-thumb" v-if="isImage(data.type)" :src="data.link" :alt="data.name">
+            <i class="pi pi-volume-up icon-preview" v-else-if="isAudio(data.type)"></i>
+            <i class="pi pi-file icon-preview" v-else></i>
+          </template>
+        </Column>
+        <Column field="name" header="Name" sortable></Column>
+        <Column header="Link">
+          <template #body="{ data }">
+            <a :href="data.link" target="_blank">{{ data.link }}</a>
+          </template>
+        </Column>
+        <Column field="type" header="Type" sortable></Column>
+        <Column header="" style="width: 80px">
+          <template #body="{ data }">
+            <Button icon="pi pi-trash" severity="danger" text rounded
+                    @click.stop="deleteEntry(data.name)" />
+          </template>
+        </Column>
+      </DataTable>
+    </div>
+
+    <div class="empty-state" v-else>
+      Nothing here to show yet.
     </div>
   </div>
 </template>
@@ -45,6 +43,10 @@ import fileUpload from '@/components/FilesUpload.vue';
 import { defineComponent } from "vue";
 import { axiosDelete, axiosGet } from '@/utils/axiosWrapper';
 import { FILES_LOCATION, MEDIA_LOCATION } from '@/config';
+import { useNotify } from '@/composables/useNotify';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import Button from 'primevue/button';
 
 interface FileItem {
   name: string;
@@ -54,10 +56,13 @@ interface FileItem {
 
 export default defineComponent({
   name: "Files",
+  components: { fileUpload, DataTable, Column, Button },
+  setup() {
+    const notify = useNotify();
+    return { notify };
+  },
   data() {
     return {
-      showSnackbar: false,
-      sending: false,
       files: [] as FileItem[]
     }
   },
@@ -75,7 +80,7 @@ export default defineComponent({
             })
           })
           .catch((error) => {
-            alert("An Error occurred, please contact your web admin. \n" + error);
+            this.notify.error("An error occurred, please contact your web admin.\n" + error);
           });
     },
     testFileEnding: function (allowedFormats: string[], file?: string) {
@@ -89,9 +94,9 @@ export default defineComponent({
       let allowedFormats = ["mp3", "MP3", "ogg", "OGG"]
       return this.testFileEnding(allowedFormats, file);
     },
-    onSelect: function (item: Record<string, string>) {
-      this.copyToClipboard(item.link).then(() => {
-        this.showSnackbar = true;
+    onSelect: function (event: { data: FileItem }) {
+      this.copyToClipboard(event.data.link).then(() => {
+        this.notify.info("Copied link to clipboard.");
       }, (e) => {
         console.warn('Can not copy\n' + e)
       })
@@ -100,6 +105,7 @@ export default defineComponent({
       const deleted = await axiosDelete(`/files/${id}`)
       this.files = this.files.filter(e => e.name !== id)
       console.log(deleted.data)
+      this.notify.success("File deleted.");
     },
     copyToClipboard(link: string): Promise<void> {
       if (navigator.clipboard && window.isSecureContext) {
@@ -120,27 +126,29 @@ export default defineComponent({
       }
     },
   },
-  components: {
-    fileUpload
-  },
   mounted() {
     this.loadData()
   }
 })
 </script>
 <style scoped>
-.content {
-  margin: 2% 5% 0 5%;
+.table-wrap {
+  margin-top: 1.25rem;
+}
+.preview-thumb {
+  height: 50px;
+  border-radius: 4px;
+}
+.icon-preview {
+  font-size: 2rem;
+}
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--t-text-muted);
 }
 
-.container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
-
-td {
-  padding: 1%;
-  width: 50%;
+@media (max-width: 768px) {
+  .page-header { flex-wrap: wrap; gap: 0.5rem; }
 }
 </style>

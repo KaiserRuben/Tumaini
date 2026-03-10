@@ -1,40 +1,31 @@
 <template>
-  <div>
-    <router-view style="margin-bottom: 40px"/>
-    <Footer/>
+  <div id="tumaini-app">
+    <Toast position="top-right" />
+    <ConfirmDialog />
+    <router-view v-slot="{ Component }">
+      <transition name="page" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </div>
 </template>
+
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Footer from "@/components/Footer.vue";
+import Toast from 'primevue/toast';
+import ConfirmDialog from 'primevue/confirmdialog';
 
 export default defineComponent({
-  name: 'Home',
+  name: 'App',
   components: {
-    Footer
+    Toast,
+    ConfirmDialog
   },
 });
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+#tumaini-app {
+  min-height: 100vh;
 }
 </style>

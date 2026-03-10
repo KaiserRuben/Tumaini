@@ -1,51 +1,48 @@
 <template>
-  <div>
-    <div class="md-card-header">
-      <div class="md-title">E-Mail</div>
-    </div>
+  <div class="mailer">
+    <h2 class="section-title">Compose Email</h2>
+    <div class="mail-form">
+      <div class="field">
+        <label>
+          <ToggleSwitch v-model="sendToAll" />
+          <span>This is an E-Mail to all {{ emails.length }} donors.</span>
+        </label>
+      </div>
 
-    <div class="md-card-content">
-      <label class="md-switch">
-        <input type="checkbox" v-model="sendToAll"/>
-        This is an E-Mail to all {{ emails.length }} donors.
-      </label>
-
-      <div class="md-field" v-if="!sendToAll && (emails.includes(toMail) || toMail === '')">
+      <div class="field" v-if="!sendToAll && (emails.includes(toMail) || toMail === '')">
         <label for="email">Select an E-Mail-Address for the receiver.</label>
-        <select v-model="toMail" name="toMail" id="email" class="md-select">
-          <option v-for="(u, key) in emails" :value="u" :key="key">{{ u }}</option>
-          <option :value="''">Other E-Mail</option>
-        </select>
+        <Select id="email" v-model="toMail" :options="emailOptions"
+                optionLabel="label" optionValue="value" placeholder="Select email" />
       </div>
 
-      <div class="md-field" v-if="!sendToAll">
+      <div class="field" v-if="!sendToAll">
         <label>Enter the receiver.</label>
-        <input v-model="toMail" type="text"/>
+        <InputText v-model="toMail" type="text" />
       </div>
 
-      <div class="md-field">
+      <div class="field">
         <label>Who is the sender? (must end with @{{ websiteName }})</label>
-        <input v-model="fromMail" type="text"/>
+        <InputText v-model="fromMail" type="text" />
       </div>
 
-      <div class="md-field">
+      <div class="field">
         <label>What is the subject?</label>
-        <textarea v-model="subject"></textarea>
+        <InputText v-model="subject" />
       </div>
 
-      <div class="md-field">
+      <div class="field">
         <label>What is your message?</label>
-        <textarea v-model="message"></textarea>
+        <Textarea v-model="message" rows="6" />
       </div>
-      {{ infoText }}
-      <div v-if="progress >= 0" class="md-progress-bar">
-        <div class="md-progress-bar-fill" :style="{ width: (progress / progressMax) * 100 + '%' }"></div>
-      </div>
-    </div>
 
-    <div class="md-card-actions">
-      <button class="md-button" @click="clearAll()">Clear</button>
-      <button class="md-button md-primary" @click="sendMail()">Send</button>
+      <span v-if="infoText">{{ infoText }}</span>
+
+      <ProgressBar v-if="progress >= 0" :value="(progress / progressMax) * 100" style="height: 20px" />
+
+      <div class="form-actions">
+        <Button label="Clear" severity="secondary" @click="clearAll()" />
+        <Button label="Send" @click="sendMail()" />
+      </div>
     </div>
   </div>
 </template>
@@ -53,6 +50,13 @@
 <script lang="ts">
 import { axiosPost } from '@/utils/axiosWrapper';
 import { defineComponent } from 'vue';
+import { useNotify } from '@/composables/useNotify';
+import InputText from 'primevue/inputtext';
+import Textarea from 'primevue/textarea';
+import Select from 'primevue/select';
+import Button from 'primevue/button';
+import ToggleSwitch from 'primevue/toggleswitch';
+import ProgressBar from 'primevue/progressbar';
 
 function validEmail(email: string) {
   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -68,6 +72,7 @@ interface Mail {
 
 export default defineComponent({
   name: 'E-Mail',
+  components: { InputText, Textarea, Select, Button, ToggleSwitch, ProgressBar },
   props: {
     emails: {
       type: Array as () => string[],
@@ -87,6 +92,10 @@ export default defineComponent({
       default: ""
     }
   },
+  setup() {
+    const notify = useNotify();
+    return { notify };
+  },
   data() {
     return {
       toMail: "",
@@ -101,6 +110,13 @@ export default defineComponent({
       progressMax: 1
     }
   },
+  computed: {
+    emailOptions(): { label: string; value: string }[] {
+      const options = this.emails.map(u => ({ label: u, value: u }));
+      options.push({ label: 'Other E-Mail', value: '' });
+      return options;
+    }
+  },
   methods: {
     clearAll: function () {
       this.toMail = ""
@@ -111,7 +127,7 @@ export default defineComponent({
     },
     sendMail: function () {
       if (!validEmail(this.fromMail)) {
-        alert(this.fromMail + ' is not an E-Mail.')
+        this.notify.warn(this.fromMail + ' is not a valid E-Mail.');
         return
       }
       if (!this.sendToAll) {
@@ -157,7 +173,7 @@ export default defineComponent({
       this.progressMax = 1
       this.clearAll()
       console.log('E-Mails sent.')
-      alert('E-Mails sent.')
+      this.notify.success('E-Mails sent.');
     }
   },
   mounted() {
@@ -165,22 +181,26 @@ export default defineComponent({
   }
 });
 </script>
+
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+.section-title {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  margin: 0 0 1rem;
+  color: var(--t-text);
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
+.mail-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
 }
 </style>

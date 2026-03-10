@@ -1,80 +1,71 @@
 <template>
-  <div class="md-card containe">
-    <div class="md-card-header">
-      <div class="md-subheading">Upload Files</div>
-    </div>
-    <div class="md-card-content">
-      <input type="file" id="files" ref="filesInput" multiple @change="handleFilesUpload()" hidden/>
-      <div class="fileList" v-for="(file, key) in files" :key="key"
-           style="display: flex; align-items: center; gap: 8px;">
-        <span>{{ file.name }}</span>
-        <button class="md-button md-accent" @click="removeFile(key)">
-          <span class="md-icon">delete_outline</span>
-        </button>
-      </div>
-    </div>
-    <div v-if="query" class="md-progress-bar indeterminate">
-      <div class="md-progress-bar-fill"></div>
-    </div>
-    <div class="md-card-actions">
-      <button class="md-button" @click="addFiles()">Add Files</button>
-      <button class="md-button md-primary" @click="submitFiles()">Submit</button>
-    </div>
+  <div class="files-upload">
+    <h3 class="upload-title">Upload Files</h3>
+    <FileUpload mode="advanced" :multiple="true" :customUpload="true"
+                @uploader="submitFiles" :auto="false"
+                chooseLabel="Add Files" uploadLabel="Submit" cancelLabel="Clear">
+      <template #empty>
+        <p class="upload-empty">Drag and drop files here to upload.</p>
+      </template>
+    </FileUpload>
+    <ProgressBar v-if="query" mode="indeterminate" style="height: 6px; margin-top: 1em" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { axiosPost } from "@/utils/axiosWrapper";
+import { useNotify } from "@/composables/useNotify";
+import FileUpload from 'primevue/fileupload';
+import ProgressBar from 'primevue/progressbar';
 
 export default defineComponent({
   emits: ['reload'],
+  components: { FileUpload, ProgressBar },
+  setup() {
+    const notify = useNotify();
+    return { notify };
+  },
   data() {
     return {
-      files: [] as File[],
       query: false
     }
   },
   methods: {
-    addFiles() {
-      (this.$refs.filesInput as HTMLInputElement).click();
-    },
-    submitFiles() {
-      this.query = true
+    submitFiles(event: any) {
+      this.query = true;
+      const files: File[] = Array.isArray(event.files) ? event.files : [event.files];
       let formData = new FormData();
-      for (let i = 0; i < this.files.length; i++) {
-        let file = this.files[i];
-        formData.append(this.files[i].name, file);
+      for (let i = 0; i < files.length; i++) {
+        let file = files[i];
+        formData.append(files[i].name, file);
       }
 
       axiosPost('/files', formData)
         .then(() => {
-          this.files = []
-          this.query = false
-          this.$emit('reload')
+          this.query = false;
+          this.notify.success("Files uploaded successfully.");
+          this.$emit('reload');
         })
         .catch(error => {
-          alert("An Error occurred, please contact your web admin. \n" + error);
-          this.query = false
+          this.notify.error("An error occurred during upload. Please contact your web admin.\n" + error);
+          this.query = false;
         });
-    },
-
-    handleFilesUpload() {
-      const uploadedFiles = (this.$refs.filesInput as HTMLInputElement).files;
-      if (uploadedFiles) {
-        for (let i = 0; i < uploadedFiles.length; i++) {
-          this.files.push(uploadedFiles[i]);
-        }
-      }
-    },
-    removeFile(key: number) {
-      this.files.splice(key, 1);
     }
   }
 })
 </script>
-<style>
-.fileList {
-  max-width: 1000px;
+
+<style scoped>
+.upload-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--t-text);
+  margin: 0 0 0.75rem;
+}
+
+.upload-empty {
+  color: var(--t-text-muted);
+  font-size: 0.875rem;
 }
 </style>

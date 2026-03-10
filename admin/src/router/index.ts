@@ -8,6 +8,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/Dashboard.vue'),
     children: [
       {
+        path: '',
+        name: 'Home',
+        meta: { levelRequired: 0 },
+        component: () => import('../views/Dashboard/Home.vue'),
+      },
+      {
         path: 'cms/translate',
         name: 'Translate',
         meta: {
@@ -52,14 +58,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           levelRequired: 0
         },
-        redirect: 'cms/translate',
-      },
-      {
-        path: '',
-        meta: {
-          levelRequired: 0
-        },
-        redirect: 'cms/translate',
+        redirect: { name: 'Home' },
       }
     ]
   },
@@ -80,7 +79,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/:pathMatch(.*)*',
-    redirect: '/dashboard/cms/translate',
+    redirect: '/dashboard',
   }
 ]
 
