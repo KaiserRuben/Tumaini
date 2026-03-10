@@ -13,6 +13,13 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+backups/
+
+# Playwright
+tests/screenshots/captures/
+tests/screenshots/results/
+tests/screenshots/report/
+
 # Editor directories and files
 .idea
 .vscode
