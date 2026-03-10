@@ -1,4 +1,1 @@
-const dev = import.meta.env.DEV
-const dbOnline = true
-
-export const SERVER_ADDRESS = dev && !dbOnline ? "http://localhost:3000" : "https://api.tumaini.be"
+export const SERVER_ADDRESS = import.meta.env.VITE_API_URL || "https://api.tumaini.be"

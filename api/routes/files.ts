@@ -2,7 +2,7 @@ import {Router} from 'express';
 import fs from "fs";
 
 const fileRouter = Router()
-const fileLocation = "/var/www/files/tumaini/"
+const fileLocation = process.env.UPLOAD_DIR || "/var/www/files/tumaini/"
 // Getting all
 fileRouter.get('/', async (req, res) => {
     fs.readdir(fileLocation, function (err, items) {

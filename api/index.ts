@@ -56,6 +56,11 @@ app.use('/files', fileRouter);
 app.use('/donor', donorRouter);
 app.use('/mail', mailRouter);
 
+// Serve uploaded files locally in dev mode
+if (process.env.MODE === 'DEV' && process.env.UPLOAD_DIR) {
+    app.use('/uploads', express.static(process.env.UPLOAD_DIR));
+}
+
 start()
     .then((port) => {
         console.log(`API is listening on ${port}`)
