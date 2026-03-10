@@ -71,11 +71,12 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   height: 100%;
-  border-radius: 12px;
+  border-radius: var(--t-radius-lg);
   overflow: hidden;
-  background-color: #151919;
+  background-color: var(--t-bg-card);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform var(--t-duration-base) var(--t-ease),
+              box-shadow var(--t-duration-base) var(--t-ease);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 
   &:hover {
@@ -99,7 +100,7 @@ export default defineComponent({
 
   // Image - Mobile First
   &__image {
-    height: 160px;
+    aspect-ratio: 16 / 10;
     width: 100%;
     position: relative;
 
@@ -107,9 +108,9 @@ export default defineComponent({
       content: '';
       position: absolute;
       inset: 0;
-      background-color: #5F9AAE;
+      background-color: var(--t-brand);
       opacity: 0;
-      transition: opacity 0.2s ease;
+      transition: opacity var(--t-duration-slow) var(--t-ease-out);
       z-index: 1;
     }
 
@@ -120,16 +121,8 @@ export default defineComponent({
       left: 0;
       right: 0;
       height: 60px;
-      background: linear-gradient(to top, #151919, transparent);
+      background: linear-gradient(to top, var(--t-bg-card), transparent);
       z-index: 2;
-    }
-
-    @media (min-width: 480px) {
-      height: 180px;
-    }
-
-    @media (min-width: 768px) {
-      height: 200px;
     }
   }
 
@@ -138,20 +131,21 @@ export default defineComponent({
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 1rem;
-    background-color: #151919;
-    color: #EDF0F3;
+    padding: var(--t-spacing-md);
+    background-color: var(--t-bg-card);
+    color: var(--t-text);
 
     @media (min-width: 480px) {
-      padding: 1.25rem;
+      padding: var(--t-spacing-lg);
     }
 
     @media (min-width: 768px) {
-      padding: 1.5rem;
+      padding: var(--t-spacing-xl);
     }
   }
 
   &__title {
+    font-family: 'Instrument Serif', Georgia, serif;
     font-size: 1.125rem;
     font-weight: 700;
     margin: 0 0 0.75rem 0;
@@ -163,7 +157,7 @@ export default defineComponent({
 
     @media (min-width: 768px) {
       font-size: 1.375rem;
-      margin-bottom: 1rem;
+      margin-bottom: var(--t-spacing-md);
     }
   }
 
@@ -171,12 +165,12 @@ export default defineComponent({
     flex: 1;
     font-size: 0.9rem;
     line-height: 1.6;
-    margin-bottom: 1rem;
-    color: rgba(237, 240, 243, 0.8);
+    margin-bottom: var(--t-spacing-md);
+    color: var(--t-text-secondary);
 
     @media (min-width: 768px) {
       font-size: 0.95rem;
-      margin-bottom: 1.25rem;
+      margin-bottom: var(--t-spacing-lg);
     }
 
     :deep(p) {
@@ -192,10 +186,10 @@ export default defineComponent({
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    color: #5F9AAE;
+    color: var(--t-brand);
     font-weight: 600;
     font-size: 0.875rem;
-    transition: gap 0.2s ease;
+    transition: gap var(--t-duration-base) var(--t-ease);
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div ref="landingRef">
 
-    <!-- Section 1 (IMG Layout) -->
+    <!-- Section 1 (IMG Layout / Hero) -->
     <div class="section imgContainer">
       <div class="imgGrid1">
         <div class="imgGrid1_1">
@@ -18,10 +18,10 @@
         </div>
       </div>
       <div class="imgGrid2">
-        <h2>
+        <h2 class="hero-text">
           {{ text[0] }}
         </h2>
-        <h2>
+        <h2 class="hero-text hero-text--delay">
           {{ text[1] }}
         </h2>
 
@@ -31,7 +31,7 @@
     <!-- Section 2 (Welcome & Cards) -->
     <div class="section">
       <div class="welcomeSection">
-        <div class="welcomeText">
+        <div class="welcomeText reveal">
           <p class="light" style="margin-bottom: 0; text-align: center">
             {{ text[2] }}
           </p>
@@ -41,17 +41,20 @@
         </div>
         <div class="cardContainer">
           <Card
-              class="cardContainerItem"
+              class="cardContainerItem reveal-stagger"
+              data-index="0"
               img="https://files.tumaini.be/landing_wer.webp"
               :header="text[4]"
               :text="text[5]"/>
           <Card
-              class="cardContainerItem"
+              class="cardContainerItem reveal-stagger"
+              data-index="1"
               img="https://files.tumaini.be/landing_was.webp"
               :header="text[6]"
               :text="text[7]"/>
           <Card
-              class="cardContainerItem"
+              class="cardContainerItem reveal-stagger"
+              data-index="2"
               img="https://files.tumaini.be/landing_wo.webp"
               :header="text[8]"
               :text="text[9]"/>
@@ -61,7 +64,7 @@
 
     <!-- Section 3 (About) -->
     <div class="whiteSection">
-      <div class="textContainer">
+      <div class="textContainer reveal">
         <h2>
           {{ text[10] }}
         </h2>
@@ -69,7 +72,7 @@
           {{ text[11] }}
         </p>
       </div>
-      <div class="textContainer" style="padding-top: 20px;" v-if="report">
+      <div class="textContainer reveal" style="padding-top: 20px;" v-if="report">
         <h2>
           {{ report.title }}
         </h2>
@@ -84,18 +87,24 @@
     <!-- Section 4 (Donations) -->
     <div class="section donationSection">
       <donation-card
+          class="reveal-stagger"
+          data-index="0"
           click-u-r-l="/spenden/1"
           :nr="1"
           :header="text[13]"
           :text="text[14]"
       />
       <donation-card
+          class="reveal-stagger"
+          data-index="1"
           click-u-r-l="/spenden/2"
           :nr="2"
           :header="text[15]"
           :text="text[16]"
       />
       <donation-card
+          class="reveal-stagger"
+          data-index="2"
           click-u-r-l="/spenden/3"
           :nr="3"
           :header="text[17]"
@@ -106,7 +115,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
+import {defineComponent, ref} from 'vue';
 
 import Card from "@/components/Card.vue";
 import donationCard from "@/components/DonationCard.vue";
@@ -114,11 +123,17 @@ import {IArticle} from "../../api/models/article";
 import {axiosGet} from '../../admin/src/utils/axiosWrapper';
 import Markdown from 'vue3-markdown-it';
 import {sortArticles} from "@/utils/dates";
+import {useReveal} from "@/composables/useReveal";
 
 
 export default defineComponent({
   name: 'HomePage',
   components: {Card, donationCard, Markdown},
+  setup() {
+    const landingRef = ref<HTMLElement | null>(null);
+    useReveal(landingRef);
+    return {landingRef};
+  },
   data() {
     return {
       text: [] as string[],
@@ -152,94 +167,136 @@ export default defineComponent({
   }
 });
 </script>
-<style scoped lang="sass">
-.section
-  min-height: 100vh
-  height: max-content
+<style scoped lang="scss">
+.section {
+  min-height: 100vh;
+  height: max-content;
+}
 
-.light
-  font-weight: 300
+.light {
+  font-weight: 300;
+}
 
 /* Image Layout for Landing */
-.imgContainer
-  display: grid
-  grid-template-columns: 50vw 50vw
-  @media only screen and (max-width: 640px)
-    grid-template-rows: 50vh 50vh
-    grid-template-columns: 100vw
+.imgContainer {
+  display: grid;
+  grid-template-columns: 50vw 50vw;
 
-  .imgGrid1
-    display: grid
-    grid-template-rows: 50vh 50vh
-    @media only screen and (max-width: 640px)
-      order: 2
+  @media only screen and (max-width: 640px) {
+    grid-template-rows: 50vh 50vh;
+    grid-template-columns: 100vw;
+  }
 
-    .imgGrid1_1
-      display: grid
-      grid-template-columns: 33% 67%
-      @media only screen and (max-width: 640px)
-        grid-template-rows: 33% 67%
-        grid-template-columns: 100%
+  .imgGrid1 {
+    display: grid;
+    grid-template-rows: 50vh 50vh;
 
-      .imgGrid1_1_1
-        background: url("../assets/landing/annie-spratt-0cgpyigyIkM-unsplash.webp") no-repeat center
-        background-size: auto 120%
-        @media only screen and (max-width: 640px)
-          background-size: 110% auto
+    @media only screen and (max-width: 640px) {
+      order: 2;
+    }
 
-      .imgGrid1_1_2
-        background: url("../assets/landing/annie-spratt-cVEOh_JJmEE-unsplash.webp") no-repeat center
-        background-size: auto 130%
+    .imgGrid1_1 {
+      display: grid;
+      grid-template-columns: 33% 67%;
 
-    .imgGrid1_2
-      background: url("../assets/landing/ben-hummitzsch-pYTgvmpuQWs-unsplash.webp") no-repeat center
-      background-size: auto 150%
-      @media only screen and (max-width: 640px)
-        visibility: hidden
+      @media only screen and (max-width: 640px) {
+        grid-template-rows: 33% 67%;
+        grid-template-columns: 100%;
+      }
 
-  .imgGrid2
-    background: url("../assets/landing/carolinie-cavalli-yFaK9jgQeb4-unsplash.webp") no-repeat center
-    background-size: auto 120%
-    display: flex
-    flex-direction: column
-    flex-wrap: nowrap
-    align-items: flex-end
-    justify-content: center
-    padding-right: 10vw
-    @media only screen and (max-width: 640px)
-      order: 1
+      .imgGrid1_1_1 {
+        background: url("../assets/landing/annie-spratt-0cgpyigyIkM-unsplash.webp") no-repeat center;
+        background-size: auto 120%;
 
-    h2
-      font-size: 7em
-      margin: 0
-      animation-name: appear
-      animation-duration: 3s
+        @media only screen and (max-width: 640px) {
+          background-size: 110% auto;
+        }
+      }
 
-.welcomeSection
-  display: flex
-  flex-direction: column
-  flex-wrap: nowrap
-  align-items: center
-  justify-content: space-evenly
-  text-align: center
+      .imgGrid1_1_2 {
+        background: url("../assets/landing/annie-spratt-cVEOh_JJmEE-unsplash.webp") no-repeat center;
+        background-size: auto 130%;
+      }
+    }
 
-  min-height: 100vh
-  height: 100%
-  @media only screen and (max-width: 640px)
-    padding: 2em 0
+    .imgGrid1_2 {
+      background: url("../assets/landing/ben-hummitzsch-pYTgvmpuQWs-unsplash.webp") no-repeat center;
+      background-size: auto 150%;
 
+      @media only screen and (max-width: 640px) {
+        visibility: hidden;
+      }
+    }
+  }
 
-.donationSection
-  display: flex
-  flex-direction: column
-  flex-wrap: nowrap
-  align-items: center
-  justify-content: center
-  gap: 3rem
-  padding: 3rem 1rem
+  .imgGrid2 {
+    background: url("../assets/landing/carolinie-cavalli-yFaK9jgQeb4-unsplash.webp") no-repeat center;
+    background-size: auto 120%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    justify-content: center;
+    padding-right: 10vw;
 
-  @media (min-width: 640px)
-    gap: 4rem
-    padding: 4rem 2rem
+    @media only screen and (max-width: 640px) {
+      order: 1;
+    }
+  }
+}
 
+.hero-text {
+  font-size: 7em;
+  margin: 0;
+  animation: appear 0.8s var(--t-ease-out) both;
+
+  &--delay {
+    animation-delay: 0.15s;
+  }
+
+  @media only screen and (max-width: 640px) {
+    font-size: 3.5em;
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.welcomeSection {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-evenly;
+  text-align: center;
+  min-height: 100vh;
+  height: 100%;
+
+  @media only screen and (max-width: 640px) {
+    padding: 2em 0;
+  }
+}
+
+.donationSection {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  padding: 3rem 1rem;
+
+  @media (min-width: 640px) {
+    gap: 4rem;
+    padding: 4rem 2rem;
+  }
+}
 </style>

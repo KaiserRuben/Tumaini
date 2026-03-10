@@ -169,6 +169,14 @@
       </div>
     </Transition>
 
+    <!-- Back Button -->
+    <button v-if="!loading" class="back-btn" @click="$router.back()" aria-label="Go back">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"/>
+        <polyline points="12 19 5 12 12 5"/>
+      </svg>
+    </button>
+
     <!-- Unified Navigation -->
     <nav class="nav" v-if="!loading">
       <span class="nav__counter">{{ String(currentScreen + 1).padStart(2, '0') }}</span>
@@ -260,7 +268,7 @@ export default defineComponent({
 
     totalScreens(): number {
       let count = this.allScreens.length;
-      if (this.hasKeyPoints) count++; // key points screen is still separate
+      if (this.hasKeyPoints) count++; // key points s// creen is still separate
       return count;
     },
 
@@ -372,7 +380,10 @@ export default defineComponent({
     },
 
     onKeydown(e: KeyboardEvent) {
-      if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        this.$router.back();
+      } else if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
         e.preventDefault();
         this.goToScreen(this.currentScreen + 1);
       } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
@@ -521,8 +532,9 @@ $black: #0C0D08;
 $dark: #151919;
 $light: #EDF0F3;
 $muted: rgba(237, 240, 243, 0.55);
-$accent: #5F9AAE;
-$glow: rgba(95, 154, 174, 0.4);
+$accent: #c8712e;
+$accent-light: #e8a05c;
+$glow: rgba(200, 113, 46, 0.4);
 
 $ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 $ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
@@ -830,7 +842,7 @@ $ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &--points {
-    background: linear-gradient(160deg, $black 0%, lighten($dark, 2%) 100%);
+    background: linear-gradient(160deg, $black 0%, #1c2020 100%);
   }
 
   &--text-full {
@@ -1019,11 +1031,11 @@ $ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
       inset: 0;
       background-size: cover;
       background-position: center;
-      transition: transform 8s linear;
+      transition: transform 0.4s $ease-out;
     }
 
     &:hover .cell__image {
-      transform: scale(1.05);
+      transform: scale(1.03);
     }
   }
 
@@ -1089,7 +1101,7 @@ $ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &--filler {
-    background: linear-gradient(135deg, $dark 0%, lighten($dark, 2%) 100%);
+    background: linear-gradient(135deg, $dark 0%, #1c2020 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1198,6 +1210,35 @@ $ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: 0 0 8px $glow;
       transform: scale(1.2);
     }
+  }
+}
+
+// ============ BACK BUTTON ============
+.back-btn {
+  position: fixed;
+  top: 1.25rem;
+  left: 1.25rem;
+  z-index: 100;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba($dark, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba($light, 0.1);
+  color: $light;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s $ease-out, transform 0.2s $ease-out, opacity 0.3s $ease-out;
+  padding: 0;
+  min-height: unset;
+  box-shadow: none;
+
+  &:hover {
+    background: rgba($accent, 0.9);
+    transform: scale(1.1);
+    box-shadow: 0 2px 12px $glow;
   }
 }
 

@@ -19,51 +19,70 @@
           {{ text[3] }}
         </p>
 
-        <form class="donate__form" @submit.prevent="pushDonor()">
+        <div v-if="submitted" class="donate__success">
+          {{ text[11] }}
+        </div>
+
+        <form v-else class="donate__form" @submit.prevent="pushDonor()">
           <div class="donate__form-row">
-            <input
-              class="donate__input"
-              :placeholder="text[5]"
-              type="text"
-              v-model="donor.firstName"
-              required
-            />
-            <input
-              class="donate__input"
-              :placeholder="text[6]"
-              type="text"
-              v-model="donor.lastName"
-              required
-            />
+            <div class="donate__field">
+              <label class="donate__label" for="donor-firstname">{{ text[5] || 'Vorname' }}</label>
+              <input
+                id="donor-firstname"
+                :placeholder="text[5]"
+                type="text"
+                v-model="donor.firstName"
+                required
+              />
+            </div>
+            <div class="donate__field">
+              <label class="donate__label" for="donor-lastname">{{ text[6] || 'Nachname' }}</label>
+              <input
+                id="donor-lastname"
+                :placeholder="text[6]"
+                type="text"
+                v-model="donor.lastName"
+                required
+              />
+            </div>
           </div>
 
           <div class="donate__form-row">
-            <input
-              class="donate__input"
-              :placeholder="text[7]"
-              type="email"
-              v-model="donor.email"
-              required
-            />
-            <input
-              class="donate__input"
-              :placeholder="text[16]"
-              type="tel"
-              v-model="donor.phone"
-            />
+            <div class="donate__field">
+              <label class="donate__label" for="donor-email">{{ text[7] || 'E-Mail' }}</label>
+              <input
+                id="donor-email"
+                :placeholder="text[7]"
+                type="email"
+                v-model="donor.email"
+                required
+              />
+            </div>
+            <div class="donate__field">
+              <label class="donate__label" for="donor-phone">{{ text[16] || 'Telefon' }}</label>
+              <input
+                id="donor-phone"
+                :placeholder="text[16]"
+                type="tel"
+                v-model="donor.phone"
+              />
+            </div>
           </div>
 
           <div class="donate__form-row">
-            <input
-              class="donate__input donate__input--full"
-              :placeholder="text[15]"
-              type="text"
-              v-model="donor.address"
-            />
+            <div class="donate__field donate__field--full">
+              <label class="donate__label" for="donor-address">{{ text[15] || 'Adresse' }}</label>
+              <input
+                id="donor-address"
+                :placeholder="text[15]"
+                type="text"
+                v-model="donor.address"
+              />
+            </div>
           </div>
 
           <div class="donate__form-action">
-            <button type="submit" class="donate__button">{{ text[4] }}</button>
+            <button type="submit" class="btn btn-primary">{{ text[4] }}</button>
           </div>
         </form>
       </div>
@@ -144,7 +163,8 @@ export default defineComponent({
           : "1")
       } as IDonor,
 
-      justInfo: false
+      justInfo: false,
+      submitted: false
     };
   },
 
@@ -158,7 +178,7 @@ export default defineComponent({
         this.donor.phone = '';
         this.donor.address = '';
         this.justInfo = false;
-        alert(this.text[11]);
+        this.submitted = true;
       } catch (err) {
         console.error(err);
       }
@@ -203,19 +223,20 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .donate {
-  padding: 4rem 1rem;
+  padding: var(--t-spacing-2xl) var(--t-spacing-md);
 
   &__container {
     max-width: 1140px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 var(--t-spacing-md);
   }
 
   &__title {
+    font-family: 'Instrument Serif', serif;
     font-size: 2.25rem;
     font-weight: 700;
-    margin-bottom: 1.5rem;
-    color: #f5ffff;
+    margin-bottom: var(--t-spacing-lg);
+    color: var(--t-text);
     text-align: center;
 
     @media (max-width: 768px) {
@@ -225,104 +246,87 @@ export default defineComponent({
 
   &__description, &__info {
     max-width: 42rem;
-    margin: 0 auto 1.5rem;
+    margin: 0 auto var(--t-spacing-lg);
     font-size: 1.125rem;
     line-height: 1.6;
     text-align: center;
+    color: var(--t-text-secondary);
+  }
+
+  &__success {
+    max-width: 42rem;
+    margin: var(--t-spacing-xl) auto;
+    padding: var(--t-spacing-lg);
+    background: var(--t-bg-elevated);
+    border: 2px solid var(--t-brand);
+    border-radius: var(--t-radius-md);
+    color: var(--t-text);
+    font-size: 1.125rem;
+    text-align: center;
+    line-height: 1.6;
   }
 
   &__form {
     max-width: 42rem;
-    margin: 2rem auto;
+    margin: var(--t-spacing-xl) auto;
 
     &-row {
       display: flex;
-      gap: 1rem;
-      margin-bottom: 1rem;
+      gap: var(--t-spacing-md);
+      margin-bottom: var(--t-spacing-md);
 
       @media (max-width: 640px) {
         flex-direction: column;
-        gap: 1rem;
+        gap: var(--t-spacing-md);
       }
     }
 
     &-action {
       display: flex;
       justify-content: center;
-      margin-top: 1.5rem;
+      margin-top: var(--t-spacing-lg);
     }
   }
 
-  &__input {
+  &__field {
     flex: 1;
-    padding: 0.875rem 1.25rem;
-    border-radius: 6px;
-    border: 1.5px solid #5F9AAE;
-    background-color: rgba(21, 25, 25, 0.8);
-    color: #f5ffff;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
-
-    &:focus {
-      outline: none;
-      border-color: #FFA400;
-    }
+    display: flex;
+    flex-direction: column;
+    gap: var(--t-spacing-xs);
 
     &--full {
       width: 100%;
     }
+
+    input {
+      width: 100%;
+    }
   }
 
-  &__button {
-    background-color: #FFA400;
-    color: #0C0D08;
-    border: none;
-    padding: 0.875rem 2rem;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    letter-spacing: 0.025em;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-
-    &:hover {
-      background-color: darken(#FFA400, 8%);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(#FFA400, 0.3);
-    }
-
-    &:active {
-      transform: translateY(0);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    }
-
-    &:focus {
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(#FFA400, 0.4), 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    &:focus:not(:focus-visible) {
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    }
+  &__label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--t-text-secondary);
   }
 
   &__partner {
-    padding: 4rem 1rem;
-    background-color: #f5ffff;
-    color: #151919;
+    padding: var(--t-spacing-2xl) var(--t-spacing-md);
+    background: var(--t-bg-elevated);
+    color: var(--t-text);
 
     &-container {
       max-width: 1140px;
       margin: 0 auto;
-      padding: 0 1rem;
+      padding: 0 var(--t-spacing-md);
     }
 
     &-title {
+      font-family: 'Instrument Serif', serif;
       font-size: 2.25rem;
       font-weight: 700;
-      margin-bottom: 2rem;
+      margin-bottom: var(--t-spacing-xl);
       text-align: center;
+      color: var(--t-text);
 
       @media (max-width: 768px) {
         font-size: 1.875rem;
@@ -332,40 +336,37 @@ export default defineComponent({
     &-content {
       display: flex;
       align-items: center;
-      gap: 2rem;
+      gap: var(--t-spacing-xl);
 
       @media (max-width: 768px) {
         flex-direction: column;
-        gap: 1.5rem;
+        gap: var(--t-spacing-lg);
       }
     }
 
     &-image {
-      width: 300px;
+      width: 100%;
+      max-width: 300px;
       height: auto;
-      border-radius: 1rem;
+      border-radius: var(--t-radius-lg);
       object-fit: cover;
-
-      @media (max-width: 768px) {
-        width: 80%;
-        max-width: 300px;
-      }
     }
 
     &-text {
       flex: 1;
       font-size: 1.125rem;
       line-height: 1.6;
+      color: var(--t-text-secondary);
     }
   }
 
   &__projects {
-    padding: 4rem 1rem;
+    padding: var(--t-spacing-2xl) var(--t-spacing-md);
   }
 
   &__card {
     height: 100%;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform var(--t-duration-medium) var(--t-ease), box-shadow var(--t-duration-medium) var(--t-ease);
 
     &:hover {
       transform: translateY(-5px);
@@ -376,11 +377,10 @@ export default defineComponent({
   &__card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
+    gap: var(--t-spacing-xl);
+    margin-top: var(--t-spacing-xl);
   }
 
-  /* Fixed width card wrapper */
   &__card-wrapper {
     width: 100%;
     height: 100%;

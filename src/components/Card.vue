@@ -40,20 +40,35 @@ export default defineComponent({
 
 });
 </script>
-<style lang="sass" scoped>
-.card
-  min-width: 300px
-  max-width: 25vw
-  width: max-content
+<style lang="scss" scoped>
+.card {
+  width: 100%;
+  max-width: 320px;
+  border-radius: var(--t-radius-md);
+  overflow: hidden;
+  background-color: var(--t-bg-card);
+  transition: transform var(--t-duration-base) var(--t-ease),
+              box-shadow var(--t-duration-base) var(--t-ease);
 
-.cardImg
-  height: 200px
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+}
 
-.content
-  background-color: #151919
-  color: #EDF0F3
-  text-align: left
-  padding: 20px
-  h3
-    margin: 0
+.cardImg {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+}
+
+.content {
+  background-color: var(--t-bg-card);
+  color: var(--t-text);
+  text-align: left;
+  padding: var(--t-spacing-md);
+
+  h3 {
+    margin: 0;
+  }
+}
 </style>

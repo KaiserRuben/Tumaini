@@ -367,23 +367,62 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="sass" scoped>
+<style lang="scss" scoped>
+.container {
+  width: 100%;
+  max-width: 65ch;
+  margin: 0 auto;
+  padding: var(--t-spacing-2xl) var(--t-spacing-md);
+  min-height: 80vh;
+}
 
-.container
-  width: 80vw
-  min-height: 93vh
-  padding: 0 10vw
+h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--t-text);
+  margin-bottom: var(--t-spacing-xl);
+}
 
-h1
-  font-size: 3em
-  @media only screen and (max-width: 640px)
-    font-size: 2em
+h3 {
+  font-family: 'Instrument Serif', serif;
+  color: var(--t-text);
+  margin-top: var(--t-spacing-md);
+  margin-bottom: var(--t-spacing-xs);
+}
 
-.section-title
-  font-size: 1.5em
-  margin-top: 2rem
-  margin-bottom: 1rem
+h4 {
+  color: var(--t-text);
+  margin-top: var(--t-spacing-md);
+  margin-bottom: var(--t-spacing-xs);
+}
 
-a
-  color: #EDF0F3
+.section-title {
+  font-size: 1.5em;
+  margin-top: var(--t-spacing-xl);
+  margin-bottom: var(--t-spacing-md);
+  color: var(--t-brand);
+}
+
+p {
+  color: var(--t-text-secondary);
+  line-height: 1.7;
+  text-align: left;
+  margin-bottom: var(--t-spacing-sm);
+}
+
+ul {
+  color: var(--t-text-secondary);
+  line-height: 1.7;
+  padding-left: var(--t-spacing-lg);
+  margin-bottom: var(--t-spacing-md);
+}
+
+a {
+  color: var(--t-brand-light);
+  transition: color var(--t-duration-base) var(--t-ease);
+
+  &:hover {
+    color: var(--t-brand);
+  }
+}
 </style>

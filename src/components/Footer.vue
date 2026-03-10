@@ -72,9 +72,9 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .site-footer {
-  background-color: #0C0D08;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  color: #EDF0F3;
+  background-color: var(--t-bg);
+  border-top: 1px solid var(--t-border);
+  color: var(--t-text);
   width: 100%;
   margin-top: auto;
 
@@ -110,6 +110,8 @@ export default defineComponent({
   }
 
   &__logo {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
     font-weight: 600;
     font-size: 1rem;
     letter-spacing: 0.02em;
@@ -120,7 +122,7 @@ export default defineComponent({
   }
 
   &__copyright {
-    color: rgba(237, 240, 243, 0.5);
+    color: var(--t-text-muted);
     font-size: 0.875rem;
   }
 
@@ -135,20 +137,21 @@ export default defineComponent({
   }
 
   &__link {
-    color: rgba(237, 240, 243, 0.7);
+    color: var(--t-text-secondary);
     text-decoration: none;
     font-size: 0.875rem;
-    transition: color 0.2s ease;
+    transition: color var(--t-duration-base) var(--t-ease);
 
     &:hover {
-      color: #5F9AAE;
+      color: var(--t-brand);
       text-decoration: none;
     }
   }
 
   &__divider {
-    color: rgba(237, 240, 243, 0.3);
+    color: var(--t-text-muted);
     font-size: 0.75rem;
+    opacity: 0.6;
   }
 
   &__language {
@@ -160,21 +163,23 @@ export default defineComponent({
   &__select {
     appearance: none;
     background-color: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 6px;
+    border: 2px solid var(--t-border-light);
+    border-radius: var(--t-radius-sm);
     padding: 0.4rem 2rem 0.4rem 0.75rem;
+    min-height: 44px;
     font-size: 0.875rem;
-    color: #EDF0F3;
+    color: var(--t-text);
     cursor: pointer;
-    transition: border-color 0.2s ease, background-color 0.2s ease;
+    transition: border-color var(--t-duration-base) var(--t-ease),
+                background-color var(--t-duration-base) var(--t-ease);
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23EDF0F3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
     background-repeat: no-repeat;
     background-position: right 0.5rem center;
     background-size: 0.875em;
 
     option {
-      background-color: #0C0D08;
-      color: #EDF0F3;
+      background-color: var(--t-bg);
+      color: var(--t-text);
     }
 
     &:hover {
@@ -184,7 +189,7 @@ export default defineComponent({
 
     &:focus {
       outline: none;
-      border-color: #5F9AAE;
+      border-color: var(--t-brand);
     }
   }
 }
