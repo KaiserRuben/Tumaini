@@ -1,4 +1,5 @@
 <template>
+  <div>
   <Header/>
   <main class="archive" ref="archiveRef">
     <!-- Hero Section with Page Title -->
@@ -194,6 +195,7 @@
       </section>
     </div>
   </main>
+  </div>
 </template>
 
 <script lang="ts">

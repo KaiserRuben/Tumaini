@@ -355,9 +355,6 @@ export default defineComponent({
       page: this.$router.currentRoute.value.params.page
     }
   },
-  mounted() {
-    console.log(this.page)
-  },
   watch: {
     $route(to, from) { // react to route changes...
       if (to !== from) {

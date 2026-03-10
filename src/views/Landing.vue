@@ -72,7 +72,7 @@
           {{ text[11] }}
         </p>
       </div>
-      <div class="textContainer reveal" style="padding-top: 20px;" v-if="report">
+      <div class="textContainer" style="padding-top: 20px;" v-if="report">
         <h2>
           {{ report.title }}
         </h2>
