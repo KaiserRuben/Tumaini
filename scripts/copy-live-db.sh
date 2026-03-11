@@ -5,7 +5,7 @@ set -euo pipefail
 # Prerequisites: brew install mongodb/brew/mongodb-database-tools
 # Usage: ./scripts/copy-live-db.sh
 
-LIVE_URI="REDACTED_ATLAS_URI"
+LIVE_URI="${MONGO_ATLAS_URI:?Set MONGO_ATLAS_URI env var (see .env.example)}"
 LOCAL_URI="mongodb://localhost:27017/Tumaini"
 DUMP_DIR="/tmp/tumaini-dump"
 
