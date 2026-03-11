@@ -4,10 +4,12 @@
     :style="{ gridArea, animationDelay }"
     @click="section.image ? $emit('lightbox', section) : null"
   >
-    <img
+    <SmartImage
       v-if="section.image"
       :src="section.image"
       :alt="localize(section.imageDescription || section.title || '', 'strict')"
+      level="subject"
+      fit="contain"
       class="cell__img"
     />
   </div>
@@ -16,9 +18,11 @@
 <script lang="ts">
 import { defineComponent, type PropType } from 'vue';
 import type { Section } from '@/utils/screenPlanner';
+import SmartImage from '@/components/SmartImage.vue';
 
 export default defineComponent({
   name: 'ImageCell',
+  components: { SmartImage },
   props: {
     section: { type: Object as PropType<Section>, required: true },
     gridArea: { type: String, required: true },
@@ -41,10 +45,6 @@ export default defineComponent({
   cursor: zoom-in;
 
   &__img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
     position: absolute;
     inset: 0;
     transition: transform 0.4s $ease-out;

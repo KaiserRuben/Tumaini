@@ -3,7 +3,7 @@
     <!-- Hero Full: background image + overlay + content -->
     <template v-if="layout.type === 'hero-full'">
       <div class="screen__bg">
-        <img v-if="hero.image" :src="hero.image" :alt="hero.title" class="screen__bg-img" />
+        <SmartImage v-if="hero.image" :src="hero.image" :alt="hero.title" level="safe" class="screen__bg-img" />
       </div>
       <div class="screen__overlay screen__overlay--hero"></div>
       <div class="screen__inner">
@@ -19,7 +19,7 @@
     <template v-else-if="layout.type === 'hero-split'">
       <div class="screen__grid screen__grid--split">
         <div class="hero-image">
-          <img v-if="hero.image" :src="hero.image" :alt="hero.title" class="hero-image__img" />
+          <SmartImage v-if="hero.image" :src="hero.image" :alt="hero.title" level="subject" class="hero-image__img" />
         </div>
         <div class="hero-content">
           <div class="hero">
@@ -35,7 +35,7 @@
     <template v-else-if="layout.type === 'hero-cards'">
       <div class="screen__grid screen__grid--cards">
         <div v-if="hero.image" class="hero-image hero-image--card">
-          <img :src="hero.image" :alt="hero.title" class="hero-image__img" />
+          <SmartImage :src="hero.image" :alt="hero.title" level="subject" class="hero-image__img" />
         </div>
         <div class="hero-content hero-content--card">
           <div class="hero">
@@ -58,9 +58,11 @@
 <script lang="ts">
 import { defineComponent, type PropType } from 'vue';
 import type { HeroData, ScreenLayout } from '@/utils/screenPlanner';
+import SmartImage from '@/components/SmartImage.vue';
 
 export default defineComponent({
   name: 'StoryHero',
+  components: { SmartImage },
   props: {
     hero: { type: Object as PropType<HeroData>, required: true },
     layout: { type: Object as PropType<ScreenLayout>, required: true },
@@ -90,10 +92,6 @@ export default defineComponent({
     }
 
     .screen__bg-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top center;
       animation: ken-burns 20s ease-in-out infinite alternate;
     }
 
@@ -143,13 +141,6 @@ export default defineComponent({
     .hero-image {
       position: relative;
       overflow: hidden;
-
-      &__img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: top center;
-      }
     }
 
     .hero-content {
@@ -185,13 +176,6 @@ export default defineComponent({
     .hero-image--card {
       border-radius: clamp(12px, 2vw, 24px);
       overflow: hidden;
-
-      .hero-image__img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: top center;
-      }
     }
 
     .hero-content--card {

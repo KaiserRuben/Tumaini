@@ -16,6 +16,7 @@
 <script lang="ts">
 import { defineComponent, type PropType } from 'vue';
 import type { Section } from '@/utils/screenPlanner';
+import { getBackgroundPosition } from '@/utils/focalPoint';
 
 export default defineComponent({
   name: 'CombinedCell',
@@ -30,7 +31,10 @@ export default defineComponent({
   computed: {
     bgStyle(): Record<string, string> {
       if (!this.section.image) return {};
-      return { backgroundImage: `url(${this.section.image})` };
+      return {
+        backgroundImage: `url(${this.section.image})`,
+        backgroundPosition: getBackgroundPosition(this.section.image, 'subject'),
+      };
     },
     shortText(): string | null {
       const text = this.section.text;
