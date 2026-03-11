@@ -26,7 +26,12 @@
       "Bash(git:*)",
       "WebFetch(domain:api.tumaini.be)",
       "Bash(python3 scripts/generate-focal-points.py)",
-      "Bash(python3 -c \"import pydantic; print\\(pydantic.__version__\\)\")"
+      "Bash(python3 -c \"import pydantic; print\\(pydantic.__version__\\)\")",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\('src/data/image-placement.json'\\)\\); print\\(f'{len\\(d\\)} entries'\\); cats={}; placements={}; [cats.update\\({v[\\\\\"category\\\\\"]: cats.get\\(v[\\\\\"category\\\\\"],0\\)+1}\\) for v in d.values\\(\\)]; [placements.update\\({v[\\\\\"placement\\\\\"]: placements.get\\(v[\\\\\"placement\\\\\"],0\\)+1}\\) for v in d.values\\(\\)]; print\\('Categories:', dict\\(sorted\\(cats.items\\(\\), key=lambda x:-x[1]\\)\\)\\); print\\('Placements:', placements\\); print\\(\\); [print\\(f'  {k}: {v[\\\\\"category\\\\\"]:15s} {v[\\\\\"placement\\\\\"]:13s} safe={v[\\\\\"safe\\\\\"]}'\\) for k,v in sorted\\(d.items\\(\\)\\)]\")",
+      "Bash(which mongo:*)",
+      "Bash(brew list:*)",
+      "Bash(brew services:*)",
+      "Bash(rmdir /Users/kaiser/Projects/Tumani/tumaini/src/components/story/cells 2>/dev/null; echo \"cells dir removed: $?\")"
     ]
   }
 }
