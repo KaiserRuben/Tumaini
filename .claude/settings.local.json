@@ -24,7 +24,9 @@
       "Bash(npx playwright:*)",
       "Bash(lsof:*)",
       "Bash(git:*)",
-      "WebFetch(domain:api.tumaini.be)"
+      "WebFetch(domain:api.tumaini.be)",
+      "Bash(python3 scripts/generate-focal-points.py)",
+      "Bash(python3 -c \"import pydantic; print\\(pydantic.__version__\\)\")"
     ]
   }
 }
