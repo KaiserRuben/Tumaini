@@ -44,94 +44,67 @@
         @share="share"
       />
 
-      <!-- Smart View -->
+      <!-- Smart View: scroll-based narrative -->
       <div
         v-else
         key="smart"
         class="story"
-        :class="{ 'story--footer-visible': showFooter }"
         ref="storyEl"
-        @wheel="onWheel"
-        @keydown="onKeydown"
-        @touchstart.passive="onTouchStart"
-        @touchend.passive="onTouchEnd"
-        tabindex="0"
+        @scroll.passive="onStoryScroll"
+        @keydown.esc="onEscape"
+        tabindex="-1"
       >
-        <Header :class="{ 'header--hidden': currentScreen > 0 }" />
+        <Header :class="{ 'header--hidden': isHeaderHidden }" />
 
-        <div class="story__viewport">
-          <TransitionGroup
-            name="screen"
-            tag="div"
-            class="story__screens"
-            @before-enter="onBeforeEnter"
-            @enter="onEnter"
-            @leave="onLeave"
-          >
-            <!-- HERO -->
-            <StoryHero
-              v-if="currentScreen === 0 && heroScreen"
-              key="hero"
-              :hero="heroData"
-              :layout="heroScreen.layout"
-              :localize="localized"
-            >
-              <template #meta>
-                <div class="hero-meta">
-                  <time v-if="article.created">{{ formatDate(article.created) }}</time>
-                  <span class="hero-meta__sep">&middot;</span>
-                  <button class="hero-meta__share" @click="share">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
-                      <polyline points="16 6 12 2 8 6"/>
-                      <line x1="12" y1="2" x2="12" y2="15"/>
-                    </svg>
-                    {{ uiText[2] || 'Teilen' }}
-                  </button>
-                </div>
-              </template>
-            </StoryHero>
-
-            <!-- KEY POINTS -->
-            <StoryKeyPoints
-              v-if="hasKeyPoints && currentScreen === 1"
-              key="points"
-              :points="article.mainPoints"
-              :localize="localized"
-            />
-
-            <!-- CONTENT SCREENS -->
-            <template v-for="(screen, idx) in effectiveScreens" :key="`content-${idx}`">
-              <StoryContentScreen
-                v-if="currentScreen === getContentScreenIndex(idx)"
-                :screen="screen"
-                :localize="localized"
-                @lightbox="openLightbox"
-              />
+        <!-- Hero -->
+        <div class="story__hero">
+          <StoryHero :hero="heroData" :layout="heroLayout" :localize="localized">
+            <template #meta>
+              <div class="hero-meta">
+                <time v-if="article.created">{{ formatDate(article.created) }}</time>
+                <span class="hero-meta__sep">&middot;</span>
+                <button class="hero-meta__share" @click="share">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                    <polyline points="16 6 12 2 8 6"/>
+                    <line x1="12" y1="2" x2="12" y2="15"/>
+                  </svg>
+                  {{ uiText[2] || 'Teilen' }}
+                </button>
+              </div>
             </template>
-          </TransitionGroup>
+          </StoryHero>
         </div>
 
-        <!-- Back Button -->
-        <button v-if="currentScreen > 0" class="back-btn" @click="$router.back()" aria-label="Go back">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="19" y1="12" x2="5" y2="12"/>
-            <polyline points="12 19 5 12 12 5"/>
-          </svg>
-        </button>
+        <!-- Key Points -->
+        <div v-if="hasKeyPoints" class="story__key-points">
+          <StoryKeyPoints :points="article.mainPoints" :localize="localized" />
+        </div>
 
-        <!-- Navigation -->
-        <StoryNav
-          :class="{ 'nav--hidden': showFooter }"
-          :current="currentScreen"
-          :total="totalScreens"
-          @navigate="goToScreen"
+        <!-- Content Sections -->
+        <StorySection
+          v-for="(metric, idx) in sectionMetrics"
+          :key="idx"
+          :section="metric.section"
+          :metric="metric"
+          :index="idx"
+          :localize="localized"
+          @lightbox="openLightbox"
         />
 
         <!-- Footer -->
-        <Transition name="footer">
-          <Footer v-if="showFooter" class="story__footer" />
+        <Footer class="story__footer" />
+
+        <!-- Back Button -->
+        <Transition name="fade">
+          <button v-if="isHeaderHidden" class="back-btn" @click="$router.back()" aria-label="Go back">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"/>
+              <polyline points="12 19 5 12 12 5"/>
+            </svg>
+          </button>
         </Transition>
+
       </div>
     </Transition>
 
@@ -156,18 +129,18 @@ import Footer from '@/components/Footer.vue';
 import ClassicArticleView from '@/components/ClassicArticleView.vue';
 import StoryHero from '@/components/story/StoryHero.vue';
 import StoryKeyPoints from '@/components/story/StoryKeyPoints.vue';
-import StoryContentScreen from '@/components/story/StoryContentScreen.vue';
-import StoryNav from '@/components/story/StoryNav.vue';
+import StorySection from '@/components/story/StorySection.vue';
 import StoryLightbox from '@/components/story/StoryLightbox.vue';
 import {
   preloadImages,
   calculateMetrics,
-  planScreens,
-  planHeroScreen,
+  determineHeroLayout,
   type Section,
-  type PlannedScreen,
-  type HeroData
+  type SectionMetrics,
+  type HeroData,
+  type ScreenLayout
 } from '@/utils/screenPlanner';
+import { getDescription, hasPlacement } from '@/utils/focalPoint';
 import { axiosGet } from '../../admin/src/utils/axiosWrapper';
 
 const VIEW_MODE_KEY = 'tumaini-view-mode';
@@ -176,7 +149,7 @@ export default defineComponent({
   name: 'BerichtView',
   components: {
     Header, Footer, ClassicArticleView,
-    StoryHero, StoryKeyPoints, StoryContentScreen, StoryNav, StoryLightbox
+    StoryHero, StoryKeyPoints, StorySection, StoryLightbox
   },
 
   data() {
@@ -189,17 +162,13 @@ export default defineComponent({
       viewMode: (typeof localStorage !== 'undefined' && localStorage.getItem(VIEW_MODE_KEY)) || 'classic',
 
       // Smart view
-      currentScreen: 0,
-      isTransitioning: false,
-      showFooter: false,
-      atEndOnceAt: 0,
-      heroScreen: null as PlannedScreen | null,
-      plannedScreens: [] as PlannedScreen[],
-      lastWheelTime: 0,
-      touchStartY: 0,
+      sectionMetrics: [] as SectionMetrics[],
+      isHeaderHidden: false,
+      lastScrollPos: 0,
+
+      // Lightbox
       lightboxImage: null as string | null,
       lightboxCaption: '',
-      viewportWidth: typeof window !== 'undefined' ? window.innerWidth : 1024
     };
   },
 
@@ -217,69 +186,8 @@ export default defineComponent({
       };
     },
 
-    isMobile(): boolean {
-      return this.viewportWidth <= 768;
-    },
-
-    effectiveScreens(): PlannedScreen[] {
-      if (!this.isMobile) return this.plannedScreens;
-
-      const result: PlannedScreen[] = [];
-      let id = 0;
-
-      for (const screen of this.plannedScreens) {
-        const contentCells = screen.cells.filter(c => c.type !== 'filler');
-
-        if (contentCells.length <= 2) {
-          result.push({ ...screen, id: id++, cells: contentCells });
-          continue;
-        }
-
-        for (let i = 0; i < contentCells.length; i += 2) {
-          const chunk = contentCells.slice(i, i + 2);
-
-          if (chunk.length === 1) {
-            const isText = chunk[0].type === 'text' || chunk[0].type === 'caption';
-            result.push({
-              id: id++,
-              sections: screen.sections,
-              layout: {
-                type: isText ? 'text-full' : 'split-v',
-                columns: '1fr',
-                rows: '1fr',
-                areas: ['"main"'],
-                gap: '1rem'
-              },
-              cells: [{ ...chunk[0], gridArea: 'main' }]
-            });
-          } else {
-            result.push({
-              id: id++,
-              sections: screen.sections,
-              layout: {
-                type: 'split-v',
-                columns: '1fr',
-                rows: '1fr 1fr',
-                areas: ['"top"', '"bottom"'],
-                gap: '1rem'
-              },
-              cells: [
-                { ...chunk[0], gridArea: 'top' },
-                { ...chunk[1], gridArea: 'bottom' }
-              ]
-            });
-          }
-        }
-      }
-
-      return result;
-    },
-
-    totalScreens(): number {
-      let count = 1;
-      if (this.hasKeyPoints) count++;
-      count += this.effectiveScreens.length;
-      return count;
+    heroLayout(): ScreenLayout {
+      return determineHeroLayout(this.heroData);
     }
   },
 
@@ -290,128 +198,57 @@ export default defineComponent({
       localStorage.setItem(VIEW_MODE_KEY, newMode);
 
       if (newMode === 'smart') {
-        if (!this.heroScreen) {
+        if (this.sectionMetrics.length === 0) {
           this.loading = true;
           await this.initSmartView();
           this.loading = false;
         }
         this.viewMode = 'smart';
-        this.currentScreen = 0;
-        this.showFooter = false;
         document.body.style.overflow = 'hidden';
         await nextTick();
-        (this.$refs.storyEl as HTMLElement)?.focus();
+        const el = this.$refs.storyEl as HTMLElement;
+        if (el) el.scrollTop = 0;
       } else {
         this.viewMode = 'classic';
         document.body.style.overflow = '';
+        await nextTick();
+        window.scrollTo(0, 0);
       }
     },
 
     async initSmartView() {
-      if (this.heroScreen) return;
-
-      const heroData: HeroData = {
-        title: this.article.title || '',
-        subheader: this.article.subheader,
-        image: this.article.image,
-        created: this.article.created
-      };
-      this.heroScreen = planHeroScreen(heroData);
-
       const sections: Section[] = this.article.content || [];
+
+      // Enrich sections with vision-model descriptions where imageDescription is missing
+      for (const section of sections) {
+        if (section.image && !section.imageDescription && hasPlacement(section.image)) {
+          const desc = getDescription(section.image);
+          if (desc.de || desc.en) {
+            section.imageDescription = desc.de && desc.en
+              ? `${desc.de} - ${desc.en}`
+              : desc.en || desc.de;
+          }
+        }
+      }
+
       const imageDims = await preloadImages(sections);
-      const metrics = calculateMetrics(sections, imageDims);
-      this.plannedScreens = planScreens(metrics);
+      this.sectionMetrics = calculateMetrics(sections, imageDims);
     },
 
-    // ---- Smart View Navigation ----
-    getContentScreenIndex(idx: number): number {
-      return (this.hasKeyPoints ? 2 : 1) + idx;
+    onStoryScroll() {
+      const el = this.$refs.storyEl as HTMLElement;
+      if (!el) return;
+      const pos = el.scrollTop;
+      if (Math.abs(pos - this.lastScrollPos) < 30) return;
+      this.isHeaderHidden = pos > this.lastScrollPos && pos > 100;
+      this.lastScrollPos = pos;
     },
 
-    onResize() {
-      this.viewportWidth = window.innerWidth;
-    },
-
-    goToScreen(idx: number) {
-      if (this.isTransitioning) return;
-      if (idx < 0 || idx >= this.totalScreens) return;
-      this.isTransitioning = true;
-      this.currentScreen = idx;
-      this.atEndOnceAt = 0;
-      setTimeout(() => { this.isTransitioning = false; }, 400);
-    },
-
-    onWheel(e: WheelEvent) {
-      if (this.lightboxImage) return;
-      const atEnd = this.currentScreen === this.totalScreens - 1;
-
-      if (atEnd && e.deltaY > 0 && !this.showFooter) {
-        e.preventDefault();
-        const now = Date.now();
-        if (!this.atEndOnceAt) {
-          this.atEndOnceAt = now;
-        } else if (now - this.atEndOnceAt > 500) {
-          this.showFooter = true;
-        }
-        return;
-      }
-
-      if (this.showFooter && e.deltaY < 0) {
-        e.preventDefault();
-        this.showFooter = false;
-        return;
-      }
-
-      if (this.showFooter) return;
-
-      e.preventDefault();
-      const now = Date.now();
-      if (now - this.lastWheelTime < 400) return;
-
-      if (Math.abs(e.deltaY) > 20) {
-        this.lastWheelTime = now;
-        if (e.deltaY > 0) {
-          this.goToScreen(this.currentScreen + 1);
-        } else {
-          this.atEndOnceAt = 0;
-          this.goToScreen(this.currentScreen - 1);
-        }
-      }
-    },
-
-    onTouchStart(e: TouchEvent) {
-      this.touchStartY = e.touches[0].clientY;
-    },
-
-    onTouchEnd(e: TouchEvent) {
-      if (this.lightboxImage) return;
-      const deltaY = this.touchStartY - e.changedTouches[0].clientY;
-      if (Math.abs(deltaY) > 50) {
-        this.goToScreen(this.currentScreen + (deltaY > 0 ? 1 : -1));
-      }
-    },
-
-    onKeydown(e: KeyboardEvent) {
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        if (this.lightboxImage) {
-          this.closeLightbox();
-        } else {
-          this.$router.back();
-        }
-      } else if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
-        e.preventDefault();
-        this.goToScreen(this.currentScreen + 1);
-      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-        e.preventDefault();
-        this.goToScreen(this.currentScreen - 1);
-      } else if (e.key === 'Home') {
-        e.preventDefault();
-        this.goToScreen(0);
-      } else if (e.key === 'End') {
-        e.preventDefault();
-        this.goToScreen(this.totalScreens - 1);
+    onEscape() {
+      if (this.lightboxImage) {
+        this.closeLightbox();
+      } else {
+        this.$router.back();
       }
     },
 
@@ -426,28 +263,6 @@ export default defineComponent({
     closeLightbox() {
       this.lightboxImage = null;
       this.lightboxCaption = '';
-    },
-
-    // ---- Transitions ----
-    onBeforeEnter(el: Element) {
-      (el as HTMLElement).style.opacity = '0';
-      (el as HTMLElement).style.transform = 'translateY(40px) scale(0.97)';
-    },
-
-    onEnter(el: Element, done: () => void) {
-      requestAnimationFrame(() => {
-        (el as HTMLElement).style.transition = 'opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
-        (el as HTMLElement).style.opacity = '1';
-        (el as HTMLElement).style.transform = 'translateY(0) scale(1)';
-      });
-      setTimeout(done, 400);
-    },
-
-    onLeave(el: Element, done: () => void) {
-      (el as HTMLElement).style.transition = 'opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
-      (el as HTMLElement).style.opacity = '0';
-      (el as HTMLElement).style.transform = 'translateY(-30px) scale(0.97)';
-      setTimeout(done, 300);
     },
 
     // ---- Localization ----
@@ -518,9 +333,8 @@ export default defineComponent({
         }
 
         this.loading = false;
-        await nextTick();
         if (this.viewMode === 'smart') {
-          (this.$refs.storyEl as HTMLElement)?.focus();
+          document.body.style.overflow = 'hidden';
         }
       } catch (err) {
         console.error('Error initializing:', err);
@@ -530,16 +344,11 @@ export default defineComponent({
   },
 
   mounted() {
-    if (this.viewMode === 'smart') {
-      document.body.style.overflow = 'hidden';
-    }
-    window.addEventListener('resize', this.onResize);
     this.initialize();
   },
 
   beforeUnmount() {
     document.body.style.overflow = '';
-    window.removeEventListener('resize', this.onResize);
   }
 });
 </script>
@@ -557,6 +366,16 @@ export default defineComponent({
   opacity: 0;
 }
 
+// ============ FADE TRANSITION ============
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s $ease-out;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 // ============ SHARED TRANSITIONS ============
 .snackbar-enter-active,
 .snackbar-leave-active {
@@ -566,16 +385,6 @@ export default defineComponent({
 .snackbar-leave-to {
   opacity: 0;
   transform: translateX(-50%) translateY(1rem);
-}
-
-.footer-enter-active,
-.footer-leave-active {
-  transition: transform 0.4s $ease-out, opacity 0.4s $ease-out;
-}
-.footer-enter-from,
-.footer-leave-to {
-  opacity: 0;
-  transform: translateY(100%);
 }
 
 // ============ VIEW TOGGLE ============
@@ -619,7 +428,7 @@ export default defineComponent({
   }
 }
 
-// ============ LOADER (shared) ============
+// ============ LOADER ============
 .bericht-loader {
   position: fixed;
   inset: 0;
@@ -656,50 +465,57 @@ export default defineComponent({
   to { transform: rotate(360deg); }
 }
 
-// ============ SMART VIEW: GLOBAL OVERRIDES ============
-.story ::v-deep(.site-header) {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  transition: transform 0.5s $ease-out, opacity 0.5s $ease-out;
-}
-.story .header--hidden {
-  transform: translateY(-100%);
-  opacity: 0;
-}
-
-// ============ STORY CONTAINER ============
+// ============ SMART VIEW ============
 .story {
   position: fixed;
   inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
   background: $black;
   color: $light;
-  overflow: hidden;
   outline: none;
+  -webkit-overflow-scrolling: touch;
 
-  &__footer {
+  // Header
+  ::v-deep(.site-header) {
     position: fixed;
-    bottom: 0;
+    top: 0;
     left: 0;
     right: 0;
-    z-index: 50;
+    z-index: 100;
+    transition: transform 0.5s $ease-out, opacity 0.5s $ease-out;
   }
 
-  &--footer-visible {
-    .story__viewport {
-      transform: translateY(-80px);
+  .header--hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  // Hero wrapper — provides sizing context for absolute-positioned StoryHero
+  &__hero {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  // Key points wrapper — override StoryKeyPoints absolute positioning
+  &__key-points {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    :deep(.screen) {
+      position: relative;
+      inset: auto;
+      min-height: 60vh;
     }
   }
 
-  &__viewport {
-    position: absolute;
-    inset: 0;
-    transition: transform 0.4s $ease-out;
-  }
-
-  &__screens {
-    position: absolute;
-    inset: 0;
+  // Footer
+  &__footer {
+    position: relative;
   }
 }
 
@@ -757,7 +573,7 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.2s $ease-out, transform 0.2s $ease-out, opacity 0.3s $ease-out;
+  transition: background 0.2s $ease-out, transform 0.2s $ease-out;
   padding: 0;
   min-height: unset;
   box-shadow: none;
@@ -767,12 +583,6 @@ export default defineComponent({
     transform: scale(1.1);
     box-shadow: 0 2px 12px $glow;
   }
-}
-
-// ============ NAV VISIBILITY ============
-.nav--hidden {
-  opacity: 0;
-  pointer-events: none;
 }
 
 // ============ SNACKBAR ============
