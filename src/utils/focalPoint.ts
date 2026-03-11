@@ -16,12 +16,18 @@ import placementData from '../data/image-placement.json'
 export type Bbox = [number, number, number, number]
 export type BboxLevel = 'tight' | 'subject' | 'safe'
 
+export interface ImageDescription {
+  de: string
+  en: string
+  nl: string
+}
+
 export interface ImagePlacement {
   tight: Bbox
   subject: Bbox
   safe: Bbox
   category: string
-  description: string
+  description: ImageDescription
   placement: 'central' | 'accompanying'
 }
 
@@ -32,7 +38,7 @@ const DEFAULTS: ImagePlacement = {
   subject: [0, 100, 1000, 900],
   safe: [200, 150, 800, 850],
   category: 'unknown',
-  description: '',
+  description: { de: '', en: '', nl: '' },
   placement: 'accompanying',
 }
 
@@ -80,4 +86,19 @@ export function getBackgroundPosition(imageUrl: string, level: BboxLevel = 'subj
 export function hasPlacement(imageUrl: string): boolean {
   if (!imageUrl) return false
   return extractKey(imageUrl) in lookup
+}
+
+/** Get the image category (e.g. "portrait", "group-photo", "building"). */
+export function getCategory(imageUrl: string): string {
+  return getPlacement(imageUrl).category
+}
+
+/** Get trilingual description for an image. */
+export function getDescription(imageUrl: string): ImageDescription {
+  return getPlacement(imageUrl).description
+}
+
+/** Get placement role: "central" or "accompanying". */
+export function getPlacementRole(imageUrl: string): 'central' | 'accompanying' {
+  return getPlacement(imageUrl).placement
 }

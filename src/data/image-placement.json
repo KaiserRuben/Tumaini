@@ -1,1 +1,1514 @@
-{}
+{
+  "23_Weihnachtsb\u00e4ckerei_1.webp": {
+    "category": "object",
+    "description": {
+      "de": "Eine k\u00f6stliche Nahaufnahme von selbstgebackenen Weihnachtspl\u00e4tzchen, die reichlich mit Puderzucker best\u00e4ubt sind und auf einem dunklen Blech angerichtet sind.",
+      "en": "A mouth-watering close-up of homemade Christmas cookies heavily dusted in powdered sugar, neatly arranged on a dark baking sheet.",
+      "nl": "Een overvloedige close-up van zelfgemaakte kerstkoekjes, rijkelijk bestrooid met poedersuiker en netjes gerangschikt op een donker bakblet."
+    },
+    "placement": "central",
+    "safe": [
+      343,
+      254,
+      657,
+      554
+    ],
+    "subject": [
+      98,
+      100,
+      974,
+      946
+    ],
+    "tight": [
+      653,
+      312,
+      803,
+      463
+    ]
+  },
+  "23_Weihnachtsb\u00e4ckerei_2.webp": {
+    "category": "food",
+    "description": {
+      "de": "Eine appetitliche Ansammlung von verpackten Weihnachtspl\u00e4tzchen mit bunter Dekoration.",
+      "en": "A mouthwatering collection of assorted Christmas cookies neatly packed in cellophane bags.",
+      "nl": "Een heerlijke verzameling van kerstkoekjes, netjes verpakt in celofaan zakjes."
+    },
+    "placement": "central",
+    "safe": [
+      200,
+      150,
+      800,
+      850
+    ],
+    "subject": [
+      0,
+      0,
+      1000,
+      1000
+    ],
+    "tight": [
+      150,
+      100,
+      650,
+      750
+    ]
+  },
+  "23_Weihnachtsb\u00e4ckerei_3.webp": {
+    "category": "object",
+    "description": {
+      "de": "Festlich verpackte Weihnachtspl\u00e4tzchen mit goldenen B\u00e4ndern bereit f\u00fcr eine Spendenaktion.",
+      "en": "Festively packaged Christmas cookies with gold ribbons ready for a charity drive.",
+      "nl": "Feestelijk verpakte kerstkoekjes met gouden linten klaar voor een donatieactie."
+    },
+    "placement": "central",
+    "safe": [
+      250,
+      300,
+      750,
+      900
+    ],
+    "subject": [
+      0,
+      0,
+      1000,
+      980
+    ],
+    "tight": [
+      180,
+      150,
+      920,
+      960
+    ]
+  },
+  "24_Kilihope_Graduation_Honoroubles.webp": {
+    "category": "event",
+    "description": {
+      "de": "Wertevolle G\u00e4ste bei der Abschlussfeier der Montessori-Kita.",
+      "en": "Valued guests at a Montessori Kindergarten graduation ceremony.",
+      "nl": "Waardevolle gasten bij een afsluitingsceremonie van een Montessori basisschool."
+    },
+    "placement": "central",
+    "safe": [
+      350,
+      200,
+      700,
+      800
+    ],
+    "subject": [
+      0,
+      0,
+      950,
+      1000
+    ],
+    "tight": [
+      320,
+      180,
+      750,
+      820
+    ]
+  },
+  "24_Kilihope_Kids_Directors.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Eine fr\u00f6hliche Gruppe von Kindern und Erwachsenen feiert vor der Kilihope-Akademie-Banner den Erfolg des neu errichteten Montessori-Vorschulangebots.",
+      "en": "A joyful group of children and adults pose for a photo in front of the Kilihope Academy banner, celebrating the successful launch of their innovative educational program.",
+      "nl": "Een gelukkige groep kinderen en volwassenen poseert voor de banier van de Kilihope Academie en viert de succesvolle lancering van hun innovatieve educatieprogramma."
+    },
+    "placement": "central",
+    "safe": [
+      240,
+      20,
+      720,
+      840
+    ],
+    "subject": [
+      65,
+      0,
+      995,
+      885
+    ],
+    "tight": [
+      175,
+      0,
+      995,
+      880
+    ]
+  },
+  "24_Winifreda_Graduate.webp": {
+    "category": "portrait",
+    "description": {
+      "de": "Unsere erste Laureatin Winifreda strahlt in ihrer Abschlusskleidung auf einem Campus-Pfad.",
+      "en": "Our first Laureate Winifreda shines in her graduation gown and cap while walking outdoors.",
+      "nl": "Onze eerste laureaat Winifreda glinstert in haar diplomakleed en hoed terwijl ze buiten loopt."
+    },
+    "placement": "central",
+    "safe": [
+      130,
+      470,
+      210,
+      560
+    ],
+    "subject": [
+      80,
+      295,
+      950,
+      814
+    ],
+    "tight": [
+      80,
+      295,
+      950,
+      814
+    ]
+  },
+  "24_graduates_Kilihope.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Eine festliche Feier f\u00fcr den Abschluss der Vorschule mit den Diplomen von Clara, Braden und Abigail.",
+      "en": "A celebratory graduation ceremony for preschool with certificates from Clara, Braden, and Abigail.",
+      "nl": "Een feestelijke afrondingsceremonie voor de basisschool met diploma's van Clara, Braden en Abigail."
+    },
+    "placement": "central",
+    "safe": [
+      250,
+      300,
+      700,
+      650
+    ],
+    "subject": [
+      80,
+      0,
+      1000,
+      1000
+    ],
+    "tight": [
+      130,
+      50,
+      960,
+      970
+    ]
+  },
+  "24_playground.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Auf dem innovativen Montessori-Gel\u00e4nde springen gl\u00fcckliche Kinder in gelben Hemden energisch auf einem neuen Trampolin.",
+      "en": "Happy children in yellow shirts jump energetically on a new trampoline at the innovative Montessori campus.",
+      "nl": "Gelukkige kinderen in gele overhempen springen energiek op een nieuw trampoline bij het innovatieve Montessori-terrein."
+    },
+    "placement": "central",
+    "safe": [
+      380,
+      620,
+      720,
+      940
+    ],
+    "subject": [
+      45,
+      360,
+      960,
+      1000
+    ],
+    "tight": [
+      265,
+      475,
+      935,
+      1000
+    ]
+  },
+  "Abigail&Claire_Mar_24.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Besuch in Tansania - Sponsoren besuchen die Kinder Abigail und Claire im Montessori-Kindergarten.",
+      "en": "Visit to Tanzania - Donors/volunteers meet children Abigail and Claire at the Montessori kindergarten.",
+      "nl": "Bezoek naar Tanzania - Donateurs bezoeken de kinderen Abigail en Claire op het Montessori-kinderdagverblijf."
+    },
+    "placement": "central",
+    "safe": [
+      325,
+      100,
+      680,
+      850
+    ],
+    "subject": [
+      325,
+      0,
+      1000,
+      1000
+    ],
+    "tight": [
+      325,
+      100,
+      680,
+      900
+    ]
+  },
+  "BINGO-Logo.webp": {
+    "category": "object",
+    "description": {
+      "de": "Leuchtendes Logo der SH Bingo Umweltlotterie mit dem Wort 'BINGO' in roten Buchstaben und darunter blau kugelf\u00f6rmigen Textelementen.",
+      "en": "Vibrant logo for the SH Bingo Environmental Lottery, featuring the word 'BINGO' in red letters and blue sphere text elements below.",
+      "nl": "Levendig logo van de SH Bingo Milieu Loterij met het woord 'BINGO' in rode letters en daaronder blauwe bolvormige tekenelementen."
+    },
+    "placement": "accompanying",
+    "safe": [
+      150,
+      400,
+      850,
+      600
+    ],
+    "subject": [
+      83,
+      96,
+      932,
+      970
+    ],
+    "tight": [
+      83,
+      96,
+      932,
+      970
+    ]
+  },
+  "Classroom_May_25.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Besucher teilen einen freudigen Augenblick mit Kindern in einem hellen Klassenzimmer w\u00e4hrend ihres Besuchs in Moshi.",
+      "en": "Visitors share a joyful moment with children in a bright classroom during their visit to Moshi.",
+      "nl": "Bezoekers delen een vrolijke moment met kinderen in een helder klaslokaal tijdens hun bezoek aan Moshi."
+    },
+    "placement": "central",
+    "safe": [
+      380,
+      290,
+      710,
+      520
+    ],
+    "subject": [
+      168,
+      280,
+      793,
+      580
+    ],
+    "tight": [
+      536,
+      297,
+      681,
+      473
+    ]
+  },
+  "Covid_Mwereni_classroom.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Een leraar staat met zijn rug naar de camera en spreekt een klas vol enthousiaste kinderen toe, die allemaal hun handen in de lucht hebben \u2013 een feestelijk moment bij het vinden van een nieuwe schoollocatie.",
+      "en": "A teacher stands before a sea of eager faces and raised hands, marking the excitement of securing a location for a new Montessori school.",
+      "nl": "Een leraar staat voor een zee van enthousiaste gezichten en geheven handen, wat de blijdschap aangeeft bij het verwerven van een locatie voor een nieuwe montessorischool."
+    },
+    "placement": "central",
+    "safe": [
+      200,
+      400,
+      800,
+      950
+    ],
+    "subject": [
+      0,
+      140,
+      1000,
+      1000
+    ],
+    "tight": [
+      60,
+      150,
+      300,
+      1000
+    ]
+  },
+  "Covid_Mwereni_classroom_2.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Sch\u00fcler der Mwereni-Schule starten mit viel Engagement und Heiterkeit in den Unterricht f\u00fcr Hygienema\u00dfnahmen.",
+      "en": "Mwereni School students start the hygiene lesson project with enthusiasm and raised hands.",
+      "nl": "Leerlingen van school Mwereni starten het project voor hygi\u00ebnelessen met enthousiasme en opgeheven handen."
+    },
+    "placement": "central",
+    "safe": [
+      156,
+      295,
+      894,
+      954
+    ],
+    "subject": [
+      48,
+      92,
+      998,
+      1000
+    ],
+    "tight": [
+      337,
+      448,
+      628,
+      1000
+    ]
+  },
+  "Entrance2.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Aktuelles Bild zum Februar-Update der VZW Tumaini Heart for Kids, das \u00fcber ein Benefiz-Fest in Belgien berichtet.",
+      "en": "Current image from the February 2023 update of Tumaini Heart for Kids Belgium about their charity pancake event.",
+      "nl": "Huidige foto uit de februari-update van het vzw Tumaini Heart for Kids, die een pannenkoekenfeest aankondigt."
+    },
+    "placement": "central",
+    "safe": [
+      370,
+      200,
+      630,
+      700
+    ],
+    "subject": [
+      15,
+      10,
+      998,
+      980
+    ],
+    "tight": [
+      724,
+      300,
+      986,
+      702
+    ]
+  },
+  "Esssaal_Sep25.webp": {
+    "category": "interior",
+    "description": {
+      "de": "Blick in den farbenfrohen Essraum des Kindergartens nach der Renovierung mit neuen Tischen und St\u00fchlen.",
+      "en": "View into the colorful dining room of the kindergarten after renovation with new tables and chairs.",
+      "nl": "Blik in de kleurrijke eetzaal van de kinderopvang na renovatie met nieuwe tafels en stoelen."
+    },
+    "placement": "accompanying",
+    "safe": [
+      400,
+      500,
+      800,
+      850
+    ],
+    "subject": [
+      160,
+      200,
+      990,
+      1000
+    ],
+    "tight": [
+      180,
+      460,
+      950,
+      900
+    ]
+  },
+  "Inauguration_Mwereni_School_June_22.webp": {
+    "category": "event",
+    "description": {
+      "de": "Bei der feierlichen Er\u00f6ffnung einer neuen Handwaschstation an der Mwereni-Schule in Tansania schneidet ein Mann zusammen mit dem Direktor den roten Band ab, umrahmt von begeisterten Sch\u00fclern.",
+      "en": "A celebratory ribbon-cutting ceremony marks the completion of a sanitation project at Mwereni School in Tanzania, featuring two men inaugurating a handwashing station while surrounded by students.",
+      "nl": "Tijdens de opening van een nieuwe handwasinstallatie aan de Mwereni-School in Tanzania knippen twee mannen het lint door, omringd door enthousiaste leerlingen die het project succesvol afronden."
+    },
+    "placement": "central",
+    "safe": [
+      280,
+      300,
+      750,
+      950
+    ],
+    "subject": [
+      0,
+      200,
+      890,
+      1000
+    ],
+    "tight": [
+      253,
+      283,
+      540,
+      997
+    ]
+  },
+  "IreneGraduation_Jul25.webp": {
+    "category": "portrait",
+    "description": {
+      "de": "Irene und Regina posieren stolz mit ihrem neuen Diplom vor einer gr\u00fcnen Kulisse.",
+      "en": "Irene and Regina pose proudly with their new diploma against a green backdrop.",
+      "nl": "Irene en Regina poseren trots met hun nieuw diploma tegen een groene achtergrond."
+    },
+    "placement": "central",
+    "safe": [
+      300,
+      250,
+      700,
+      650
+    ],
+    "subject": [
+      100,
+      130,
+      900,
+      980
+    ],
+    "tight": [
+      165,
+      130,
+      840,
+      520
+    ]
+  },
+  "Irene_June_22.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Ein Besucher sitzt neben Irene, einer Sch\u00fclerin der neuen Schule am Kilimanjaro.",
+      "en": "A visitor sits next to student Irene in their new classroom on the slopes of Mount Kilimanjaro.",
+      "nl": "Een bezoeker zit naast Irene, een leerling in hun nieuwe klaslokaal aan de hellingen van de Kilimanjarom."
+    },
+    "placement": "central",
+    "safe": [
+      300,
+      280,
+      600,
+      650
+    ],
+    "subject": [
+      285,
+      87,
+      1000,
+      685
+    ],
+    "tight": [
+      290,
+      87,
+      640,
+      485
+    ]
+  },
+  "Irene_Mar_24.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Ein fr\u00f6hlicher Besuch bei einem Sch\u00fcler an der Mema Primary School in Tansania im Rahmen eines Entwicklungsprojekts.",
+      "en": "A happy encounter with a student at Mema Primary School in Tanzania during a development project visit.",
+      "nl": "Een blij bezoek aan een leerling op de Mema Primary School in Tanzania tijdens een bezoek aan een ontwikkelingsproject."
+    },
+    "placement": "central",
+    "safe": [
+      455,
+      250,
+      670,
+      420
+    ],
+    "subject": [
+      285,
+      125,
+      720,
+      980
+    ],
+    "tight": [
+      300,
+      130,
+      715,
+      950
+    ]
+  },
+  "Jan_24_first_children_2.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Drei gl\u00fcckliche Kinder nutzen als Erste das innovative Angebot des neuen Kindergartens auf dem Spielplatz.",
+      "en": "Three happy children utilize the innovative offer of the new kindergarten for the first time on the playground.",
+      "nl": "Drie gelukkige kinderen maken gebruik van het innovatieve aanbod van de nieuwe kinderopvang op het speelplein."
+    },
+    "placement": "central",
+    "safe": [
+      200,
+      560,
+      700,
+      780
+    ],
+    "subject": [
+      125,
+      115,
+      760,
+      940
+    ],
+    "tight": [
+      350,
+      560,
+      480,
+      820
+    ]
+  },
+  "Joackim_in_HH_Oct_22.webp": {
+    "category": "portrait",
+    "description": {
+      "de": "Portr\u00e4t von Joackim vor dem Hamburger Hafen, einwillkommen in den Riga Rotarac Club im Oktober.",
+      "en": "Portrait of Joackim standing on a balcony overlooking the Hamburg harbor, welcoming visitors to the Riga Rotarac Club.",
+      "nl": "Portret van Joackim op een balkon dat uitkijkt over de haven van Hamburg, welkom bij het Riga Rotarac Club in oktober."
+    },
+    "placement": "central",
+    "safe": [
+      190,
+      240,
+      760,
+      580
+    ],
+    "subject": [
+      0,
+      145,
+      1000,
+      938
+    ],
+    "tight": [
+      162,
+      158,
+      845,
+      938
+    ]
+  },
+  "JoanandJohnson_School_June_22.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Besuch in Tansania - Update \u00fcber unsere Kinder: Joan und Johnson genie\u00dfen einen Tag an ihrer Schule in Boma.",
+      "en": "Visit to Tanzania - June 22: Update on our children. Joan and Johnson are our youngest protectees at Mother's City Christian School in Boma.",
+      "nl": "Bezoek naar Tanzania: Nieuws over onze kinderen. Joan en Johnson, onze jongste onder bescherming, op de Christelijke School Moeder's City in Boma."
+    },
+    "placement": "central",
+    "safe": [
+      286,
+      540,
+      657,
+      697
+    ],
+    "subject": [
+      284,
+      378,
+      686,
+      697
+    ],
+    "tight": [
+      413,
+      480,
+      529,
+      697
+    ]
+  },
+  "KeinApfelbau-TreesofHope.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Zwei M\u00e4nner pflanzen einen Jungbaum im Rahmen eines Projektbetriebs in Tansania und l\u00e4cheln sich dabei an.",
+      "en": "Two men planting a sapling in a garden as part of a project visit to Tanzania, smiling at each other.",
+      "nl": "Twee mannen planten een jonge boom tijdens een bezoek aan hun projecten in Tanzania en glimlachen naar elkaar."
+    },
+    "placement": "central",
+    "safe": [
+      320,
+      150,
+      680,
+      850
+    ],
+    "subject": [
+      0,
+      0,
+      1000,
+      1000
+    ],
+    "tight": [
+      285,
+      95,
+      960,
+      950
+    ]
+  },
+  "KilihopeAcademyEntranceMar24.webp": {
+    "category": "building",
+    "description": {
+      "de": "Der Eingangsbereich der KiliHope Montessori Pre-School Academy, ein innovatives p\u00e4dagogisches Angebot, pr\u00e4sentiert auf einem gr\u00fcnen Tor mit Missionsstatement und Motto.",
+      "en": "The entrance to the KiliHope Montessori Pre-School Academy, an innovative educational offering, is presented on a green gate featuring its mission statement and motto.",
+      "nl": "De ingang van de KiliHope Montessori Basisschool Academie, een innovatief onderwijsaanbod, wordt getoond op een groen hek met het missieverhaal en leus."
+    },
+    "placement": "central",
+    "safe": [
+      250,
+      350,
+      700,
+      920
+    ],
+    "subject": [
+      180,
+      96,
+      750,
+      980
+    ],
+    "tight": [
+      230,
+      360,
+      630,
+      430
+    ]
+  },
+  "KilihopeNurseryClassMar24.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Ein Mann sitzt inmitten einer Gruppe von zehn Kindern, die spielen und Montessoriger\u00e4te basteln, in einem farbenfrohen rosa Klassenzimmer.",
+      "en": "A man sits with a group of ten children playing and creating Montessori materials in a colorful pink classroom.",
+      "nl": "Een man zit met een groep kinderen die spelen en montessorimateriaal maken in een kleurrijk roze klaslokaal."
+    },
+    "placement": "central",
+    "safe": [
+      380,
+      350,
+      640,
+      620
+    ],
+    "subject": [
+      190,
+      280,
+      900,
+      920
+    ],
+    "tight": [
+      430,
+      330,
+      525,
+      660
+    ]
+  },
+  "KilihopeSchlafplaetze_Mar24.webp": {
+    "category": "interior",
+    "description": {
+      "de": "Dieser farbenfrohe Schlafraum mit rosa W\u00e4nden und gelbem Flor ist ein gem\u00fctlicher Ort f\u00fcr die Mittagsruhe der Kinder im Kindergarten.",
+      "en": "This colorful sleeping room with pink walls and yellow floral curtains is a cozy spot for the children's afternoon rest at the kindergarten.",
+      "nl": "Deze kleurrijke slaapkamer met roze muren en gele bloemengordijn is een gezellige plek voor de middagrust van de kinderen op de kleuterschool."
+    },
+    "placement": "accompanying",
+    "safe": [
+      480,
+      250,
+      850,
+      750
+    ],
+    "subject": [
+      0,
+      0,
+      990,
+      950
+    ],
+    "tight": [
+      415,
+      0,
+      990,
+      830
+    ]
+  },
+  "KilihopeToilette_Mar24.webp": {
+    "category": "object",
+    "description": {
+      "de": "Ein Blick auf die neue, separate Toilettenanlage f\u00fcr M\u00e4dchen und Jungs im Montessori-Geb\u00e4ude.",
+      "en": "A view of the new separate toilet facility for girls and boys in the Montessori building.",
+      "nl": "Een blik op de nieuwe gescheiden toiletvoorziening voor meisjes en jongens in het Montessori-gebouw."
+    },
+    "placement": "accompanying",
+    "safe": [
+      350,
+      450,
+      700,
+      650
+    ],
+    "subject": [
+      0,
+      100,
+      1000,
+      900
+    ],
+    "tight": [
+      165,
+      280,
+      890,
+      720
+    ]
+  },
+  "Kilihope_Extension_Mar24_2.webp": {
+    "category": "building",
+    "description": {
+      "de": "Baustelle einer Montessori-Schule mit Arbeitern, die Fenster einbauen und das Dachger\u00fcst montieren.",
+      "en": "Construction site of a Montessori school where workers are installing windows and roof beams.",
+      "nl": "Bouwsite van een Montessori-school waar arbeiders ramen en dakconstructies monteren."
+    },
+    "placement": "central",
+    "safe": [
+      250,
+      450,
+      420,
+      650
+    ],
+    "subject": [
+      60,
+      300,
+      780,
+      950
+    ],
+    "tight": [
+      180,
+      360,
+      450,
+      720
+    ]
+  },
+  "Kilihope_Extension_Mar24_3.webp": {
+    "category": "building",
+    "description": {
+      "de": "Der neue Essbereich der Montessori-Schule im Erdgeschoss des Wasserturms wird mit grauen Blockw\u00e4nden und roten Fensterrahmen unter dem blauen Himmel errichtet.",
+      "en": "Construction of the Montessori school's dining area on the ground floor of the water tower is underway, featuring grey block walls and red window frames under a bright sky.",
+      "nl": "De bouw van de eethoek op de begane grond van het watertoren van de Montessori-school verloopt, met nieuwe grijze blokkomurussen en rode raamkaders onder een heldere lucht."
+    },
+    "placement": "central",
+    "safe": [
+      300,
+      350,
+      750,
+      650
+    ],
+    "subject": [
+      10,
+      0,
+      1000,
+      980
+    ],
+    "tight": [
+      200,
+      350,
+      990,
+      1000
+    ]
+  },
+  "Kilihope_Extension_Mar24_4.webp": {
+    "category": "building",
+    "description": {
+      "de": "Ein innovatives Wasserprojekt mit einem gro\u00dfen Tank auf dem Dach einer neu gebauten Schule.",
+      "en": "An innovative water project featuring a large tank on the roof of a newly constructed school building.",
+      "nl": "Een innovatief waterproject met een grote tank op het dak van een nieuw gebouwde school."
+    },
+    "placement": "central",
+    "safe": [
+      0,
+      175,
+      735,
+      985
+    ],
+    "subject": [
+      0,
+      0,
+      925,
+      1000
+    ],
+    "tight": [
+      0,
+      175,
+      735,
+      985
+    ]
+  },
+  "Kilihope_Garden_Extension_Mar24.webp": {
+    "category": "landscape",
+    "description": {
+      "de": "Ein sonniger Blick auf den Au\u00dfenbereich des Kindergartens mit Schaukeln, Wiese und gr\u00fcner Umgebung.",
+      "en": "A sunny view of the kindergarten's outdoor area featuring swings, a lawn, and lush green surroundings.",
+      "nl": "Een zonnig uitzicht op de speeltuin van de kinderdagverblijf met schommels, gras en groene omgeving."
+    },
+    "placement": "central",
+    "safe": [
+      150,
+      250,
+      850,
+      750
+    ],
+    "subject": [
+      0,
+      180,
+      1000,
+      650
+    ],
+    "tight": [
+      360,
+      430,
+      470,
+      520
+    ]
+  },
+  "MaureneandClass_June_22.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Ein Besucher kniet inmitten eines tansanischen Klassenzimmers und l\u00e4chelt der Kamera zu, w\u00e4hrend er von Sch\u00fclern in gr\u00fcnen Uniformen umgeben ist.",
+      "en": "A visitor kneels among rows of wooden desks in a Tanzanian classroom, smiling warmly at a group of uniformed students who are writing and looking around.",
+      "nl": "Een bezoeker knielt tussen rijen houten schrijftafels in een Tansaans klaslokaal en glimlacht warm naar een groep leerlingen in uniforme die schrijven en om zich heen kijken."
+    },
+    "placement": "central",
+    "safe": [
+      250,
+      400,
+      750,
+      850
+    ],
+    "subject": [
+      15,
+      305,
+      985,
+      995
+    ],
+    "tight": [
+      495,
+      365,
+      620,
+      675
+    ]
+  },
+  "Mema_Primary_SchoolIrene.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Zwei l\u00e4chelnde M\u00e4nner posieren auf einem Erdweg vor Schulgeb\u00e4uden in Tansania und veranschaulichen einen Gemeinschaftsbesuch und einen Bildungsbericht.",
+      "en": "Two smiling men pose on a dirt path before school buildings in Tanzania, illustrating a community visit and educational update.",
+      "nl": "Twee glimlachende mannen poseren op een aardweg voor schoolgebouwen in Tanzania en illustreren een gemeenschapsbezoek en onderwijsupdate."
+    },
+    "placement": "central",
+    "safe": [
+      380,
+      260,
+      650,
+      500
+    ],
+    "subject": [
+      320,
+      240,
+      710,
+      840
+    ],
+    "tight": [
+      360,
+      240,
+      700,
+      600
+    ]
+  },
+  "Mema_Primary_may25.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Irene, Clara und Abigael posieren mit einem Besucher vor der Mema Primary School an den H\u00e4ngen des Kilimanjaro.",
+      "en": "Irene, Clara and Abigael pose with a visitor in front of Mema Primary School on the slopes of Mount Kilimanjaro.",
+      "nl": "Irene, Clara en Abigael poseren met een bezoeker voor de Mema Primary School aan de hellingen van de Kilimanjaro."
+    },
+    "placement": "central",
+    "safe": [
+      280,
+      140,
+      920,
+      550
+    ],
+    "subject": [
+      250,
+      140,
+      940,
+      890
+    ],
+    "tight": [
+      400,
+      140,
+      720,
+      890
+    ]
+  },
+  "MontesoriBuildingsafter3.webp": {
+    "category": "building",
+    "description": {
+      "de": "Die renovierten Schulgeb\u00e4ude mit ihren gr\u00fcnen D\u00e4chern gl\u00e4nzen im Sonnenlicht.",
+      "en": "The renovated school buildings gleam in bright colors under the sun.",
+      "nl": "De gerenoveerde schoolgebouwen met groene daken stralen in de zon."
+    },
+    "placement": "central",
+    "safe": [
+      350,
+      250,
+      650,
+      550
+    ],
+    "subject": [
+      0,
+      145,
+      1000,
+      720
+    ],
+    "tight": [
+      0,
+      145,
+      1000,
+      650
+    ]
+  },
+  "MontesoriBuildingsafter4.webp": {
+    "category": "building",
+    "description": {
+      "de": "Der Fortschritt bei der Renovierung der Montessori-Schule in Tansania, wo leuchtend rosa W\u00e4nde eine neue Lernumgebung schaffen.",
+      "en": "Progress on the renovation of the Montessori school in Tanzania, where bright pink walls create a new learning environment.",
+      "nl": "Vordering bij de renovatie van de Montessori-school in Tanzania, waar felroze muren een nieuwe leeromgeving cre\u00ebren."
+    },
+    "placement": "central",
+    "safe": [
+      470,
+      450,
+      530,
+      550
+    ],
+    "subject": [
+      180,
+      200,
+      820,
+      800
+    ],
+    "tight": [
+      450,
+      350,
+      550,
+      650
+    ]
+  },
+  "MontesoriBuildingsbefore1.webp": {
+    "category": "building",
+    "description": {
+      "de": "Ein innovatives Bauprojekt: Abrissarbeiten in einem Schulgeb\u00e4ude vor der Renovierung.",
+      "en": "An innovative construction project: Demolition work inside a school building before refurbishment.",
+      "nl": "Een innovatief bouwproject: sloopwerkzaamheden in een schoolgebouw voordat het gerenoveerd wordt."
+    },
+    "placement": "central",
+    "safe": [
+      200,
+      250,
+      800,
+      750
+    ],
+    "subject": [
+      80,
+      15,
+      990,
+      985
+    ],
+    "tight": [
+      330,
+      360,
+      540,
+      420
+    ]
+  },
+  "MontesoriBuildingsbefore3.webp": {
+    "category": "construction",
+    "description": {
+      "de": "Fortschritt beim Umbau des Montessori-Geb\u00e4udes mit Lehmverputz.",
+      "en": "Progress on renovating the Montessori school building with earth plaster.",
+      "nl": "Vordergang bij de ombouw van het Montessori-gebouw met leempleister."
+    },
+    "placement": "central",
+    "safe": [
+      480,
+      320,
+      680,
+      620
+    ],
+    "subject": [
+      50,
+      0,
+      980,
+      800
+    ],
+    "tight": [
+      390,
+      200,
+      810,
+      650
+    ]
+  },
+  "Montessori-Material1_May_25.webp": {
+    "category": "object",
+    "description": {
+      "de": "Montessori-Lernmaterialien wie Sandbuchstaben und geometrische Formen liegen auf einem Tisch bereit f\u00fcr den Unterricht.",
+      "en": "Montessori learning materials such as sandpaper letters and geometric shapes are arranged on a desk for the lessons.",
+      "nl": "Montessorimaterialen zoals zandletters en geometrische vormen zijn op een bureau gerangschikt voor de lessen."
+    },
+    "placement": "central",
+    "safe": [
+      250,
+      500,
+      750,
+      650
+    ],
+    "subject": [
+      20,
+      140,
+      930,
+      940
+    ],
+    "tight": [
+      135,
+      450,
+      870,
+      940
+    ]
+  },
+  "Montessori-Material2_May_25.webp": {
+    "category": "object",
+    "description": {
+      "de": "Frisch gefr\u00e4ste Holzmaterialien f\u00fcr die Montessori-Schule, geordnet nach Farben und Formen.",
+      "en": "Locally crafted wooden learning tools displayed on a table, showcasing geometric shapes sorted into colorful compartments.",
+      "nl": "Verscheidenheid aan lokaal gemaakte houten leeropdrachten voor de montesschool, met gesorteerde geometrische vormen in kleurrijke vakken."
+    },
+    "placement": "central",
+    "safe": [
+      280,
+      250,
+      720,
+      900
+    ],
+    "subject": [
+      100,
+      150,
+      1000,
+      980
+    ],
+    "tight": [
+      143,
+      296,
+      922,
+      908
+    ]
+  },
+  "Mwereni_Hygene_station_3.webp": {
+    "category": "event",
+    "description": {
+      "de": "Tanzanier Jugendliche bauen auf dem Schulhof ein neues Waschbecken.",
+      "en": "Tanzanian youths build a new sink on the schoolyard during construction.",
+      "nl": "Tanseanische jongeren bouwen een nieuw wastafel op de schooltuintje tijdens de bouw."
+    },
+    "placement": "central",
+    "safe": [
+      0,
+      278,
+      950,
+      999
+    ],
+    "subject": [
+      0,
+      146,
+      950,
+      999
+    ],
+    "tight": [
+      369,
+      278,
+      950,
+      834
+    ]
+  },
+  "Mwereni_hygene_station_1.webp": {
+    "category": "construction",
+    "description": {
+      "de": "Mit der Hilfe von Sponsoren wurde der Bau einer Waschstation an der Mwereni-Schule in Moshi gestartet.",
+      "en": "Thanks to sponsors, we started building a hand-washing station at Mwereni School.",
+      "nl": "Met behulp van donateurs zijn we begonnen met de bouw van een wasinstallatie op school Mwereni."
+    },
+    "placement": "central",
+    "safe": [
+      220,
+      420,
+      780,
+      650
+    ],
+    "subject": [
+      162,
+      20,
+      963,
+      700
+    ],
+    "tight": [
+      162,
+      272,
+      963,
+      580
+    ]
+  },
+  "Mwereni_irrigation_June_22.webp": {
+    "category": "garden",
+    "description": {
+      "de": "Ein Schulgarten in Tansania mit Reihen junger Bananenpflanzen und Bew\u00e4sserungsschl\u00e4uchen auf dem Boden.",
+      "en": "A school garden in Tanzania featuring rows of young banana plants and irrigation hoses on the ground.",
+      "nl": "Een schooltuin in Tanzania met rijen jonge bananenplanten en waterleidingen op de grond."
+    },
+    "placement": "accompanying",
+    "safe": [
+      350,
+      300,
+      650,
+      900
+    ],
+    "subject": [
+      0,
+      150,
+      1000,
+      1000
+    ],
+    "tight": [
+      450,
+      200,
+      850,
+      1000
+    ]
+  },
+  "Mwereni_oldclassroom_June_22.webp": {
+    "category": "building",
+    "description": {
+      "de": "Ein leerer Klassenzimmer der Mwereni-Schule mit h\u00f6lzernen B\u00e4nken und p\u00e4dagogischen Anweisungen an den W\u00e4nden in Moshi, Tanzania.",
+      "en": "An empty classroom at Mwereni School with wooden desks and educational charts on the walls in Moshi, Tanzania.",
+      "nl": "Een lege klaslokaal bij de Mwereni-school met houten bankjes en didactische posters aan de muren in Moshi, Tanzania."
+    },
+    "placement": "central",
+    "safe": [
+      78,
+      226,
+      934,
+      894
+    ],
+    "subject": [
+      0,
+      0,
+      999,
+      999
+    ],
+    "tight": [
+      612,
+      534,
+      999,
+      819
+    ]
+  },
+  "Mwereni_school.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Gruppenfoto der Sch\u00fcler der Mwereni-Schule in Moshi, die sich im Freien f\u00fcr ein Projekt zur Aufkl\u00e4rung \u00fcber Hygiene und COVID-Ma\u00dfnahmen versammeln.",
+      "en": "Group photo of Mwereni School students in Moshi gathering outdoors for a project on sanitation and hygiene practices including Covid measures.",
+      "nl": "Groepsfoto van leerlingen op de Mwereni-school in Moshi die zich buiten verzamelen voor een project rondom hygi\u00ebnemaatregelen en preventie, inclusief corona-bescherming."
+    },
+    "placement": "central",
+    "safe": [
+      200,
+      250,
+      800,
+      900
+    ],
+    "subject": [
+      0,
+      100,
+      1000,
+      1000
+    ],
+    "tight": [
+      250,
+      450,
+      750,
+      980
+    ]
+  },
+  "Pancake_2_jan24.webp": {
+    "category": "event",
+    "description": {
+      "de": "Eine Frau kocht Pfannkuchen bei einem Wohlt\u00e4tigkeitsverkauf zugunsten von Tumaini - Heart for Kids.",
+      "en": "A woman cooks pancakes at a charity sale for Tumaini Heart for Kids in a rustic room.",
+      "nl": "Een vrouw bakken pannenkoeken tijdens een goeddoelverkoop voor Tumaini - Heart for Kids."
+    },
+    "placement": "central",
+    "safe": [
+      194,
+      167,
+      829,
+      428
+    ],
+    "subject": [
+      399,
+      346,
+      999,
+      785
+    ],
+    "tight": [
+      507,
+      413,
+      682,
+      696
+    ]
+  },
+  "Pancakestation.webp": {
+    "category": "event",
+    "description": {
+      "de": "Ein Kochaufbau mit Pfannen und einem Men\u00fc f\u00fcr ein Pannkoekenfest der Tumaini Heart for Kids.",
+      "en": "Cooking station with pans and a menu set up for a pancake festival supporting children's welfare.",
+      "nl": "Keukenset met pannenkoekenpannen en een menukaart voor een pannenkoekenfeest."
+    },
+    "placement": "central",
+    "safe": [
+      420,
+      450,
+      620,
+      750
+    ],
+    "subject": [
+      30,
+      135,
+      1000,
+      1000
+    ],
+    "tight": [
+      185,
+      465,
+      915,
+      980
+    ]
+  },
+  "Regina_Graduation.webp": {
+    "category": "event",
+    "description": {
+      "de": "Eine Sch\u00fclerin feiert ihren Schulabschluss stolz im Zentrum einer Abschlussfeier unter einem Zeltdach.",
+      "en": "A student proudly celebrates her graduation in the center of a ceremony under a tent.",
+      "nl": "Een studente viert trots zijn/haar schoolafsluiting in het midden van een ceremonie onder een tent."
+    },
+    "placement": "central",
+    "safe": [
+      250,
+      80,
+      750,
+      950
+    ],
+    "subject": [
+      0,
+      0,
+      1000,
+      1000
+    ],
+    "tight": [
+      436,
+      95,
+      615,
+      985
+    ]
+  },
+  "Regina_Mar_24.webp": {
+    "category": "portrait",
+    "description": {
+      "de": "Regina steht sch\u00fcchtern neben ihrem Betreuer vor der Kirua Secondary School im Zentrum von Moshi, umgeben von gr\u00fcnen Pflanzen.",
+      "en": "Shy student Regina stands beside a visitor or teacher on the brick patio of Kirua Secondary School in Moshi, Tanzania.",
+      "nl": "Schuchterne studenten Regina poseert met een bezoeker op de bakstenen patio van de Kirua Secondary School in Moshi."
+    },
+    "placement": "central",
+    "safe": [
+      400,
+      280,
+      600,
+      600
+    ],
+    "subject": [
+      259,
+      195,
+      653,
+      910
+    ],
+    "tight": [
+      259,
+      298,
+      499,
+      901
+    ]
+  },
+  "Regina_May_25.webp": {
+    "category": "portrait",
+    "description": {
+      "de": "Portr\u00e4t von Regina und ihrem Betreuer vor dem Schulgeb\u00e4ude in Moshi, das ihre schulische Weiterentwicklung zeigt.",
+      "en": "A photo update on Regina showing her growth as a student in Moshi alongside a supporter.",
+      "nl": "Een foto-update over Regina die haar ontwikkeling als studente in Moshi toont samen met een steunbetoveraar."
+    },
+    "placement": "central",
+    "safe": [
+      230,
+      160,
+      700,
+      450
+    ],
+    "subject": [
+      208,
+      150,
+      720,
+      950
+    ],
+    "tight": [
+      208,
+      264,
+      498,
+      945
+    ]
+  },
+  "ReginaandClass_June_22.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Ein l\u00e4chelnder Mann lehnt sich in einem hellen Klassenzimmer an eine Schultafel neben Sch\u00fclerinnen in Mosi, Tansania.",
+      "en": "A smiling man leans against a desk next to students in his bright classroom in Moshi, Tanzania.",
+      "nl": "Een lachende man leunt tegen een schooltafel naast leerlingen in zijn lichte klaslokaal in Moshi, Tanzania."
+    },
+    "placement": "central",
+    "safe": [
+      380,
+      75,
+      920,
+      800
+    ],
+    "subject": [
+      260,
+      75,
+      1000,
+      1000
+    ],
+    "tight": [
+      466,
+      75,
+      1000,
+      1000
+    ]
+  },
+  "Schoolbus_Nov_2024.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Vier strahlende Kinder posieren vor ihrem neuen Schulbus in Tansania \u2013 ein wichtiges Projekt der Montessori-Schule.",
+      "en": "Four radiant children pose in front of their new school bus in Tanzania \u2013 an important project for the Montessori School.",
+      "nl": "Vier stralende kinderen poseren voor hun nieuwe schoolbus in Tanzania \u2013 een belangrijk project van de Montesschool."
+    },
+    "placement": "central",
+    "safe": [
+      250,
+      200,
+      720,
+      680
+    ],
+    "subject": [
+      40,
+      20,
+      910,
+      1000
+    ],
+    "tight": [
+      60,
+      340,
+      590,
+      920
+    ]
+  },
+  "Winifreda.webp": {
+    "category": "portrait",
+    "description": {
+      "de": "Winifreda steht stolz vor ihrem l\u00e4ndlichen Schulgeb\u00e4ude und repr\u00e4sentiert ein neues Kapitel voller Hoffnung f\u00fcr diese junge Studentin aus der Provinz.",
+      "en": "A portrait of Winifreda standing proudly in her uniform, symbolizing a bright new chapter for a student from a rural background supported by donations.",
+      "nl": "Een portret van Winifreda die trotse staat in haar schooluniform, een nieuw hoofdstuk vertegenwoordigend voor een landelijke studente, ondersteund door donaties."
+    },
+    "placement": "central",
+    "safe": [
+      80,
+      200,
+      640,
+      380
+    ],
+    "subject": [
+      60,
+      20,
+      960,
+      970
+    ],
+    "tight": [
+      80,
+      105,
+      640,
+      970
+    ]
+  },
+  "Winifreda_June23_2.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Ein erfolgreiches Team feiert vor dem neuen Schulgeb\u00e4ude in Moshi: Die Sch\u00fcler Stella und Joachim sowie Winifred posieren auf ihrem gefundenen Gel\u00e4nde nach einem erfolgreichen Semester.",
+      "en": "A successful team celebrates in front of the new school building in Moshi: students Stella and Joachim along with Winifred pose on their found grounds after a successful semester.",
+      "nl": "Een succesvol team viert voor het nieuwe schoolgebouw in Moshi: studenten Stella en Joachim samen met Winifred poseren op hun gevonden terrein na een geslaagd semester."
+    },
+    "placement": "central",
+    "safe": [
+      65,
+      265,
+      985,
+      880
+    ],
+    "subject": [
+      40,
+      128,
+      1000,
+      1000
+    ],
+    "tight": [
+      332,
+      279,
+      686,
+      915
+    ]
+  },
+  "Winifreda_Mar_24.webp": {
+    "category": "group-photo",
+    "description": {
+      "de": "Besuch bei Kindern und Projekten in Tansania - drei Personen sitzen l\u00e4chelnd auf einer Au\u00dfenbank.",
+      "en": "Visit to children and projects in Tanzania - three people sit smiling on an outdoor bench.",
+      "nl": "Bezoek aan kinderen en projecten in Tanzania - drie personen zitten glimlachend op een buitenbank."
+    },
+    "placement": "central",
+    "safe": [
+      350,
+      300,
+      700,
+      650
+    ],
+    "subject": [
+      140,
+      285,
+      950,
+      1000
+    ],
+    "tight": [
+      435,
+      415,
+      645,
+      720
+    ]
+  },
+  "default_project_picture.webp": {
+    "category": "hands",
+    "description": {
+      "de": "Zusammengehaltene H\u00e4nde symbolisieren die Partnerschaft beim Aufbau einer Montessori-Schule in Moshi.",
+      "en": "Clasped hands representing the partnership and unity as the team works towards building a Montessori school in Moshi.",
+      "nl": "Samengevoegde handen die samenwerking en eenheid uitdrukken bij de bouw van een Montessori-school in Moshi."
+    },
+    "placement": "central",
+    "safe": [
+      450,
+      400,
+      600,
+      600
+    ],
+    "subject": [
+      10,
+      5,
+      1000,
+      860
+    ],
+    "tight": [
+      300,
+      280,
+      900,
+      850
+    ]
+  }
+}

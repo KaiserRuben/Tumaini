@@ -257,10 +257,10 @@ def main():
         finally:
             os.unlink(tmp_path)
 
-    # Write output
-    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with open(OUTPUT_PATH, "w") as f:
-        json.dump(lookup, f, indent=2, sort_keys=True)
+            # Write output
+            OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+            with open(OUTPUT_PATH, "w") as f:
+                json.dump(lookup, f, indent=2, sort_keys=True)
 
     print(f"\nWrote {len(lookup)} entries to {OUTPUT_PATH}")
 
