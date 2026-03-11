@@ -1,29 +1,5 @@
 <template>
   <div class="bericht-root">
-    <!-- View Mode Toggle -->
-    <button
-      v-if="!loading"
-      class="view-toggle"
-      :class="{ 'view-toggle--in-story': viewMode === 'smart' }"
-      @click="toggleViewMode"
-    >
-      <template v-if="viewMode === 'classic'">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/>
-        </svg>
-        Smart View
-      </template>
-      <template v-else>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-          <polyline points="14 2 14 8 20 8"/>
-          <line x1="16" y1="13" x2="8" y2="13"/>
-          <line x1="16" y1="17" x2="8" y2="17"/>
-        </svg>
-        Classic
-      </template>
-    </button>
-
     <!-- Loading -->
     <Transition name="view" mode="out-in">
       <div v-if="loading" key="loader" class="bericht-loader">
@@ -33,21 +9,10 @@
         </div>
       </div>
 
-      <!-- Classic View -->
-      <ClassicArticleView
-        v-else-if="viewMode === 'classic'"
-        key="classic"
-        :article="article"
-        :ui-text="uiText"
-        :localize="localized"
-        :format-date="formatDate"
-        @share="share"
-      />
-
-      <!-- Smart View: scroll-based narrative -->
+      <!-- Story -->
       <div
         v-else
-        key="smart"
+        key="story"
         class="story"
         ref="storyEl"
         @scroll.passive="onStoryScroll"
@@ -123,10 +88,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick } from 'vue';
+import { defineComponent } from 'vue';
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
-import ClassicArticleView from '@/components/ClassicArticleView.vue';
 import StoryHero from '@/components/story/StoryHero.vue';
 import StoryKeyPoints from '@/components/story/StoryKeyPoints.vue';
 import StorySection from '@/components/story/StorySection.vue';
@@ -143,30 +107,22 @@ import {
 import { getDescription, hasPlacement } from '@/utils/focalPoint';
 import { axiosGet } from '../../admin/src/utils/axiosWrapper';
 
-const VIEW_MODE_KEY = 'tumaini-view-mode';
-
 export default defineComponent({
   name: 'BerichtView',
   components: {
-    Header, Footer, ClassicArticleView,
+    Header, Footer,
     StoryHero, StoryKeyPoints, StorySection, StoryLightbox
   },
 
   data() {
     return {
-      // Shared
       article: {} as any,
       uiText: [] as string[],
       loading: true,
       showSnackbarFlag: false,
-      viewMode: (typeof localStorage !== 'undefined' && localStorage.getItem(VIEW_MODE_KEY)) || 'classic',
-
-      // Smart view
       sectionMetrics: [] as SectionMetrics[],
       isHeaderHidden: false,
       lastScrollPos: 0,
-
-      // Lightbox
       lightboxImage: null as string | null,
       lightboxCaption: '',
     };
@@ -192,30 +148,6 @@ export default defineComponent({
   },
 
   methods: {
-    // ---- View Mode ----
-    async toggleViewMode() {
-      const newMode = this.viewMode === 'classic' ? 'smart' : 'classic';
-      localStorage.setItem(VIEW_MODE_KEY, newMode);
-
-      if (newMode === 'smart') {
-        if (this.sectionMetrics.length === 0) {
-          this.loading = true;
-          await this.initSmartView();
-          this.loading = false;
-        }
-        this.viewMode = 'smart';
-        document.body.style.overflow = 'hidden';
-        await nextTick();
-        const el = this.$refs.storyEl as HTMLElement;
-        if (el) el.scrollTop = 0;
-      } else {
-        this.viewMode = 'classic';
-        document.body.style.overflow = '';
-        await nextTick();
-        window.scrollTo(0, 0);
-      }
-    },
-
     async initSmartView() {
       const sections: Section[] = this.article.content || [];
 
@@ -328,14 +260,9 @@ export default defineComponent({
           ]);
         }
 
-        if (this.viewMode === 'smart') {
-          await this.initSmartView();
-        }
-
+        await this.initSmartView();
         this.loading = false;
-        if (this.viewMode === 'smart') {
-          document.body.style.overflow = 'hidden';
-        }
+        document.body.style.overflow = 'hidden';
       } catch (err) {
         console.error('Error initializing:', err);
         this.loading = false;
@@ -385,47 +312,6 @@ export default defineComponent({
 .snackbar-leave-to {
   opacity: 0;
   transform: translateX(-50%) translateY(1rem);
-}
-
-// ============ VIEW TOGGLE ============
-.view-toggle {
-  position: fixed;
-  bottom: 1.5rem;
-  left: 1.5rem;
-  z-index: 300;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.625rem 1.125rem;
-  background: rgba($dark, 0.85);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba($accent, 0.25);
-  border-radius: 999px;
-  color: $light;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  cursor: pointer;
-  min-height: unset;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-  transition: all 0.25s $ease-out;
-
-  svg { opacity: 0.7; }
-
-  &:hover {
-    background: rgba($accent, 0.9);
-    border-color: $accent;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 20px $glow;
-
-    svg { opacity: 1; }
-  }
-
-  @media (max-width: $breakpoint-mobile) {
-    bottom: 1rem;
-    left: 1rem;
-    padding: 0.5rem 0.875rem;
-    font-size: 0.75rem;
-  }
 }
 
 // ============ LOADER ============
