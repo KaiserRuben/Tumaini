@@ -5,7 +5,7 @@
     <!-- Hero Section -->
     <header
       class="article__hero"
-      :style="`background-image: linear-gradient(transparent 0%, transparent 40%, rgba(0, 0, 0, 0.55) 60%, rgba(12, 13, 8, 0.85) 100%), url(${article.image})`"
+      :style="heroStyle"
     >
       <div class="article__hero-content">
         <h1 class="article__title">{{ localize(article.title, 'strict') }}</h1>
@@ -78,6 +78,7 @@
 import { defineComponent, ref, nextTick, type PropType } from 'vue';
 import Header from '@/components/Header.vue';
 import ContentBlock from '@/components/ContentBlock.vue';
+import { getBackgroundPosition } from '@/utils/focalPoint';
 
 interface Section {
   title?: string;
@@ -121,6 +122,16 @@ export default defineComponent({
   },
 
   computed: {
+    heroStyle(): Record<string, string> {
+      const pos = this.article.image
+        ? getBackgroundPosition(this.article.image, 'safe')
+        : 'center top';
+      return {
+        backgroundImage: `linear-gradient(transparent 0%, transparent 40%, rgba(0, 0, 0, 0.55) 60%, rgba(12, 13, 8, 0.85) 100%), url(${this.article.image})`,
+        backgroundPosition: pos,
+      };
+    },
+
     chapters(): Chapter[] {
       if (!this.article.content) return [];
       return this.article.content
@@ -232,7 +243,6 @@ export default defineComponent({
     width: 100%;
     min-height: 320px;
     background-size: cover;
-    background-position: center top;
     background-repeat: no-repeat;
     display: flex;
     align-items: flex-end;
