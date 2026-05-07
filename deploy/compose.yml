@@ -1,0 +1,46 @@
+name: tumaini
+
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: deploy/api.Dockerfile
+    container_name: tumaini-api
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      PORT: 3000
+      MODE: PROD
+      UPLOAD_DIR: /uploads/
+    volumes:
+      - ./files-data:/uploads
+    ports:
+      - "127.0.0.1:3001:3000"
+
+  web:
+    build:
+      context: ..
+      dockerfile: deploy/web.Dockerfile
+    container_name: tumaini-web
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3002:80"
+
+  admin:
+    build:
+      context: ..
+      dockerfile: deploy/admin.Dockerfile
+    container_name: tumaini-admin
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3003:80"
+
+  files:
+    image: nginx:alpine
+    container_name: tumaini-files
+    restart: unless-stopped
+    volumes:
+      - ./files-data:/data:ro
+      - ./nginx/files.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "127.0.0.1:3004:80"

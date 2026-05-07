@@ -15,6 +15,10 @@ pnpm-debug.log*
 
 backups/
 
+# Deploy artifacts
+deploy/.env
+deploy/files-data/
+
 # Playwright
 tests/screenshots/captures/
 tests/screenshots/results/

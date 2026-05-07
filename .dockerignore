@@ -1,0 +1,11 @@
+**/node_modules
+**/dist
+.git
+.idea
+.vscode
+.DS_Store
+backups
+tests/screenshots
+tumaini_code_archive.*
+*.log
+deploy/files-data
