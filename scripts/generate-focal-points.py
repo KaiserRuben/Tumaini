@@ -3,15 +3,15 @@
 Generate image-placement lookup table for all article/section images.
 
 Queries local MongoDB, resolves each image to its article/section context,
-sends image + context to Ollama qwen3.5 for bounding boxes, category,
+sends image + context to Ollama qwen3.6 for bounding boxes, category,
 trilingual descriptions, and placement recommendation.
 
 Usage:
-    python3 scripts/generate-focal-points.py [--model qwen3.5] [--force]
+    python3 scripts/generate-focal-points.py [--model qwen3.6] [--force]
 
 Requires: pip install ollama pymongo pydantic
 Requires: Local MongoDB on localhost:27017 (docker compose up -d mongo)
-Requires: Ollama running with qwen3.5
+Requires: Ollama running with qwen3.6
 """
 
 import argparse
@@ -207,7 +207,7 @@ def ask_placement(image_path: str, context: str, model: str) -> dict:
 
 def main():
     parser = argparse.ArgumentParser(description="Generate image-placement lookup table")
-    parser.add_argument("--model", default="qwen3.5", help="Ollama model name (default: qwen3.5)")
+    parser.add_argument("--model", default="qwen3.6", help="Ollama model name (default: qwen3.6)")
     parser.add_argument("--force", action="store_true", help="Re-generate all entries, even existing ones")
     args = parser.parse_args()
 
