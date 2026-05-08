@@ -95,8 +95,8 @@
           </div>
           <div class="archive__featured-content">
             <div class="archive__featured-meta">
-              <time v-if="featuredItem.createdAt || featuredItem.created">
-                {{ formatDate(featuredItem.createdAt || featuredItem.created) }}
+              <time v-if="featuredItem.created">
+                {{ formatDate(featuredItem.created) }}
               </time>
             </div>
             <h2 class="archive__featured-title">{{ localized(featuredItem.title, 'strict') }}</h2>
@@ -134,7 +134,7 @@
         >
           <article
             v-for="(item, index) in displayItems"
-            :key="item._id"
+            :key="String(item._id)"
             class="archive__card reveal-stagger"
             :data-index="index"
             @click="navigateToItem(item)"
@@ -144,8 +144,8 @@
               :style="{ backgroundImage: `url(${item.image || 'https://files.tumaini.be/default_project_picture.webp'})` }"
             ></div>
             <div class="archive__card-content">
-              <time class="archive__card-date" v-if="item.createdAt || item.created">
-                {{ formatDate(item.createdAt || item.created) }}
+              <time class="archive__card-date" v-if="item.created">
+                {{ formatDate(item.created) }}
               </time>
               <h3 class="archive__card-title">{{ localized(item.title, 'strict') }}</h3>
               <p class="archive__card-subtitle" v-if="item.subheader">
@@ -254,7 +254,9 @@ export default defineComponent({
 
   computed: {
     currentItems(): IArticle[] {
-      const items = this.currentPage === 'projekte' ? this.projects : this.reports;
+      // Vue Options-API `this` widens the IArticle Document type at access time;
+      // re-narrow before passing to typed helpers.
+      const items = (this.currentPage === 'projekte' ? this.projects : this.reports) as IArticle[];
       return this.filterAndSortItems(items);
     },
 
@@ -349,13 +351,8 @@ export default defineComponent({
           axiosGet('/content/article/material/REPORT/published')
         ]);
 
-        this.projects = projectsResponse.data.sort((a: IArticle, b: IArticle) =>
-          sortArticles(a, b)
-        );
-
-        this.reports = reportsResponse.data.sort((a: IArticle, b: IArticle) =>
-          sortArticles(a, b)
-        );
+        this.projects = (projectsResponse.data as IArticle[]).sort(sortArticles);
+        this.reports = (reportsResponse.data as IArticle[]).sort(sortArticles);
 
         await this.fetchPageTitles();
         this.updatePageTitle();
@@ -401,7 +398,7 @@ export default defineComponent({
       return text.slice(0, maxLength).trim() + '...';
     },
 
-    formatDate(dateString: string): string {
+    formatDate(dateString: string | Date): string {
       if (!dateString) return '';
       const date = new Date(dateString);
       return new Intl.DateTimeFormat('de-DE', {

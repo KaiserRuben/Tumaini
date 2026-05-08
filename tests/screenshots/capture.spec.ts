@@ -1,10 +1,10 @@
-import { test } from '@playwright/test'
+import { test, type Page } from '@playwright/test'
 import { join } from 'path'
 
 const SCREENSHOT_DIR = join(__dirname, 'captures')
 
 // Wait for fonts + images to settle
-async function waitForPage(page: ReturnType<typeof test.extend>) {
+async function waitForPage(page: Page) {
   await page.waitForLoadState('networkidle')
   // Give fonts and transitions time to complete
   await page.waitForTimeout(800)

@@ -114,7 +114,7 @@
           <div
             class="donate__card-wrapper"
             v-for="project in projects"
-            :key="project._id"
+            :key="String(project._id)"
           >
             <TeaserCard
               class="donate__card"

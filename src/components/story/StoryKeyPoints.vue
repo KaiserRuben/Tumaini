@@ -18,12 +18,13 @@
 
 <script lang="ts">
 import { defineComponent, type PropType } from 'vue';
+import type { LocalizeFn } from '@/utils/screenPlanner';
 
 export default defineComponent({
   name: 'StoryKeyPoints',
   props: {
     points: { type: Array as PropType<string[]>, required: true },
-    localize: { type: Function as PropType<(text: string, mode?: string) => string>, required: true }
+    localize: { type: Function as PropType<LocalizeFn>, required: true }
   }
 });
 </script>

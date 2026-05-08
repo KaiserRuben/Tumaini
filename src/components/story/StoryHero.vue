@@ -57,7 +57,7 @@
 
 <script lang="ts">
 import { defineComponent, type PropType } from 'vue';
-import type { HeroData, ScreenLayout } from '@/utils/screenPlanner';
+import type { HeroData, ScreenLayout, LocalizeFn } from '@/utils/screenPlanner';
 import SmartImage from '@/components/SmartImage.vue';
 
 export default defineComponent({
@@ -66,7 +66,7 @@ export default defineComponent({
   props: {
     hero: { type: Object as PropType<HeroData>, required: true },
     layout: { type: Object as PropType<ScreenLayout>, required: true },
-    localize: { type: Function as PropType<(text: string, mode?: string) => string>, required: true }
+    localize: { type: Function as PropType<LocalizeFn>, required: true }
   }
 });
 </script>

@@ -13,12 +13,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, type PropType } from 'vue';
 
 export default defineComponent({
   name: 'StoryLightbox',
   props: {
-    image: { type: String, default: null },
+    image: { type: String as PropType<string | null>, default: null },
     caption: { type: String, default: '' }
   },
   emits: ['close']

@@ -31,7 +31,7 @@ export interface ImagePlacement {
   placement: 'central' | 'accompanying'
 }
 
-const lookup = placementData as Record<string, ImagePlacement>
+const lookup = placementData as unknown as Record<string, ImagePlacement>
 
 const DEFAULTS: ImagePlacement = {
   tight: [350, 250, 650, 750],

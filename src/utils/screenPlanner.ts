@@ -18,6 +18,9 @@ export interface Section {
   imageDescription?: string;
 }
 
+export type LocalizeMode = 'strict' | 'smart' | 'paragraph';
+export type LocalizeFn = (text: string, mode?: LocalizeMode) => string;
+
 export interface SectionMetrics {
   index: number;
   section: Section;

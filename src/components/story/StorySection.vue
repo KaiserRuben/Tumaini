@@ -6,7 +6,7 @@
     <!-- MOMENT: full-viewport image, no/minimal text -->
     <template v-if="type === 'moment'">
       <div class="section__image" @click="$emit('lightbox', section)">
-        <SmartImage :src="section.image" :alt="imageAlt" level="safe" />
+        <SmartImage :src="section.image || ''" :alt="imageAlt" level="safe" />
       </div>
       <div v-if="section.title || section.imageDescription" class="section__overlay">
         <h2 v-if="section.title">{{ localize(section.title, 'strict') }}</h2>
@@ -17,7 +17,7 @@
     <!-- SPOTLIGHT (side-by-side): image alongside full text -->
     <template v-else-if="type === 'spotlight-side'">
       <div class="section__media" @click="$emit('lightbox', section)">
-        <SmartImage :src="section.image" :alt="imageAlt" level="subject" />
+        <SmartImage :src="section.image || ''" :alt="imageAlt" level="subject" />
       </div>
       <div class="section__body">
         <h2 v-if="section.title" class="section__title">{{ localize(section.title, 'strict') }}</h2>
@@ -31,7 +31,7 @@
     <!-- SPOTLIGHT (stacked): wide image on top, text below -->
     <template v-else-if="type === 'spotlight-stacked'">
       <div class="section__media section__media--wide" @click="$emit('lightbox', section)">
-        <SmartImage :src="section.image" :alt="imageAlt" level="subject" />
+        <SmartImage :src="section.image || ''" :alt="imageAlt" level="subject" />
       </div>
       <div class="section__body">
         <h2 v-if="section.title" class="section__title">{{ localize(section.title, 'strict') }}</h2>
@@ -45,7 +45,7 @@
     <!-- CAPTION: image with short descriptive text -->
     <template v-else-if="type === 'caption'">
       <div class="section__media section__media--captioned" @click="$emit('lightbox', section)">
-        <SmartImage :src="section.image" :alt="imageAlt" level="subject" />
+        <SmartImage :src="section.image || ''" :alt="imageAlt" level="subject" />
       </div>
       <figcaption class="section__figcaption">
         <h2 v-if="section.title" class="section__caption-title">{{ localize(section.title, 'strict') }}</h2>
@@ -69,7 +69,7 @@
 <script lang="ts">
 import { defineComponent, type PropType } from 'vue';
 import Markdown from 'vue3-markdown-it';
-import type { Section, SectionMetrics } from '@/utils/screenPlanner';
+import type { Section, SectionMetrics, LocalizeFn } from '@/utils/screenPlanner';
 import SmartImage from '@/components/SmartImage.vue';
 
 type SectionType = 'moment' | 'spotlight-side' | 'spotlight-stacked' | 'caption' | 'narrative';
@@ -81,7 +81,7 @@ export default defineComponent({
     section: { type: Object as PropType<Section>, required: true },
     metric: { type: Object as PropType<SectionMetrics>, required: true },
     index: { type: Number, required: true },
-    localize: { type: Function as PropType<(text: string, mode?: string) => string>, required: true }
+    localize: { type: Function as PropType<LocalizeFn>, required: true }
   },
   emits: ['lightbox'],
 

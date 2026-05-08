@@ -36,7 +36,7 @@ export class TextLoader {
         if (!text)
             return ''
 
-        const myText = text.find(e => e._id === id)
+        const myText = text.find(e => String(e._id) === id)
         if (myText) {
             if (myText[this.language])
                 return <string>myText[this.language]
