@@ -151,14 +151,15 @@ export default defineComponent({
     async initSmartView() {
       const sections: Section[] = this.article.content || [];
 
-      // Enrich sections with vision-model descriptions where imageDescription is missing
+      // Enrich sections with vision-model descriptions where imageDescription is missing.
+      // Format `de - en` matches localize() separator so per-locale picking works downstream.
       for (const section of sections) {
         if (section.image && !section.imageDescription && hasPlacement(section.image)) {
           const desc = getDescription(section.image);
-          if (desc.de || desc.en) {
-            section.imageDescription = desc.de && desc.en
-              ? `${desc.de} - ${desc.en}`
-              : desc.en || desc.de;
+          if (desc.de && desc.en) {
+            section.imageDescription = `${desc.de} - ${desc.en}`;
+          } else {
+            section.imageDescription = desc.de || desc.en || desc.nl || '';
           }
         }
       }

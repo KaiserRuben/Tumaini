@@ -199,10 +199,31 @@ export function determineHeroLayout(hero: HeroData): ScreenLayout {
   const { category } = getPlacement(hero.image!);
 
   switch (category) {
-    case 'portrait': return createHeroCardsLayout();
-    case 'group-photo': return createHeroSplitLayout();
+    // Single subject reads best in a contained card next to text
+    case 'portrait':
+    case 'close-up':
+    case 'object':
+      return createHeroCardsLayout();
+
+    // Multi-person / busy scenes need width but balanced beside content
+    case 'group-photo':
+    case 'group-portrait':
+    case 'event':
+      return createHeroSplitLayout();
+
+    // Wide / scene imagery wants full-bleed
     case 'building':
-    case 'landscape': return createHeroFullLayout();
-    default: return createHeroFullLayout();
+    case 'building-construction':
+    case 'construction':
+    case 'landscape':
+    case 'interior':
+      return createHeroFullLayout();
+
+    // Posters / unknowns: cards keeps full poster visible without crop loss
+    case 'poster':
+      return createHeroCardsLayout();
+
+    default:
+      return createHeroFullLayout();
   }
 }

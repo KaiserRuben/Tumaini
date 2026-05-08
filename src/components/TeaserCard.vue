@@ -16,6 +16,7 @@
 <script lang="ts">
 import {computed, defineComponent} from "vue";
 import Markdown from 'vue3-markdown-it';
+import { getBackgroundPosition } from '@/utils/focalPoint';
 
 export default defineComponent({
   name: 'TeaserCard',
@@ -52,7 +53,7 @@ export default defineComponent({
     const cardImageStyle = computed(() => {
       return {
         'background-image': `url(${props.img})`,
-        'background-position': 'center',
+        'background-position': getBackgroundPosition(props.img, 'safe'),
         'background-repeat': 'no-repeat',
         'background-size': 'cover'
       };

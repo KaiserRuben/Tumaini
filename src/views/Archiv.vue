@@ -87,7 +87,7 @@
         >
           <div
             class="archive__featured-image"
-            :style="{ backgroundImage: `url(${featuredItem.image || 'https://files.tumaini.be/default_project_picture.webp'})` }"
+            :style="cardImageStyle(featuredItem.image)"
           >
             <span class="archive__featured-badge">
               {{ currentPage === 'projekte' ? 'Aktuelles Projekt' : 'Neuester Bericht' }}
@@ -141,7 +141,7 @@
           >
             <div
               class="archive__card-image"
-              :style="{ backgroundImage: `url(${item.image || 'https://files.tumaini.be/default_project_picture.webp'})` }"
+              :style="cardImageStyle(item.image)"
             ></div>
             <div class="archive__card-content">
               <time class="archive__card-date" v-if="item.created">
@@ -205,6 +205,7 @@ import {IArticle} from "../../api/models/article";
 import {axiosGet} from "../../admin/src/utils/axiosWrapper";
 import {sortArticles} from "@/utils/dates";
 import {useReveal} from "@/composables/useReveal";
+import {getBackgroundPosition} from "@/utils/focalPoint";
 
 interface State {
   currentPage: string;
@@ -300,6 +301,16 @@ export default defineComponent({
   },
 
   methods: {
+    cardImageStyle(image?: string): Record<string, string> {
+      const url = image || 'https://files.tumaini.be/default_project_picture.webp';
+      return {
+        backgroundImage: `url(${url})`,
+        backgroundPosition: getBackgroundPosition(url, 'safe'),
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+      };
+    },
+
     // Bilingual support methods (from Bericht.vue)
     looksGerman(text: string): boolean {
       const germanIndicators = /\b(und|der|die|das|ist|mit|fur|auf|ein|eine|einer|haben|wird|sind|nach|auch|oder|bei|nur|uber|noch|ihre?|unser|wir|zur?|vom|den|dem|des|wurde|hat|kann|sehr|neue?n?|erste?n?)\b|[aouAOU]/i;

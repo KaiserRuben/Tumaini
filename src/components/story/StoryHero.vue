@@ -3,7 +3,7 @@
     <!-- Hero Full: background image + overlay + content -->
     <template v-if="layout.type === 'hero-full'">
       <div class="screen__bg">
-        <SmartImage v-if="hero.image" :src="hero.image" :alt="hero.title" level="safe" class="screen__bg-img" />
+        <SmartImage v-if="hero.image" :src="hero.image" :alt="heroAlt" level="safe" class="screen__bg-img" />
       </div>
       <div class="screen__overlay screen__overlay--hero"></div>
       <div class="screen__inner">
@@ -19,7 +19,7 @@
     <template v-else-if="layout.type === 'hero-split'">
       <div class="screen__grid screen__grid--split">
         <div class="hero-image">
-          <SmartImage v-if="hero.image" :src="hero.image" :alt="hero.title" level="subject" class="hero-image__img" />
+          <SmartImage v-if="hero.image" :src="hero.image" :alt="heroAlt" level="subject" class="hero-image__img" />
         </div>
         <div class="hero-content">
           <div class="hero">
@@ -35,7 +35,7 @@
     <template v-else-if="layout.type === 'hero-cards'">
       <div class="screen__grid screen__grid--cards">
         <div v-if="hero.image" class="hero-image hero-image--card">
-          <SmartImage :src="hero.image" :alt="hero.title" level="subject" class="hero-image__img" />
+          <SmartImage :src="hero.image" :alt="heroAlt" level="subject" class="hero-image__img" />
         </div>
         <div class="hero-content hero-content--card">
           <div class="hero">
@@ -59,6 +59,7 @@
 import { defineComponent, type PropType } from 'vue';
 import type { HeroData, ScreenLayout, LocalizeFn } from '@/utils/screenPlanner';
 import SmartImage from '@/components/SmartImage.vue';
+import { getDescription, hasPlacement } from '@/utils/focalPoint';
 
 export default defineComponent({
   name: 'StoryHero',
@@ -67,6 +68,16 @@ export default defineComponent({
     hero: { type: Object as PropType<HeroData>, required: true },
     layout: { type: Object as PropType<ScreenLayout>, required: true },
     localize: { type: Function as PropType<LocalizeFn>, required: true }
+  },
+  computed: {
+    heroAlt(): string {
+      const title = this.localize(this.hero.title || '', 'strict');
+      if (!this.hero.image || !hasPlacement(this.hero.image)) return title;
+      const desc = getDescription(this.hero.image);
+      const bilingual = desc.de && desc.en ? `${desc.de} - ${desc.en}` : desc.de || desc.en || desc.nl;
+      const localized = bilingual ? this.localize(bilingual, 'strict') : '';
+      return localized || title;
+    }
   }
 });
 </script>
