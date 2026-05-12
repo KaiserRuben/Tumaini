@@ -61,7 +61,7 @@
           <div class="spenden-ticket__perfs" aria-hidden="true"></div>
 
           <header class="spenden-ticket__head">
-            <p class="spenden-ticket__eyebrow">{{ text[19] }} · No. {{ String(option).padStart(2, '0') }}</p>
+            <p class="spenden-ticket__eyebrow">{{ text[19] }}</p>
             <p class="spenden-ticket__mark">
               <span class="spenden-ticket__mark-italic">Stiftung</span>
               <span class="spenden-ticket__mark-bold">Tumaini</span>
