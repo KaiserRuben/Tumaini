@@ -273,16 +273,6 @@ export default defineComponent({
   methods: {
     selectAmount(value: number) {
       this.amount = value;
-      this.syncAmountToQuery();
-    },
-    syncAmountToQuery() {
-      const q: Record<string, string> = { ...this.$route.query as Record<string, string> };
-      if (this.amount > 0) {
-        q.amount = String(this.amount);
-      } else {
-        delete q.amount;
-      }
-      this.$router.replace({ path: this.$route.path, query: q });
     },
     optionDefaultAmount(option: number): number {
       if (option === 2) return 25;
@@ -332,7 +322,6 @@ export default defineComponent({
   watch: {
     reference() { this.renderQr(); },
     activeAmount() { this.renderQr(); },
-    '$route.query.amount'() { this.applyAmountFromQuery(); },
   },
 
   async mounted() {
