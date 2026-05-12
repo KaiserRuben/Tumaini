@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Tumaini">
+  <path d="M 14 44 A 18 18 0 0 1 50 44 Z" fill="#c8712e"/>
+  <line x1="6" y1="44" x2="58" y2="44" stroke="#c8712e" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="48" cy="14" r="2.2" fill="#c8712e"/>
+</svg>

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Tumaini">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#1a1a14"/>
+      <stop offset="55%" stop-color="#221d12"/>
+      <stop offset="100%" stop-color="#3a2914"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="50%" cy="100%" r="100%">
+      <stop offset="0%"  stop-color="#ffe0a8"/>
+      <stop offset="30%" stop-color="#ffb43f"/>
+      <stop offset="75%" stop-color="#c8712e"/>
+      <stop offset="100%" stop-color="#7a3f15"/>
+    </radialGradient>
+    <radialGradient id="halo" cx="50%" cy="100%" r="100%">
+      <stop offset="0%"  stop-color="#ffb43f" stop-opacity="0.55"/>
+      <stop offset="60%" stop-color="#c8712e" stop-opacity="0.0"/>
+    </radialGradient>
+    <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.12"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="64" height="64" rx="14" ry="14" fill="url(#sky)"/>
+
+  <!-- Atmospheric halo behind sun -->
+  <ellipse cx="32" cy="44" rx="28" ry="14" fill="url(#halo)"/>
+
+  <!-- Rising sun (half disc on horizon) -->
+  <path d="M 14 44 A 18 18 0 0 1 50 44 Z" fill="url(#sun)"/>
+
+  <!-- Horizon line -->
+  <line x1="8" y1="44" x2="56" y2="44"
+        stroke="#c8712e" stroke-width="1.4" stroke-linecap="round" opacity="0.95"/>
+  <line x1="8" y1="44" x2="56" y2="44"
+        stroke="#ffe0a8" stroke-width="0.5" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- Hope star -->
+  <g fill="#fefdf8">
+    <circle cx="48" cy="14" r="1.6" opacity="0.95"/>
+    <circle cx="48" cy="14" r="3.4" opacity="0.18"/>
+  </g>
+
+  <!-- Top inner shine -->
+  <rect width="64" height="32" rx="14" ry="14" fill="url(#rim)"/>
+</svg>
