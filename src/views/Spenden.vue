@@ -17,17 +17,9 @@
           <span class="spenden-hero__meta-light">Stiftung Tumaini</span>
         </div>
 
-        <h1 class="spenden-hero__title">
-          <template v-if="option === 2">{{ text[9] }}</template>
-          <template v-else-if="option === 3">{{ text[10] }}</template>
-          <template v-else>{{ text[8] }}</template>
-        </h1>
+        <h1 class="spenden-hero__title">{{ titleText }}</h1>
 
-        <p class="spenden-hero__lede">
-          <template v-if="option === 2">{{ text[13] }}</template>
-          <template v-else-if="option === 3">{{ text[14] }}</template>
-          <template v-else>{{ text[12] }}</template>
-        </p>
+        <p class="spenden-hero__lede">{{ ledeText }}</p>
 
         <p class="spenden-hero__thanks">{{ text[18] }}</p>
       </div>
@@ -112,13 +104,13 @@
           <div class="spenden-qr__amounts">
             <span class="spenden-qr__amounts-label">{{ text[31] || 'Betrag' }}</span>
             <button
-              v-for="opt in amountOptions"
-              :key="opt.value"
+              v-for="value in presets"
+              :key="value"
               type="button"
               class="spenden-qr__chip"
-              :class="{ 'is-active': amount === opt.value }"
-              @click="selectAmount(opt.value)"
-            >{{ opt.value === 0 ? (text[28] || 'Frei') : opt.label }}</button>
+              :class="{ 'is-active': amount === value }"
+              @click="amount = value"
+            >{{ presetLabel(value) }}</button>
           </div>
 
           <div class="spenden-qr__frame">
@@ -186,6 +178,12 @@ import {axiosGet} from "../../admin/src/utils/axiosWrapper";
 import {IArticle} from "../../api/models/article";
 import {sortArticles} from "@/utils/dates";
 import QRCode from "qrcode";
+import {
+  AMOUNT_PRESETS,
+  DonationTier,
+  parseDonationOption,
+  tierFor,
+} from "@/data/donations";
 
 const RECIPIENT = "Stiftung Tumaini";
 const BANK = "Hamburger Sparkasse";
@@ -217,35 +215,35 @@ function groupIban(raw: string): string[] {
   return groups;
 }
 
-type AmountOpt = { label: string; value: number };
-
 export default defineComponent({
   name: "SpendenDetails",
   components: {Header, TeaserCard},
 
   data() {
+    const option = parseDonationOption(this.$router.currentRoute.value.params.option);
     return {
-      option: parseInt(typeof this.$router.currentRoute.value.params.option === "string"
-        ? this.$router.currentRoute.value.params.option
-        : "1"),
+      option,
+      amount: tierFor(option).defaultAmount,
       text: [] as string[],
       projects: [] as IArticle[],
       qrSvg: "" as string,
       copied: "" as string,
       copyTimer: null as ReturnType<typeof setTimeout> | null,
-      amount: 0 as number,
       ibanRaw: IBAN_RAW,
-      amountOptions: [
-        { label: "Frei",  value: 0 },
-        { label: "€25",   value: 25 },
-        { label: "€50",   value: 50 },
-        { label: "€100",  value: 100 },
-        { label: "€250",  value: 250 },
-      ] as AmountOpt[],
+      presets: AMOUNT_PRESETS,
     };
   },
 
   computed: {
+    tier(): DonationTier {
+      return tierFor(this.option);
+    },
+    titleText(): string {
+      return this.text[this.tier.titleIdx] ?? "";
+    },
+    ledeText(): string {
+      return this.text[this.tier.ledeIdx] ?? "";
+    },
     ibanGroups(): string[] {
       return groupIban(this.ibanRaw);
     },
@@ -253,13 +251,8 @@ export default defineComponent({
       return this.amount > 0 ? this.amount : null;
     },
     reference(): string {
-      const title = this.option === 2 ? this.text[9]
-        : this.option === 3 ? this.text[10]
-        : this.text[8];
-      if (title && typeof title === "string" && title.trim().length > 0) {
-        return `Spende — ${title}`;
-      }
-      return "Spende Stiftung Tumaini";
+      const title = this.titleText;
+      return title.trim().length > 0 ? `Spende — ${title}` : "Spende Stiftung Tumaini";
     },
     detailRows(): Array<{ key: string; label: string; value: string; raw?: string; mono?: boolean }> {
       return [
@@ -271,27 +264,8 @@ export default defineComponent({
   },
 
   methods: {
-    selectAmount(value: number) {
-      this.amount = value;
-    },
-    optionDefaultAmount(option: number): number {
-      if (option === 2) return 25;
-      if (option === 3) return 100;
-      return 0;
-    },
-    applyAmountFromQuery() {
-      const raw = this.$route.query.amount;
-      const str = Array.isArray(raw) ? raw[0] : raw;
-      if (!str) {
-        this.amount = this.optionDefaultAmount(this.option);
-        return;
-      }
-      const n = parseInt(str, 10);
-      if (isNaN(n) || n <= 0) {
-        this.amount = this.optionDefaultAmount(this.option);
-        return;
-      }
-      this.amount = n;
+    presetLabel(value: number): string {
+      return value === 0 ? (this.text[28] || "Frei") : `€${value}`;
     },
     async copy(key: string, value: string) {
       try {
@@ -364,9 +338,6 @@ export default defineComponent({
         await this.textObject.getContent('6a03612edf1ad8894b90f5c6'),
       ];
 
-      if (isNaN(this.option)) this.option = 1;
-
-      this.applyAmountFromQuery();
       await this.renderQr();
     } catch (error) {
       console.error('Error fetching data:', error);
