@@ -13,12 +13,14 @@
   },
   "dependencies": {
     "axios": "^1.13.3",
+    "qrcode": "^1.5.4",
     "vue": "^3.2.31",
     "vue-router": "^4.0.14",
     "vue3-markdown-it": "^1.0.10"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
+    "@types/qrcode": "^1.5.6",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",
     "@vitejs/plugin-vue": "^5.0.0",
